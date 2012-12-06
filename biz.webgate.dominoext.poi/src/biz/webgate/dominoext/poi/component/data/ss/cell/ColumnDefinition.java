@@ -1,0 +1,99 @@
+/*
+ * © Copyright WebGate Consulting AG, 2012
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at:
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+ * implied. See the License for the specific language governing 
+ * permissions and limitations under the License.
+ */
+package biz.webgate.dominoext.poi.component.data.ss.cell;
+
+import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
+
+import com.ibm.xsp.complex.ValueBindingObjectImpl;
+
+public class ColumnDefinition extends ValueBindingObjectImpl {
+	private Integer m_ColumnNumber;
+	private Object m_Value;
+	private Integer m_RowShift = 0;
+
+	public int getColumnNumber() {
+		if (m_ColumnNumber != null) {
+			return m_ColumnNumber;
+		}
+		ValueBinding vb = getValueBinding("columnNumber");
+		if (vb != null) {
+			Integer intValue = (Integer)vb.getValue(getFacesContext());
+			if (intValue != null) {
+				return intValue;
+			}
+		}
+		return 0;
+		
+	}
+
+	public void setColumnNumber(int columnNumber) {
+		m_ColumnNumber = columnNumber;
+	}
+
+	public Object getValue() {
+		if (m_Value != null) {
+			return m_Value;
+		}
+		ValueBinding vb = getValueBinding("value");
+		if (vb != null) {
+			return vb.getValue(getFacesContext());
+		}
+		return null;
+	}
+
+	public void setValue(Object value) {
+		m_Value = value;
+	}
+
+	public int getRowShift() {
+		if (m_RowShift != null) {
+			return m_RowShift;
+		}
+		ValueBinding vb = getValueBinding("rowShift");
+		if (vb != null) {
+			Integer intValue = (Integer)vb.getValue(getFacesContext());
+			if (intValue != null) {
+				return intValue;
+			}
+		}
+		return 0;
+
+	}
+
+	public void setRowShift(int rowShift) {
+		m_RowShift = rowShift;
+	}
+	@Override
+	public Object saveState(FacesContext context) {
+		Object[] state = new Object[3];
+		state[0] = super.saveState(context);
+		state[1] = m_ColumnNumber;
+		state[2] = m_RowShift;
+		state[3] = m_Value;
+		return state;
+	}
+
+	@Override
+	public void restoreState(FacesContext context, Object arg1) {
+		Object[] state = (Object[]) arg1;
+		super.restoreState(context, state[0]);
+		m_ColumnNumber = (Integer)state[1];
+		m_RowShift = (Integer)state[2];
+		m_Value = state[3];
+	}
+
+}

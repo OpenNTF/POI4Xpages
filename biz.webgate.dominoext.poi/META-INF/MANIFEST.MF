@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache POI Integration
+Bundle-SymbolicName: biz.webgate.dominoext.poi;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: biz.webgate.dominoext.poi.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ com.ibm.xsp.core,
+ com.ibm.commons,
+ com.ibm.xsp.domino,
+ com.ibm.notes.java.api,
+ biz.webgate.dominoext.poi.library;visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",
+ biz.webgate.dominoext.poi.component.actions;uses:="javax.faces.context,com.ibm.xsp.binding",
+ biz.webgate.dominoext.poi.component.containers;
+  uses:="javax.faces.component,
+   biz.webgate.dominoext.poi.component.data.document,
+   javax.faces.context,
+   com.ibm.xsp.component,
+   biz.webgate.dominoext.poi.component.data",
+ biz.webgate.dominoext.poi.component.data;uses:="javax.faces.context,com.ibm.xsp.complex,lotus.domino",
+ biz.webgate.dominoext.poi.component.data.document,
+ biz.webgate.dominoext.poi.component.data.ss,
+ biz.webgate.dominoext.poi.component.data.ss.cell,
+ biz.webgate.dominoext.poi.component.kernel;uses:="biz.webgate.dominoext.poi.component.data,org.apache.poi.xwpf.usermodel,javax.servlet.http",
+ biz.webgate.dominoext.poi.library;uses:="com.ibm.xsp.library",
+ biz.webgate.dominoext.poi.renderkit.html_extended;uses:="javax.faces.component,javax.faces.context,com.ibm.xsp.renderkit",
+ biz.webgate.dominoext.poi.util;uses:="org.apache.poi.ss.usermodel,org.apache.poi.xwpf.usermodel,lotus.domino"
+Bundle-ClassPath: .
+

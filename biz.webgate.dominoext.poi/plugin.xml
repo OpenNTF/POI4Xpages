@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+
+   <extension
+         point="com.ibm.commons.Extension">
+      <service
+            type="com.ibm.xsp.Library"
+            class="biz.webgate.dominoext.poi.library.POILibrary">
+      </service>
+   </extension>
+
+</plugin>

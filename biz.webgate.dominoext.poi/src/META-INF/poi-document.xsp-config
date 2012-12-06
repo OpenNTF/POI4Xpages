@@ -1,0 +1,139 @@
+<faces-config>
+	<faces-config-extension>
+  		<namespace-uri>http://www.webgate.biz/xsp/poi</namespace-uri>
+  		<default-prefix>wgpoi</default-prefix>
+	</faces-config-extension>
+
+	<complex-type>
+        <description>Produce the output of a document by this action</description>
+        <display-name>Generate Document</display-name>
+        <complex-class>biz.webgate.dominoext.poi.component.actions.DocumentGenerationServerAction</complex-class>
+        <complex-id>biz.webgate.dominoext.poi.component.actions.DocumentGenerationServerAction</complex-id>
+		<property>
+			<description>ID of the document to generate</description>
+			<display-name>documentId</display-name>
+			<property-name>documentId</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+                <designer-extension>
+                    <editor>com.ibm.designer.domino.xsp.idpicker</editor>
+                    <!-- TODO talk to the Designer team about a version
+                    of the idpicker that includes an editor-param
+                    that would restrict the IDs shown to just the ids
+                    of the tags with the given tag-name or 
+                    substitutable for the given component-type -->
+                    <tags>
+                        todo
+                    </tags>
+                </designer-extension>
+			</property-extension>
+		</property>		
+
+        <complex-extension>
+   			<tag-name>generateDocument</tag-name>
+   			<base-complex-id>simpleActionInterface</base-complex-id>
+            <designer-extension>
+                <category>POI 4 XPages</category>
+            </designer-extension>
+        </complex-extension>
+    </complex-type>
+
+	<complex-type>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.document.idocumentbookmark</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark</complex-class>
+	</complex-type>
+
+	<complex-type>
+  		<description>Replace a value on the defined bookmark in the document</description>
+  		<display-name>Document Bookmark</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.document.documentbookmark</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.document.DocumentBookmark</complex-class>
+  		<property>
+    		<description>The name of the bookmark</description>
+	 	 	<display-name>bookmark</display-name>
+		    <property-name>name</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>The value of the bookmark</description>
+	 	 	<display-name>value</display-name>
+		    <property-name>value</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<complex-extension>
+    		<tag-name>docbookmark</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.data.document.idocumentbookmark</base-complex-id>
+  		</complex-extension>
+	</complex-type>
+
+	
+	<component>
+  		<description>Document to produce</description>
+  		<display-name>POI Document</display-name>
+  		<component-type>biz.webgate.dominoext.poi.component.containers.document</component-type>
+  		<component-class>biz.webgate.dominoext.poi.component.containers.UIDocument</component-class>
+		<property>
+			<description>Bookmarks for adding custom values to the document</description>
+			<display-name>Bookmarks</display-name>
+			<property-name>bookmarks</property-name>
+            <property-class>java.util.List</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+          		<collection-property>true</collection-property>
+          		<property-item-class>biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark</property-item-class>
+            	<property-add-method>addBookmark</property-add-method>
+            	<designer-extension>
+            		<category>poi</category>
+            	</designer-extension>
+        	</property-extension>
+		</property>
+		<property>
+    		<description>The template source definition</description>
+	 	 	<display-name>templateSource</display-name>
+		    <property-name>templateSource</property-name>
+    		<property-class>biz.webgate.dominoext.poi.component.data.ITemplateSource</property-class>
+        	<property-extension>
+            	<designer-extension>
+            		<category>poi</category>
+            	</designer-extension>
+        	</property-extension>
+  		</property>
+		<property>
+    		<description>The path extension under witch the document could be downloaded</description>
+	 	 	<display-name>pathInfo</display-name>
+		    <property-name>pathInfo</property-name>
+    		<property-class>java.lang.String</property-class>
+        	<property-extension>
+            	<designer-extension>
+            		<category>poi</category>
+            	</designer-extension>
+        	</property-extension>
+  		</property>
+		<property>
+    		<description>The filename for the downloaded file</description>
+	 	 	<display-name>downloadFileName</display-name>
+		    <property-name>downloadFileName</property-name>
+    		<property-class>java.lang.String</property-class>
+        	<property-extension>
+            	<designer-extension>
+            		<category>poi</category>
+            	</designer-extension>
+        	</property-extension>
+  		</property>
+  		<component-extension>
+  			<tag-name>document</tag-name>
+      		<component-family>biz.webgate.dominoext.poi.Document</component-family>
+      		<renderer-type>biz.webgate.dominoext.poi.Document</renderer-type>
+  			<designer-extension>
+            	  <in-palette>true</in-palette>
+        	      <category>POI 4 XPages</category>
+        	      <render-markup>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#xd;
+						&lt;xp:view xmlns:xp="http://www.ibm.com/xsp/core"&gt;&#xd;
+						&lt;xp:image url="/icons/ms_word_96.png" id="image1"&gt;&lt;/xp:image&gt;&#xd;
+						&lt;/xp:view&gt;&#xd;
+				</render-markup>
+             </designer-extension>
+  		</component-extension>
+	</component>
+</faces-config>
+
