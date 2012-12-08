@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CSV Processor
+Bundle-SymbolicName: biz.webgate.dominoext.poi.csvprocessor
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: biz.webgate.dominoext.poi.csvprocessor.Activator
+Bundle-Vendor: WebGate Consulting AG
+Require-Bundle: org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: biz.webgate.dominoext.poi.csvprocessor,
+ org.apache.commons.csv
+Bundle-ClassPath: .,
+ lib/commons-csv-1.0-SNAPSHOT.jar
