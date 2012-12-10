@@ -164,7 +164,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		try {
 			WorkbookProcessor.getInstance().generateNewFile(
 					getTemplateSource(), getSpreadsheets(),
-					getDownloadFileName(), httpResponse);
+					getDownloadFileName(), httpResponse, context);
 		} catch (Exception e) {
 			try {
 				e.printStackTrace();

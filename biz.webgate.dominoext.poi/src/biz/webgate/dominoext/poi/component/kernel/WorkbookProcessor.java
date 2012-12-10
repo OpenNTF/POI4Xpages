@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.servlet.http.HttpServletResponse;
 
@@ -63,7 +64,7 @@ public class WorkbookProcessor {
 
 	public void generateNewFile(ITemplateSource itsCurrent,
 			List<Spreadsheet> lstSP, String strFileName,
-			HttpServletResponse httpResponse) {
+			HttpServletResponse httpResponse, FacesContext context) {
 
 		try {
 			// First getting the File
@@ -76,7 +77,7 @@ public class WorkbookProcessor {
 				itsCurrent.cleanUP();
 				// Processing all Spreadsheets to the File
 				for (Spreadsheet spCurrent : lstSP) {
-					processSpreadSheet(spCurrent, wbCurrent);
+					processSpreadSheet(spCurrent, wbCurrent, context);
 				}
 
 				// Push the Result to the HttpServlet
@@ -102,7 +103,8 @@ public class WorkbookProcessor {
 
 	}
 
-	private void processSpreadSheet(Spreadsheet spCurrent, Workbook wbCurrent) {
+	private void processSpreadSheet(Spreadsheet spCurrent, Workbook wbCurrent,
+			FacesContext context) {
 		// Checking for Replacement Values
 
 		String strName = spCurrent.getName();
@@ -129,19 +131,22 @@ public class WorkbookProcessor {
 		if (spCurrent.getExportDefinitions() != null) {
 			for (IListDataExporter lstExport : spCurrent.getExportDefinitions()) {
 				if (lstExport instanceof Data2ColumnExporter) {
-					processExportCol((Data2ColumnExporter) lstExport, shProcess);
+					processExportCol((Data2ColumnExporter) lstExport,
+							shProcess, context);
 				}
 				if (lstExport instanceof Data2RowExporter) {
-					processExportRow((Data2RowExporter) lstExport, shProcess);
+					processExportRow((Data2RowExporter) lstExport, shProcess,
+							context);
 
 				}
 			}
 		}
 	}
 
-	private void processExportRow(Data2RowExporter lstExport, Sheet shProcess) {
+	private void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
+			FacesContext context) {
 		DataSource dsCurrent = lstExport.getDataSource();
-		TabularDataModel tdm = getTDM(dsCurrent);
+		TabularDataModel tdm = getTDM(dsCurrent, context);
 		if (tdm == null) {
 			System.out.println("NIX TABULARDATAMODEL");
 			return;
@@ -174,26 +179,32 @@ public class WorkbookProcessor {
 		}
 	}
 
-	private TabularDataModel getTDM(DataSource dsCurrent) {
-		if (dsCurrent instanceof ModelDataSource) {
-			ModelDataSource mds = (ModelDataSource) dsCurrent;
-			AbstractDataSource ads = (AbstractDataSource)mds;
-			System.out.println(ads.getBeanId());
-			if (ads.getBeanId() == null) {
-				
+	private TabularDataModel getTDM(DataSource dsCurrent, FacesContext context) {
+		try {
+			if (dsCurrent instanceof ModelDataSource) {
+				ModelDataSource mds = (ModelDataSource) dsCurrent;
+				AbstractDataSource ads = (AbstractDataSource) mds;
+				ads.load(context);
+				System.out.println(ads.getBeanId());
+				if (ads.getBeanId() == null) {
+
+				}
+				DataModel tdm = mds.getDataModel();
+				if (tdm instanceof TabularDataModel) {
+					TabularDataModel tds = (TabularDataModel) tdm;
+					return tds;
+				}
 			}
-			DataModel tdm = mds.getDataModel();
-			if (tdm instanceof TabularDataModel) {
-				TabularDataModel tds = (TabularDataModel) tdm;
-				return tds;
-			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
 
-	private void processExportCol(Data2ColumnExporter lstExport, Sheet shProcess) {
+	private void processExportCol(Data2ColumnExporter lstExport, Sheet shProcess, FacesContext context) {
 		DataSource dsCurrent = lstExport.getDataSource();
-		TabularDataModel tdm = getTDM(dsCurrent);
+		TabularDataModel tdm = getTDM(dsCurrent, context);
 		if (tdm == null) {
 			System.out.println("NIX TABULARDATAMODEL");
 			return;
