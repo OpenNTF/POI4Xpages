@@ -41,6 +41,7 @@ import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
 
 import com.ibm.commons.util.StringUtil;
+import com.ibm.xsp.model.AbstractDataSource;
 import com.ibm.xsp.model.DataSource;
 import com.ibm.xsp.model.ModelDataSource;
 import com.ibm.xsp.model.TabularDataModel;
@@ -176,6 +177,11 @@ public class WorkbookProcessor {
 	private TabularDataModel getTDM(DataSource dsCurrent) {
 		if (dsCurrent instanceof ModelDataSource) {
 			ModelDataSource mds = (ModelDataSource) dsCurrent;
+			AbstractDataSource ads = (AbstractDataSource)mds;
+			System.out.println(ads.getBeanId());
+			if (ads.getBeanId() == null) {
+				
+			}
 			DataModel tdm = mds.getDataModel();
 			if (tdm instanceof TabularDataModel) {
 				TabularDataModel tds = (TabularDataModel) tdm;
