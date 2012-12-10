@@ -100,7 +100,7 @@ public class Spreadsheet extends ValueBindingObjectImpl {
 	public Object saveState(FacesContext context) {
 		try {
 
-			Object[] state = new Object[3];
+			Object[] state = new Object[5];
 			state[0] = super.saveState(context);
 			state[1] = m_Create;
 			state[2] = m_Name;

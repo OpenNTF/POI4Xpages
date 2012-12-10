@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ss.Spreadsheet;
+import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.component.FacesAjaxComponent;
@@ -33,8 +34,7 @@ import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
 import com.ibm.xsp.webapp.XspHttpServletResponse;
 
-public class UIWorkbook extends UIComponentBase implements
-		FacesAjaxComponent {
+public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 
 	public static final String COMPONENT_TYPE = "biz.webgate.dominoext.poi.Workbook"; //$NON-NLS-1$
 	public static final String COMPONENT_FAMILY = "biz.webgate.dominoext.poi.Workbook"; //$NON-NLS-1$
@@ -161,9 +161,9 @@ public class UIWorkbook extends UIComponentBase implements
 
 		System.out.println("processing....");
 		try {
-			//TODO: Hier die Magie noch einbauen!
-//			DocumentProcessor.getInstance().generateNewFile(itsCurrent,
-//					getBookmarks(), httpResponse);
+			WorkbookProcessor.getInstance().generateNewFile(
+					getTemplateSource(), getSpreadsheets(),
+					getDownloadFileName(), httpResponse);
 		} catch (Exception e) {
 			try {
 				e.printStackTrace();

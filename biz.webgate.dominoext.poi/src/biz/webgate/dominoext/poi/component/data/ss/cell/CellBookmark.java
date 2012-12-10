@@ -57,7 +57,7 @@ public class CellBookmark extends ValueBindingObjectImpl implements ICellValue {
 
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[2];
+		Object[] state = new Object[3];
 		state[0] = super.saveState(context);
 		state[1] = m_Name;
 		state[2] = m_Value;

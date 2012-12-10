@@ -79,7 +79,7 @@ public class RowDefinition extends ValueBindingObjectImpl {
 
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[3];
+		Object[] state = new Object[4];
 		state[0] = super.saveState(context);
 		state[1] = m_RowNumber;
 		state[2] = m_ColumnShift;

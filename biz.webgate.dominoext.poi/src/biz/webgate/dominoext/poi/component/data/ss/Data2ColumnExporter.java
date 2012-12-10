@@ -31,14 +31,14 @@ import com.ibm.xsp.util.StateHolderUtil;
 public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		IListDataExporter {
 
-	private DataSource m_Data;
+	private DataSource m_DataSource;
 	private String m_Var;
 	private String m_Index;
 	private List<RowDefinition> m_Rows;
 	private Integer m_StartColumn;
 	private Integer m_StepSize;
 
-	public Integer getStepSize() {
+	public int getStepSize() {
 		if (m_StepSize != null){
 			return m_StepSize;
 		}
@@ -51,7 +51,7 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		return 0;
 	}
 
-	public void setStepSize(Integer stepSize) {
+	public void setStepSize(int stepSize) {
 		m_StepSize = stepSize;
 	}
 
@@ -88,17 +88,17 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 	}
 
 	public DataSource getDataSource() {
-		return m_Data;
+		return m_DataSource;
 	}
 
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[4];
+		Object[] state = new Object[5];
 		state[0] = super.saveState(context);
 		state[1] = m_StartColumn;
 		state[2] = m_StepSize;
 		state[3] = StateHolderUtil.saveList(context, m_Rows);
-		state[4] = FacesUtil.objectToSerializable(context, m_Data);
+		state[4] = FacesUtil.objectToSerializable(context, m_DataSource);
 		return state;
 	}
 
@@ -109,9 +109,16 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		m_StartColumn = (Integer) state[1];
 		m_StepSize = (Integer) state[2];
 		m_Rows = StateHolderUtil.restoreList(context, getComponent(), state[3]);
-		m_Data = (DataSource) FacesUtil.objectFromSerializable(context,
+		m_DataSource = (DataSource) FacesUtil.objectFromSerializable(context,
 				state[4]);
 
+	}
+	public DataSource getValue() {
+		return m_DataSource;
+	}
+
+	public void setValue(DataSource dsCurrent) {
+		m_DataSource = dsCurrent;
 	}
 
 	public String getVar() {

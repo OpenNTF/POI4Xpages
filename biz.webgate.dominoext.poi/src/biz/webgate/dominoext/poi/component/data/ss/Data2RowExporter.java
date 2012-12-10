@@ -50,7 +50,7 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 		return 0;
 	}
 
-	public void setStepSize(Integer stepSize) {
+	public void setStepSize(int stepSize) {
 		m_StepSize = stepSize;
 	}
 
@@ -98,7 +98,7 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[4];
+		Object[] state = new Object[5];
 		state[0] = super.saveState(context);
 		state[1] = m_StartRow;
 		state[2] = m_StepSize;
@@ -120,6 +120,15 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 
 	}
 
+	public DataSource getValue() {
+		return m_DataSource;
+	}
+
+	public void setValue(DataSource dsCurrent) {
+		m_DataSource = dsCurrent;
+	}
+
+	
 	public String getVar() {
 		return m_Var;
 	}
