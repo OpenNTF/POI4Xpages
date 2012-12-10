@@ -113,23 +113,27 @@ public class WorkbookProcessor {
 		if (shProcess == null) {
 			shProcess = wbCurrent.createSheet(strName);
 		}
-		for (ICellValue iCV : spCurrent.getCellValues()) {
-			if (iCV instanceof CellBookmark) {
-				CellBookmark cb = (CellBookmark) iCV;
-				if (StringUtil.isNotEmpty(cb.getName())) {
-					findAndReplaceAll(shProcess, "<<" + cb.getName() + ">>",
-							cb.getValue());
+		if (spCurrent.getCellValues() != null) {
+			for (ICellValue iCV : spCurrent.getCellValues()) {
+				if (iCV instanceof CellBookmark) {
+					CellBookmark cb = (CellBookmark) iCV;
+					if (StringUtil.isNotEmpty(cb.getName())) {
+						findAndReplaceAll(shProcess,
+								"<<" + cb.getName() + ">>", cb.getValue());
+					}
 				}
 			}
 		}
 		// Now doing the DataSources
-		for (IListDataExporter lstExport : spCurrent.getExportDefinitions()) {
-			if (lstExport instanceof Data2ColumnExporter) {
-				processExportCol((Data2ColumnExporter) lstExport, shProcess);
-			}
-			if (lstExport instanceof Data2RowExporter) {
-				processExportRow((Data2RowExporter) lstExport, shProcess);
+		if (spCurrent.getExportDefinitions() != null) {
+			for (IListDataExporter lstExport : spCurrent.getExportDefinitions()) {
+				if (lstExport instanceof Data2ColumnExporter) {
+					processExportCol((Data2ColumnExporter) lstExport, shProcess);
+				}
+				if (lstExport instanceof Data2RowExporter) {
+					processExportRow((Data2RowExporter) lstExport, shProcess);
 
+				}
 			}
 		}
 	}
