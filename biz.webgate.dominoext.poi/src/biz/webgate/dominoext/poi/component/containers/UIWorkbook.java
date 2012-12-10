@@ -48,7 +48,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 	public UIWorkbook() {
 
 		super();
-		System.out.println("Creating UIDocument");
+		System.out.println("Creating UIWorkbook");
 		setRendererType(RENDERER_TYPE);
 	}
 
@@ -155,6 +155,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 
 		ITemplateSource itsCurrent = getTemplateSource();
 		if (itsCurrent == null) {
+			System.out.println("Nix TemplateSource");
 			// TODO: BUILD Error
 			return;
 		}
