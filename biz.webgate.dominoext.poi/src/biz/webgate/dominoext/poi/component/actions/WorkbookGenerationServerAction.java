@@ -67,7 +67,7 @@ public class WorkbookGenerationServerAction extends MethodBindingEx {
 
 	}
 
-	public void setSpreadSheetId(String strId) {
+	public void setWorkbookId(String strId) {
 		m_WorkbookId = strId;
 	}
 
