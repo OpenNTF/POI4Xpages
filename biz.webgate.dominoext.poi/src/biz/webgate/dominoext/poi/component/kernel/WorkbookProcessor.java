@@ -96,7 +96,7 @@ public class WorkbookProcessor {
 				pw.close();
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}
