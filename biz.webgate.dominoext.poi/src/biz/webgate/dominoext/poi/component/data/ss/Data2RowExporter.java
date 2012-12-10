@@ -23,6 +23,7 @@ import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
 
+import com.ibm.xsp.binding.ComponentBindingObject;
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 import com.ibm.xsp.model.DataSource;
 import com.ibm.xsp.util.FacesUtil;
@@ -38,10 +39,10 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 	private List<ColumnDefinition> m_Columns;
 
 	public int getStepSize() {
-		if (m_StepSize != null){
+		if (m_StepSize != null) {
 			return m_StepSize;
 		}
-		ValueBinding  vb = getValueBinding("stepSize");
+		ValueBinding vb = getValueBinding("stepSize");
 		if (vb != null) {
 			Integer intValue = (Integer) vb.getValue(getFacesContext());
 			if (intValue != null)
@@ -54,12 +55,11 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 		m_StepSize = stepSize;
 	}
 
-	
 	public int getStartRow() {
 		if (m_StartRow != null) {
 			return m_StartRow;
 		}
-		ValueBinding  vb = getValueBinding("startRow");
+		ValueBinding vb = getValueBinding("startRow");
 		if (vb != null) {
 			Integer intValue = (Integer) vb.getValue(getFacesContext());
 			if (intValue != null)
@@ -121,14 +121,19 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 	}
 
 	public DataSource getValue() {
-		return m_DataSource;
+		return getDataSource();
 	}
 
 	public void setValue(DataSource dsCurrent) {
 		m_DataSource = dsCurrent;
+		if (m_DataSource instanceof ComponentBindingObject) {
+			System.out.println("Mach noch ein setComponent()");
+			System.out.println("Comp..."+this.getComponent());
+			((ComponentBindingObject) m_DataSource).setComponent(this
+					.getComponent());
+		}
 	}
 
-	
 	public String getVar() {
 		return m_Var;
 	}

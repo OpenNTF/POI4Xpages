@@ -23,6 +23,7 @@ import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
 
+import com.ibm.xsp.binding.ComponentBindingObject;
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 import com.ibm.xsp.model.DataSource;
 import com.ibm.xsp.util.FacesUtil;
@@ -114,11 +115,17 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 
 	}
 	public DataSource getValue() {
-		return m_DataSource;
+		return getDataSource();
 	}
 
 	public void setValue(DataSource dsCurrent) {
 		m_DataSource = dsCurrent;
+        if (m_DataSource instanceof ComponentBindingObject) {
+			System.out.println("Mach noch ein setComponent()");
+			System.out.println("Comp..."+this.getComponent());
+            ((ComponentBindingObject)m_DataSource).setComponent(this.getComponent());
+        }
+
 	}
 
 	public String getVar() {
