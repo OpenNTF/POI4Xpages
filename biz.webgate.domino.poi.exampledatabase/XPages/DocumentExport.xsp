@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:wgpoi="http://www.webgate.biz/xsp/poi">
+
+	<wgpoi:document id="docWord" downloadFileName="cv.docx"
+		pathInfo="download">
+		<wgpoi:this.bookmarks>
+			<wgpoi:docbookmark name="firma"
+				value="WebGate Consulting AG">
+			</wgpoi:docbookmark>
+			<wgpoi:docbookmark name="name">
+				<wgpoi:this.value><![CDATA[#{javascript:@Name("[CN]",@UserName())}]]></wgpoi:this.value>
+			</wgpoi:docbookmark>
+		</wgpoi:this.bookmarks>
+
+		<wgpoi:this.templateSource>
+			<wgpoi:resourcetemplate fileName="openNTF.docx"></wgpoi:resourcetemplate>
+		</wgpoi:this.templateSource>
+	</wgpoi:document>
+	<xp:button value="Label" id="button1"><xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+	<xp:this.action>
+		<wgpoi:generateDocument documentId="docWord"></wgpoi:generateDocument>
+	</xp:this.action></xp:eventHandler></xp:button></xp:view>
