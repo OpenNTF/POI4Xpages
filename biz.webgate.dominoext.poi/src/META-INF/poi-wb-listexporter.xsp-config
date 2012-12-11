@@ -40,10 +40,10 @@
         	</property-extension>
 		</property>
   		<property>
-    		<description>Name of Data Source (String)</description>
-	 	 	<display-name>dataSourceName</display-name>
-		    <property-name>dataSourceName</property-name>
-    		<property-class>java.lang.String</property-class>
+    		<description>Export DataSource</description>
+	 	 	<display-name>dataSource</display-name>
+		    <property-name>dataSource</property-name>
+    		<property-class>biz.webgate.dominoext.poi.component.sources.IExportSource</property-class>
         	<property-extension>
                 <allow-run-time-binding>false</allow-run-time-binding>
                  <required>true</required>
@@ -104,10 +104,10 @@
         	</property-extension>
 		</property>
   		<property>
-    		<description>Name of the Data Source (String)</description>
-	 	 	<display-name>dataSourceName</display-name>
-		    <property-name>dataSourceName</property-name>
-    		<property-class>java.lang.String</property-class>
+    		<description>Export DataSource</description>
+	 	 	<display-name>dataSource</display-name>
+		    <property-name>dataSource</property-name>
+    		<property-class>biz.webgate.dominoext.poi.component.sources.IExportSource</property-class>
         	<property-extension>
                 <allow-run-time-binding>false</allow-run-time-binding>
                  <required>true</required>
@@ -134,21 +134,6 @@
   		<complex-extension>
     		<tag-name>data2rowExport</tag-name>
     		<base-complex-id>biz.webgate.dominoext.poi.component.data.ss.IListDataExporter</base-complex-id>
-    		<base-complex-type>biz.webgate.dominoext.poi.component.containers.DataSourceIterator</base-complex-type>
-            <component-family>com.ibm.xsp.DataIterator</component-family>
-            <designer-extension>
-                <!-- Update the xe:dataView and xe:forumView controls
-                to allow editing of docs, and tracking of which docs are being
-                edited, and creating response docs, without all the 
-                complicated scripting thats currently 
-                in the teamroom (see xpTopicThreadState.jss)
-                Those are a major usability issue, and may require such a complete
-                rewrite as to introduce big instability, so possibly
-                consider holding the dataView out of IFR1 until this work is done. -->
-                <tags>
-                    todo
-                </tags>
-            </designer-extension>
   		</complex-extension>
   		
 	</complex-type>
@@ -158,17 +143,7 @@
   		<description>Defines a column in a export</description>
   		<display-name>ColumnDefinition</display-name>
   		<complex-id>biz.webgate.dominoext.poi.component.data.ss.cell.columndefinition</complex-id>
-  		<complex-class>biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition</complex-class>
-  		<property>
-    		<description>DataIterator</description>
-	 	 	<display-name>dataIterator</display-name>
-		    <property-name>dateItearator</property-name>
-    		<property-class>biz.webgate.dominoext.poi.component.containers.UIDataSourceIterator</property-class>
-        	<property-extension>
-                <allow-run-time-binding>false</allow-run-time-binding>
-        	</property-extension>
-  		</property>
-  		
+  		<complex-class>biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition</complex-class>  		
   		<property>
     		<description>The column number</description>
 	 	 	<display-name>columnNumber</display-name>
@@ -188,10 +163,10 @@
         	</property-extension>
   		</property>
   		<property>
-    		<description>The Value witch could be filled in.</description>
-	 	 	<display-name>value</display-name>
-		    <property-name>value</property-name>
-    		<property-class>java.lang.Object</property-class>
+    		<description>The Column in the datasource witch contains the value.</description>
+	 	 	<display-name>columnTitle</display-name>
+		    <property-name>columnTitle</property-name>
+    		<property-class>java.lang.String</property-class>
   		</property>
   		<complex-extension>
     		<tag-name>columnDefinition</tag-name>
@@ -223,10 +198,10 @@
         	</property-extension>
   		</property>
   		<property>
-    		<description>The Value witch could be filled in.</description>
-	 	 	<display-name>value</display-name>
-		    <property-name>value</property-name>
-    		<property-class>java.lang.Object</property-class>
+    		<description>The Column in the datasource witch contains the value.</description>
+	 	 	<display-name>columnTitle</display-name>
+		    <property-name>columnTitle</property-name>
+    		<property-class>java.lang.String</property-class>
   		</property>
   		<complex-extension>
     		<tag-name>rowDefinition</tag-name>

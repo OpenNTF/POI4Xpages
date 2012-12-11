@@ -15,9 +15,9 @@
  */
 package biz.webgate.dominoext.poi.component.data.ss;
 
-import com.ibm.xsp.model.DataSource;
+import biz.webgate.dominoext.poi.component.sources.IExportSource;
 
 public interface IListDataExporter {
-	public DataSource getDataSource();
+	public IExportSource getDataSource();
 
 }

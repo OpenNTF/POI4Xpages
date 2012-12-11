@@ -18,11 +18,10 @@ package biz.webgate.dominoext.poi.component.kernel;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
-import javax.faces.model.DataModel;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -31,23 +30,21 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import biz.webgate.dominoext.poi.POIException;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
 import biz.webgate.dominoext.poi.component.data.ss.IListDataExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Spreadsheet;
 import biz.webgate.dominoext.poi.component.data.ss.cell.CellBookmark;
+import biz.webgate.dominoext.poi.component.data.ss.cell.CellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
+import biz.webgate.dominoext.poi.component.sources.IExportSource;
+import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
-import com.ibm.xsp.application.ApplicationEx;
-import com.ibm.xsp.model.AbstractDataSource;
-import com.ibm.xsp.model.DataSource;
-import com.ibm.xsp.model.ModelDataSource;
-import com.ibm.xsp.model.TabularDataModel;
-import com.ibm.xsp.model.domino.DominoViewDataModel;
 
 public class WorkbookProcessor {
 
@@ -92,28 +89,24 @@ public class WorkbookProcessor {
 				bos.writeTo(os);
 				os.close();
 			} else {
-				httpResponse.setContentType("text/plain");
-				PrintWriter pw = httpResponse.getWriter();
-				pw.println("POI 4 XPages -> Error during Workbook Generation");
-				pw.println("nr:             " + nTemplateAccess);
-				pw.println("Class: " + itsCurrent.getClass());
-				pw.close();
+				ErrorPageBuilder.getInstance().processError(httpResponse,
+						"TemplateAccess Problem NR: " + nTemplateAccess, null);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ErrorPageBuilder.getInstance().processError(httpResponse,
+					"Error during Workbookgeneration", e);
 		}
 
 	}
 
 	private void processSpreadSheet(Spreadsheet spCurrent, Workbook wbCurrent,
-			FacesContext context) {
+			FacesContext context) throws POIException {
 		// Checking for Replacement Values
 
 		String strName = spCurrent.getName();
 		Sheet shProcess = wbCurrent.getSheet(strName);
 		if (shProcess == null && !spCurrent.isCreate()) {
-			// There is not a sheet to fillout, lets leave
-			return;
+			throw new POIException("No Sheet found with name " + strName);
 		}
 		if (shProcess == null) {
 			shProcess = wbCurrent.createSheet(strName);
@@ -127,9 +120,13 @@ public class WorkbookProcessor {
 								"<<" + cb.getName() + ">>", cb.getValue());
 					}
 				}
+				if (iCV instanceof CellValue) {
+					CellValue cv = (CellValue) iCV;
+					setCellValue(shProcess, cv.getRowNumber(),
+							cv.getColumnNumber(), cv.getValue());
+				}
 			}
 		}
-		// Now doing the DataSources
 		if (spCurrent.getExportDefinitions() != null) {
 			for (IListDataExporter lstExport : spCurrent.getExportDefinitions()) {
 				if (lstExport instanceof Data2ColumnExporter) {
@@ -145,104 +142,82 @@ public class WorkbookProcessor {
 		}
 	}
 
-	private void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
-			FacesContext context) {
-		DataSource dsCurrent = lstExport.getDataSource();
-		TabularDataModel tdm = getTDM(dsCurrent, context);
-		if (tdm == null) {
-			System.out.println("NIX TABULARDATAMODEL");
-			return;
+	private void setCellValue(Sheet shProcess, int nRow, int nCol,
+			Object objValue) {
+		Row rw = shProcess.getRow(nRow);
+		if (rw == null) {
+			rw = shProcess.createRow(nRow);
 		}
-		int nRow = lstExport.getStartRow();
-		int nStepSize = lstExport.getStepSize();
-	
-		int nCount = 1;
-		while (tdm.canHaveMoreRows()) {
-			System.out.println("Processing NR:"+ nCount);
-			tdm.setRowIndex(nCount);
-			nCount++;
-			if (tdm.isRowData()) {
+		Cell c = rw.getCell(nCol);
+		if (c == null) {
+			c = rw.createCell(nCol);
+		}
+		if (objValue instanceof Double) {
+			c.setCellValue((Double) objValue);
+		} else {
+			if (objValue instanceof Date) {
+				c.setCellValue((Date) objValue);
+			} else {
+				c.setCellValue("" + objValue);
+			}
+		}
+	}
 
+	private void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
+			FacesContext context) throws POIException {
+		try {
+			IExportSource is = lstExport.getDataSource();
+			int nAccess = is.accessSource();
+			if (nAccess < 1) {
+				throw new POIException("Error accessing Source: "
+						+ is.getClass() + " Error: " + nAccess);
+			}
+			int nRow = lstExport.getStartRow();
+			int nStepSize = lstExport.getStepSize();
+
+			int nCount = 0;
+			while (is.accessNextRow() == 1) {
+				nCount++;
+				// TODO: Variablen setzen
 				for (ColumnDefinition clDef : lstExport.getColumns()) {
 					int nCol = clDef.getColumnNumber();
 					int nMyRow = clDef.getRowShift() + nRow;
-					Object objCurrent = clDef.getValue();
-					Row row = shProcess.getRow(nMyRow);
-					if (row == null) {
-						row = shProcess.createRow(nMyRow);
-					}
-					Cell cl = row.getCell(nCol);
-					if (cl == null) {
-						cl = row.createCell(nCol);
-					}
-					if (objCurrent instanceof Double) {
-						cl.setCellValue(((Double) objCurrent).doubleValue());
-					} else {
-						cl.setCellValue("" + objCurrent);
-					}
+					Object objCurrent = is.getValue(clDef);
+					setCellValue(shProcess, nMyRow, nCol, objCurrent);
 				}
 				nRow = nRow + nStepSize;
 			}
-		}
-	}
-
-	private TabularDataModel getTDM(DataSource dsCurrent, FacesContext context) {
-		try {
-			DataModel dmCurrent = ApplicationEx.getInstance().createDataModel(
-					dsCurrent);
-			System.out.println(dmCurrent);
-			/*
-			 * if (dmCurrent instanceof ModelDataSource) { ModelDataSource mds =
-			 * (ModelDataSource) dsCurrent; AbstractDataSource ads =
-			 * (AbstractDataSource) mds; ads.load(context);
-			 * System.out.println(ads.getBeanId()); mds.refresh(); DataModel tdm
-			 * = mds.getDataModel(); if (tdm instanceof TabularDataModel) {
-			 * TabularDataModel tds = (TabularDataModel) tdm; return tds; } }
-			 */
-			if (dmCurrent instanceof TabularDataModel) {
-				TabularDataModel tds = (TabularDataModel) dmCurrent;
-				return tds;
-			}
-			return null;
+			is.closeSource();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new POIException("Error in processExportRow", e);
 		}
-		return null;
 	}
 
 	private void processExportCol(Data2ColumnExporter lstExport,
-			Sheet shProcess, FacesContext context) {
-		DataSource dsCurrent = lstExport.getDataSource();
-		TabularDataModel tdm = getTDM(dsCurrent, context);
-		if (tdm == null) {
-			System.out.println("NIX TABULARDATAMODEL");
-			return;
+			Sheet shProcess, FacesContext context) throws POIException {
+		IExportSource is = lstExport.getDataSource();
+		int nAccess = is.accessSource();
+		if (nAccess < 1) {
+			throw new POIException("Error accessing Source: " + is.getClass()
+					+ " Error: " + nAccess);
 		}
-		int nCol = lstExport.getStartColumn();
-		int nStepSize = lstExport.getStepSize();
-		for (int nCount = 0; nCount < tdm.getRowCount(); nCount++) {
-			tdm.setRowIndex(nCount);
-			if (tdm.isRowAvailable()) {
+		try {
+			int nCol = lstExport.getStartColumn();
+			int nStepSize = lstExport.getStepSize();
+			int nCount = 0;
+			while (is.accessNextRow() == 1) {
+				nCount++;
 				for (RowDefinition rdDef : lstExport.getRows()) {
 					int nMyCol = rdDef.getColumnShift() + nCol;
 					int nRow = rdDef.getRowNumber();
-					Object objCurrent = rdDef.getValue();
-					Row row = shProcess.getRow(nRow);
-					if (row == null) {
-						row = shProcess.createRow(nRow);
-					}
-					Cell cl = row.getCell(nMyCol);
-					if (cl == null) {
-						cl = row.createCell(nMyCol);
-					}
-					if (objCurrent instanceof Double) {
-						cl.setCellValue(((Double) objCurrent).doubleValue());
-					} else {
-						cl.setCellValue("" + objCurrent);
-					}
+					Object objCurrent = is.getValue(rdDef);
+					setCellValue(shProcess, nRow, nMyCol, objCurrent);
 				}
 				nCol = nCol + nStepSize;
 			}
+			is.closeSource();
+		} catch (Exception e) {
+			throw new POIException("Error in processExportCol", e);
 		}
 	}
 
@@ -256,7 +231,7 @@ public class WorkbookProcessor {
 			int iLastCell = currentRow.getLastCellNum();
 			for (int i = 0; i < iLastCell; i++) {
 				Cell currentCell = currentRow.getCell(i);
-				if (currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
+				if (currentCell != null && currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
 					if (currentCell.getStringCellValue().contains(find)) {
 						currentCell.setCellValue(currentCell
 								.getStringCellValue().replace(find,

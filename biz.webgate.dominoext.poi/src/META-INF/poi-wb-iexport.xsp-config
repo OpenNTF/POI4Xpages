@@ -1,0 +1,72 @@
+<faces-config>
+	<faces-config-extension>
+  		<namespace-uri>http://www.webgate.biz/xsp/poi</namespace-uri>
+  		<default-prefix>wgpoi</default-prefix>
+	</faces-config-extension>
+
+	
+	<complex-type>
+  		<complex-id>biz.webgate.dominoext.poi.component.sources.IExportSource</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.sources.IExportSource</complex-class>
+	</complex-type>
+
+
+	<complex-type>
+  		<description>Domino View to Export</description>
+  		<display-name>DominoView</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.sources.DominoView</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.sources.DominoView</complex-class>
+  		<property>
+    		<description>View Name</description>
+	 	 	<display-name>viewName</display-name>
+		    <property-name>viewName</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>Database</description>
+	 	 	<display-name>database</display-name>
+		    <property-name>database</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>Key</description>
+	 	 	<display-name>key</display-name>
+		    <property-name>Key</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>	  	
+  		<property>
+    		<description>FT Search</description>
+	 	 	<display-name>search</display-name>
+		    <property-name>search</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		
+  		<complex-extension>
+    		<tag-name>dominoViewSource</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.sources.IExportSource</base-complex-id>
+  		</complex-extension>
+  		
+	</complex-type>
+
+	<complex-type>
+  		<description>List Object Data Source</description>
+  		<display-name>ListObjectDataSource</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.sources.ListObjectDataSource</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.sources.ListObjectDataSource</complex-class>
+  		<property>
+    		<description>Values (as List)</description>
+	 	 	<display-name>values</display-name>
+		    <property-name>values</property-name>
+    		<property-class>java.util.List</property-class>
+  		</property>
+  		
+  		<complex-extension>
+    		<tag-name>ListObjectDataSource</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.sources.IExportSource</base-complex-id>
+  		</complex-extension>
+  		
+	</complex-type>
+
+
+</faces-config>
+

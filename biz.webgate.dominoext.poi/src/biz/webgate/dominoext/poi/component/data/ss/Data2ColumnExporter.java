@@ -18,17 +18,14 @@ package biz.webgate.dominoext.poi.component.data.ss;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.containers.UIDataSourceIterator;
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
+import biz.webgate.dominoext.poi.component.sources.IExportSource;
 
-import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
-import com.ibm.xsp.component.UIViewRootEx;
-import com.ibm.xsp.model.DataSource;
+import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
 
 public class Data2ColumnExporter extends ValueBindingObjectImpl implements
@@ -39,15 +36,14 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 	private List<RowDefinition> m_Rows;
 	private Integer m_StartColumn;
 	private Integer m_StepSize;
-	private String m_DataSourceName;
-	private UIDataSourceIterator m_dataIterator;
+	private IExportSource m_DataSource;
 
-	public String getDataSourceName() {
-		return m_DataSourceName;
+	public IExportSource getDataSource() {
+		return m_DataSource;
 	}
 
-	public void setDataSourceName(String dataSourceName) {
-		m_DataSourceName = dataSourceName;
+	public void setDataSource(IExportSource dataSource) {
+		m_DataSource = dataSource;
 	}
 
 	public int getStepSize() {
@@ -99,23 +95,6 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		m_Rows = rows;
 	}
 
-	public DataSource getDataSource() {
-		if (StringUtil.isNotEmpty(m_DataSourceName)) {
-
-			UIViewRoot vrCurrent = getFacesContext().getViewRoot();
-			if (vrCurrent instanceof UIViewRootEx) {
-				for (DataSource dsCurrent : ((UIViewRootEx) vrCurrent)
-						.getData()) {
-					if (m_DataSourceName.equals(dsCurrent.getVar())) {
-						return dsCurrent;
-					}
-				}
-			}
-		}
-		System.out.println("Datasource name:" + m_DataSourceName);
-		return null;
-	}
-
 	@Override
 	public Object saveState(FacesContext context) {
 		Object[] state = new Object[5];
@@ -123,7 +102,8 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		state[1] = m_StartColumn;
 		state[2] = m_StepSize;
 		state[3] = StateHolderUtil.saveList(context, m_Rows);
-		state[4] = m_DataSourceName;
+		state[4] = FacesUtil.objectToSerializable(getFacesContext(),
+				m_DataSource);
 		return state;
 	}
 
@@ -134,10 +114,10 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		m_StartColumn = (Integer) state[1];
 		m_StepSize = (Integer) state[2];
 		m_Rows = StateHolderUtil.restoreList(context, getComponent(), state[3]);
-		m_DataSourceName = (String) state[4];
+		m_DataSource = (IExportSource) FacesUtil.objectFromSerializable(
+				getFacesContext(), getComponent(), state[4]);
 
 	}
-
 
 	public String getVar() {
 		return m_Var;
@@ -153,13 +133,5 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 
 	public void setIndex(String index) {
 		m_Index = index;
-	}
-
-	public UIDataSourceIterator getDataIterator() {
-		return m_dataIterator;
-	}
-
-	public void setDataIterator(UIDataSourceIterator dataIterator) {
-		m_dataIterator = dataIterator;
 	}
 }

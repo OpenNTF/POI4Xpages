@@ -39,6 +39,7 @@ public class POILibrary extends AbstractXspLibrary {
 	@Override
 	public String[] getXspConfigFiles() {
 		return new String[] { "META-INF/poi-sources.xsp-config",
+				"META-INF/poi-wb-iexport.xsp-config",
 				"META-INF/poi-wb-icellvalue.xsp-config",
 				"META-INF/poi-wb-listexporter.xsp-config",
 				"META-INF/poi-wb.xsp-config",

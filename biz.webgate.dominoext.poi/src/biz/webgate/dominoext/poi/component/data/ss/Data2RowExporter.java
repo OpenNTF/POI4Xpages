@@ -18,17 +18,14 @@ package biz.webgate.dominoext.poi.component.data.ss;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
+import biz.webgate.dominoext.poi.component.sources.IExportSource;
 
-import com.ibm.commons.util.StringUtil;
-import com.ibm.xsp.application.ApplicationEx;
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
-import com.ibm.xsp.component.UIViewRootEx;
-import com.ibm.xsp.model.DataSource;
+import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
 
 public class Data2RowExporter extends ValueBindingObjectImpl implements
@@ -37,14 +34,14 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 	private String m_Index;
 	private Integer m_StartRow;
 	private Integer m_StepSize;
-	private String m_DataSourceName;
+	private IExportSource m_DataSource;
 
-	public String getDataSourceName() {
-		return m_DataSourceName;
+	public IExportSource getDataSource() {
+		return m_DataSource;
 	}
 
-	public void setDataSourceName(String dataSourceName) {
-		m_DataSourceName = dataSourceName;
+	public void setDataSource(IExportSource dataSource) {
+		m_DataSource = dataSource;
 	}
 
 	private List<ColumnDefinition> m_Columns;
@@ -106,7 +103,8 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 		state[1] = m_StartRow;
 		state[2] = m_StepSize;
 		state[3] = StateHolderUtil.saveList(context, m_Columns);
-		state[4] = m_DataSourceName;
+		state[4] = FacesUtil.objectToSerializable(getFacesContext(),
+				m_DataSource);
 		return state;
 	}
 
@@ -118,7 +116,8 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 		m_StepSize = (Integer) state[2];
 		m_Columns = StateHolderUtil.restoreList(context, getComponent(),
 				state[3]);
-		m_DataSourceName = (String) state[4];
+		m_DataSource = (IExportSource) FacesUtil.objectFromSerializable(
+				getFacesContext(), getComponent(), state[4]);
 
 	}
 
@@ -138,21 +137,4 @@ public class Data2RowExporter extends ValueBindingObjectImpl implements
 		m_Index = index;
 	}
 
-	public DataSource getDataSource() {
-		if (StringUtil.isNotEmpty(m_DataSourceName)) {
-
-			UIViewRoot vrCurrent = getFacesContext().getViewRoot();
-			if (vrCurrent instanceof UIViewRootEx) {
-				for (DataSource dsCurrent : ((UIViewRootEx) vrCurrent)
-						.getData()) {
-					System.out.println(dsCurrent.getVar());
-					if (m_DataSourceName.equals(dsCurrent.getVar())) {
-						return dsCurrent;
-					}
-				}
-			}
-		}
-		System.out.println("Datasource name:" + m_DataSourceName);
-		return null;
-	}
 }

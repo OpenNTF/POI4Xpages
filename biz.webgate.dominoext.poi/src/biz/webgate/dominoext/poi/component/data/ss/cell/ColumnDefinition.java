@@ -20,9 +20,9 @@ import javax.faces.el.ValueBinding;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
-public class ColumnDefinition extends ValueBindingObjectImpl {
+public class ColumnDefinition extends ValueBindingObjectImpl implements IDefinition {
 	private Integer m_ColumnNumber;
-	private Object m_Value;
+	private String m_ColumnTitle;
 	private Integer m_RowShift = 0;
 
 	public int getColumnNumber() {
@@ -44,20 +44,6 @@ public class ColumnDefinition extends ValueBindingObjectImpl {
 		m_ColumnNumber = columnNumber;
 	}
 
-	public Object getValue() {
-		if (m_Value != null) {
-			return m_Value;
-		}
-		ValueBinding vb = getValueBinding("value");
-		if (vb != null) {
-			return vb.getValue(getFacesContext());
-		}
-		return null;
-	}
-
-	public void setValue(Object value) {
-		m_Value = value;
-	}
 
 	public int getRowShift() {
 		if (m_RowShift != null) {
@@ -83,7 +69,7 @@ public class ColumnDefinition extends ValueBindingObjectImpl {
 		state[0] = super.saveState(context);
 		state[1] = m_ColumnNumber;
 		state[2] = m_RowShift;
-		state[3] = m_Value;
+		state[3] = m_ColumnTitle;
 		return state;
 	}
 
@@ -93,7 +79,26 @@ public class ColumnDefinition extends ValueBindingObjectImpl {
 		super.restoreState(context, state[0]);
 		m_ColumnNumber = (Integer)state[1];
 		m_RowShift = (Integer)state[2];
-		m_Value = state[3];
+		m_ColumnTitle = (String)state[3];
+	}
+
+
+	public String getColumnTitle() {
+		if (m_ColumnTitle != null) {
+			return m_ColumnTitle;
+		}
+		ValueBinding vb = getValueBinding("columnTitle");
+		if (vb != null) {
+			String strValue = (String)vb.getValue(getFacesContext());
+			if (strValue != null) {
+				return strValue;
+			}
+		}
+		return null;
+	}
+
+	public void setColumnTitle(String columnTitle) {
+		m_ColumnTitle = columnTitle;
 	}
 
 }

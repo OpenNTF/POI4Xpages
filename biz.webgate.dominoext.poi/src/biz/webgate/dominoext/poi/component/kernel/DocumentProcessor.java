@@ -19,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +34,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
+import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
 
 public class DocumentProcessor {
 
@@ -132,29 +132,30 @@ public class DocumentProcessor {
 			List<IDocumentBookmark> bookmarks,
 			HttpServletResponse httpResponse, String strFileName)
 			throws IOException {
-		int nTemplateAccess = itsCurrent.accessTemplate();
-		if (nTemplateAccess == 1) {
-			InputStream is = itsCurrent.getFileStream();
-			XWPFDocument dxDocument = getDocument(is);
-			itsCurrent.cleanUP();
-			if (bookmarks != null && bookmarks.size() > 0) {
-				processBookmarks2Document(dxDocument, bookmarks);
+		try {
+			int nTemplateAccess = itsCurrent.accessTemplate();
+			if (nTemplateAccess == 1) {
+				InputStream is = itsCurrent.getFileStream();
+				XWPFDocument dxDocument = getDocument(is);
+				itsCurrent.cleanUP();
+				if (bookmarks != null && bookmarks.size() > 0) {
+					processBookmarks2Document(dxDocument, bookmarks);
+				}
+				httpResponse.setContentType("application/octet-stream");
+				httpResponse.addHeader("Content-disposition",
+						"inline; filename=\"" + strFileName + "\"");
+				OutputStream os = httpResponse.getOutputStream();
+				ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				dxDocument.write(bos);
+				bos.writeTo(os);
+				os.close();
+			} else {
+				ErrorPageBuilder.getInstance().processError(httpResponse,
+						"TemplateAccess Problem NR: " + nTemplateAccess, null);
 			}
-			httpResponse.setContentType("application/octet-stream");
-			httpResponse.addHeader("Content-disposition", "inline; filename=\""
-					+ strFileName + "\"");
-			OutputStream os = httpResponse.getOutputStream();
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			dxDocument.write(bos);
-			bos.writeTo(os);
-			os.close();
-		} else {
-			httpResponse.setContentType("text/plain");
-			PrintWriter pw = httpResponse.getWriter();
-			pw.println("POI 4 XPages -> Error during Document Generation");
-			pw.println("nr:             " + nTemplateAccess);
-			pw.println("Class: " + itsCurrent.getClass());
-			pw.close();
+		} catch (Exception e) {
+			ErrorPageBuilder.getInstance().processError(httpResponse,
+					"Error during Documentgeneration", e);
 		}
 	}
 }

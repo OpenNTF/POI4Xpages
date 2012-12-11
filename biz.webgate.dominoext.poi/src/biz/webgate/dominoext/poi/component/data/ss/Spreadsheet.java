@@ -89,7 +89,7 @@ public class Spreadsheet extends ValueBindingObjectImpl {
 		m_CellValues = cellValues;
 	}
 
-	public void addCellValues(ICellValue icvCurrent) {
+	public void addCellValue(ICellValue icvCurrent) {
 		if (m_CellValues == null) {
 			m_CellValues = new ArrayList<ICellValue>();
 		}

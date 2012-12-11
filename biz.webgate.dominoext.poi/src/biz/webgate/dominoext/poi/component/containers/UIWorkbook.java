@@ -159,8 +159,6 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 			// TODO: BUILD Error
 			return;
 		}
-
-		System.out.println("processing....");
 		try {
 			WorkbookProcessor.getInstance().generateNewFile(
 					getTemplateSource(), getSpreadsheets(),
@@ -175,8 +173,6 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 				// TODO: handle exception
 			}
 		}
-		System.out.println("processing....DONE");
-
 	}
 
 	// SAVING AND RESTORING
