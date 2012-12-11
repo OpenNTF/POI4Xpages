@@ -22,6 +22,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import biz.webgate.dominoext.poi.component.containers.UIDataSourceIterator;
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
 
 import com.ibm.commons.util.StringUtil;
@@ -39,6 +40,7 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 	private Integer m_StartColumn;
 	private Integer m_StepSize;
 	private String m_DataSourceName;
+	private UIDataSourceIterator m_dataIterator;
 
 	public String getDataSourceName() {
 		return m_DataSourceName;
@@ -151,5 +153,13 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 
 	public void setIndex(String index) {
 		m_Index = index;
+	}
+
+	public UIDataSourceIterator getDataIterator() {
+		return m_dataIterator;
+	}
+
+	public void setDataIterator(UIDataSourceIterator dataIterator) {
+		m_dataIterator = dataIterator;
 	}
 }
