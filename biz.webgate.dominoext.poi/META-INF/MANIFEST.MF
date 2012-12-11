@@ -30,4 +30,5 @@ Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",
  biz.webgate.dominoext.poi.renderkit.html_extended;uses:="javax.faces.component,javax.faces.context,com.ibm.xsp.renderkit",
  biz.webgate.dominoext.poi.util;uses:="org.apache.poi.ss.usermodel,org.apache.poi.xwpf.usermodel,lotus.domino"
 Bundle-ClassPath: .
+Import-Package: com.ibm.xsp.component
 

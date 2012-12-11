@@ -18,32 +18,41 @@ package biz.webgate.dominoext.poi.component.data.ss;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
 
-import com.ibm.xsp.binding.ComponentBindingObject;
+import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
+import com.ibm.xsp.component.UIViewRootEx;
 import com.ibm.xsp.model.DataSource;
-import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
 
 public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		IListDataExporter {
 
-	private DataSource m_DataSource;
 	private String m_Var;
 	private String m_Index;
 	private List<RowDefinition> m_Rows;
 	private Integer m_StartColumn;
 	private Integer m_StepSize;
+	private String m_DataSourceName;
+
+	public String getDataSourceName() {
+		return m_DataSourceName;
+	}
+
+	public void setDataSourceName(String dataSourceName) {
+		m_DataSourceName = dataSourceName;
+	}
 
 	public int getStepSize() {
-		if (m_StepSize != null){
+		if (m_StepSize != null) {
 			return m_StepSize;
 		}
-		ValueBinding  vb = getValueBinding("stepSize");
+		ValueBinding vb = getValueBinding("stepSize");
 		if (vb != null) {
 			Integer intValue = (Integer) vb.getValue(getFacesContext());
 			if (intValue != null)
@@ -57,10 +66,10 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 	}
 
 	public int getStartColumn() {
-		if (m_StartColumn != null){
+		if (m_StartColumn != null) {
 			return m_StartColumn;
 		}
-		ValueBinding  vb = getValueBinding("startColumn");
+		ValueBinding vb = getValueBinding("startColumn");
 		if (vb != null) {
 			Integer intValue = (Integer) vb.getValue(getFacesContext());
 			if (intValue != null)
@@ -89,7 +98,20 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 	}
 
 	public DataSource getDataSource() {
-		return m_DataSource;
+		if (StringUtil.isNotEmpty(m_DataSourceName)) {
+
+			UIViewRoot vrCurrent = getFacesContext().getViewRoot();
+			if (vrCurrent instanceof UIViewRootEx) {
+				for (DataSource dsCurrent : ((UIViewRootEx) vrCurrent)
+						.getData()) {
+					if (m_DataSourceName.equals(dsCurrent.getVar())) {
+						return dsCurrent;
+					}
+				}
+			}
+		}
+		System.out.println("Datasource name:" + m_DataSourceName);
+		return null;
 	}
 
 	@Override
@@ -99,7 +121,7 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		state[1] = m_StartColumn;
 		state[2] = m_StepSize;
 		state[3] = StateHolderUtil.saveList(context, m_Rows);
-		state[4] = FacesUtil.objectToSerializable(context, m_DataSource);
+		state[4] = m_DataSourceName;
 		return state;
 	}
 
@@ -110,23 +132,10 @@ public class Data2ColumnExporter extends ValueBindingObjectImpl implements
 		m_StartColumn = (Integer) state[1];
 		m_StepSize = (Integer) state[2];
 		m_Rows = StateHolderUtil.restoreList(context, getComponent(), state[3]);
-		m_DataSource = (DataSource) FacesUtil.objectFromSerializable(context,
-				state[4]);
+		m_DataSourceName = (String) state[4];
 
 	}
-	public DataSource getValue() {
-		return getDataSource();
-	}
 
-	public void setValue(DataSource dsCurrent) {
-		m_DataSource = dsCurrent;
-        if (m_DataSource instanceof ComponentBindingObject) {
-			System.out.println("Mach noch ein setComponent()");
-			System.out.println("Comp..."+this.getComponent());
-            ((ComponentBindingObject)m_DataSource).setComponent(this.getComponent());
-        }
-
-	}
 
 	public String getVar() {
 		return m_Var;

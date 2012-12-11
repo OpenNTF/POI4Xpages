@@ -153,5 +153,82 @@
              </designer-extension>
   		</component-extension>
 	</component>
+	
+	<!-- extlib repeat control -->
+    <component>
+        <description>An abstract base class for a repeat control containing a data source.</description>
+        <display-name>Repeat Data Source Control</display-name>
+        <component-type>biz.webgate.dominoext.poi.component.containers.DataSourceIterator</component-type>
+        <component-class>biz.webgate.dominoext.poi.component.containers.UIDataSourceIterator</component-class>
+        <group-type-ref>com.ibm.xsp.extlib.partial</group-type-ref>
+        
+        <!-- Overridden to make the value property *not* required, as the data property can be used instead. -->
+        <property>
+            <!-- Note, using the label reference mechanism, as described here:
+            http://www-10.lotus.com/ldd/ddwiki.nsf/dx/XPages_configuration_file_format#label-reference-mechanism
+            -->
+            <description>%/com.ibm.xsp.UIDataIterator/value/descr%</description>
+            <display-name>%/com.ibm.xsp.UIDataIterator/value/name%</display-name>
+            <property-name>value</property-name>
+            <property-class>java.lang.Object</property-class>
+            <property-extension>
+                <designer-extension>
+                    <category>data</category>
+                </designer-extension>
+            </property-extension>
+        </property>
+        
+        <!-- Overridden to remove the designer default-value -->
+        <property>
+            <description>%/javax.faces.Data/rows/descr%</description>
+            <display-name>%/javax.faces.Data/rows/name%</display-name>
+            <property-name>rows</property-name>
+            <property-class>int</property-class>
+            <property-extension>
+                <designer-extension>
+                    <category>data</category>
+                </designer-extension>
+            </property-extension>
+        </property>
+        
+        <property>
+            <description>Specifies the data source associated with this control, usually a data source with multiple items, like the Domino View data source.</description>
+            <display-name>Data</display-name>
+            <property-name>data</property-name>
+            <property-class>com.ibm.xsp.model.DataSource</property-class>
+            <property-extension>
+                 <allow-run-time-binding>false</allow-run-time-binding>
+                <designer-extension>
+                    <category>data</category>
+                </designer-extension>
+            </property-extension>
+        </property>
+        <property>
+            <!-- # "disableHideRow" is a property name and should not be translated-->
+            <description>Specifies if the detail section should be expanded by default. Note that this property not re-evaluated per row. This can be overridden for a row by computing the "disableHideRow" property. It defaults to false, not expanded.</description>
+            <display-name>Expanded Detail</display-name>
+            <property-name>expandedDetail</property-name>
+            <property-class>boolean</property-class>
+            <property-extension>
+                <designer-extension>
+                    <category>basics</category>
+                    <!-- TODO this property is view-specific, so propose moving it down to the 
+                    (abstract) UIDataView subclass 
+                    or maybe not all the code handling the state saving is in the UIDataSourceIterator class -->
+                    <tags>
+                       todo
+                    </tags>
+                </designer-extension>
+            </property-extension>
+        </property>
+        
+        <component-extension>
+            <base-component-type>com.ibm.xsp.UIDataIterator</base-component-type>
+            <component-family>com.ibm.xsp.DataIterator</component-family>
+            <designer-extension>
+            </designer-extension>
+        </component-extension>
+    </component>
+	
 </faces-config>
 

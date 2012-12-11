@@ -42,10 +42,12 @@ import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
 
 import com.ibm.commons.util.StringUtil;
+import com.ibm.xsp.application.ApplicationEx;
 import com.ibm.xsp.model.AbstractDataSource;
 import com.ibm.xsp.model.DataSource;
 import com.ibm.xsp.model.ModelDataSource;
 import com.ibm.xsp.model.TabularDataModel;
+import com.ibm.xsp.model.domino.DominoViewDataModel;
 
 public class WorkbookProcessor {
 
@@ -153,9 +155,14 @@ public class WorkbookProcessor {
 		}
 		int nRow = lstExport.getStartRow();
 		int nStepSize = lstExport.getStepSize();
-		for (int nCount = 0; nCount < tdm.getRowCount(); nCount++) {
+	
+		int nCount = 1;
+		while (tdm.canHaveMoreRows()) {
+			System.out.println("Processing NR:"+ nCount);
 			tdm.setRowIndex(nCount);
-			if (tdm.isRowAvailable()) {
+			nCount++;
+			if (tdm.isRowData()) {
+
 				for (ColumnDefinition clDef : lstExport.getColumns()) {
 					int nCol = clDef.getColumnNumber();
 					int nMyRow = clDef.getRowShift() + nRow;
@@ -181,19 +188,20 @@ public class WorkbookProcessor {
 
 	private TabularDataModel getTDM(DataSource dsCurrent, FacesContext context) {
 		try {
-			if (dsCurrent instanceof ModelDataSource) {
-				ModelDataSource mds = (ModelDataSource) dsCurrent;
-				AbstractDataSource ads = (AbstractDataSource) mds;
-				ads.load(context);
-				System.out.println(ads.getBeanId());
-				if (ads.getBeanId() == null) {
-
-				}
-				DataModel tdm = mds.getDataModel();
-				if (tdm instanceof TabularDataModel) {
-					TabularDataModel tds = (TabularDataModel) tdm;
-					return tds;
-				}
+			DataModel dmCurrent = ApplicationEx.getInstance().createDataModel(
+					dsCurrent);
+			System.out.println(dmCurrent);
+			/*
+			 * if (dmCurrent instanceof ModelDataSource) { ModelDataSource mds =
+			 * (ModelDataSource) dsCurrent; AbstractDataSource ads =
+			 * (AbstractDataSource) mds; ads.load(context);
+			 * System.out.println(ads.getBeanId()); mds.refresh(); DataModel tdm
+			 * = mds.getDataModel(); if (tdm instanceof TabularDataModel) {
+			 * TabularDataModel tds = (TabularDataModel) tdm; return tds; } }
+			 */
+			if (dmCurrent instanceof TabularDataModel) {
+				TabularDataModel tds = (TabularDataModel) dmCurrent;
+				return tds;
 			}
 			return null;
 		} catch (Exception e) {
@@ -202,7 +210,8 @@ public class WorkbookProcessor {
 		return null;
 	}
 
-	private void processExportCol(Data2ColumnExporter lstExport, Sheet shProcess, FacesContext context) {
+	private void processExportCol(Data2ColumnExporter lstExport,
+			Sheet shProcess, FacesContext context) {
 		DataSource dsCurrent = lstExport.getDataSource();
 		TabularDataModel tdm = getTDM(dsCurrent, context);
 		if (tdm == null) {

@@ -40,10 +40,14 @@
         	</property-extension>
 		</property>
   		<property>
-    		<description>Data Source</description>
-	 	 	<display-name>value</display-name>
-		    <property-name>value</property-name>
-    		<property-class>com.ibm.xsp.model.DataSource</property-class>
+    		<description>Name of Data Source (String)</description>
+	 	 	<display-name>dataSourceName</display-name>
+		    <property-name>dataSourceName</property-name>
+    		<property-class>java.lang.String</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+                 <required>true</required>
+        	</property-extension>
   		</property>
   		<property>
     		<description>Variable under with the datatsource rowdata are accessible</description>
@@ -100,10 +104,14 @@
         	</property-extension>
 		</property>
   		<property>
-    		<description>Data Source</description>
-	 	 	<display-name>value</display-name>
-		    <property-name>value</property-name>
-    		<property-class>com.ibm.xsp.model.DataSource</property-class>
+    		<description>Name of the Data Source (String)</description>
+	 	 	<display-name>dataSourceName</display-name>
+		    <property-name>dataSourceName</property-name>
+    		<property-class>java.lang.String</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+                 <required>true</required>
+        	</property-extension>
   		</property>
   		<property>
     		<description>Variable under with the datatsource rowdata are accessible</description>
