@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="3.0" replicaid="C1257A6A004D4D0A" version="8.5" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1c6" sequence="1" unid="0FCA2907D836C4B4C1257AD1004D7B2C">
+<created><datetime>20121211T150618,04+01</datetime></created>
+<modified><datetime>20121211T150618,06+01</datetime></modified>
+<revised><datetime>20121211T150618,05+01</datetime></revised>
+<lastaccessed><datetime>20121211T150618,06+01</datetime></lastaccessed>
+<addedtofile><datetime>20121211T150618,06+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
+<item name="$TITLE"><text>ContactExport.xlsx</text></item>
+<item name="$Flags"><text>345CgQ</text></item>
+<item name="$FlagsExt"><text>D</text></item>
+
+<item name="$FileModDT" sign="true"><datetime>20121211T150329,00+01</datetime></item>
+
+<item name="$FileNames" sign="true"><text>ContactExport.xlsx</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item></note>

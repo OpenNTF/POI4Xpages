@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:wgpoi="http://www.webgate.biz/xsp/poi">
+
+	<xp:this.data>
+		<xp:dominoView var="myContactsVIEW" viewName="Contacts2">
+			<xp:this.queryOpenView><![CDATA[#{javascript:print("QueryOpenView")}]]></xp:this.queryOpenView>
+			<xp:this.postOpenView><![CDATA[#{javascript:print("postOpenView")}]]></xp:this.postOpenView></xp:dominoView>
+	</xp:this.data>
+	<xp:viewPanel rows="30" id="viewPanel1">
+		<xp:this.facets>
+			<xp:pager partialRefresh="true" layout="Previous Group Next"
+				xp:key="headerPager" id="pager1">
+			</xp:pager>
+		</xp:this.facets>
+		<xp:this.data>
+			<xp:dominoView var="vwContacts" viewName="Contacts"></xp:dominoView>
+		</xp:this.data>
+		<xp:viewColumn columnName="FirstName" id="viewColumn1">
+			<xp:viewColumnHeader value="FirstName"
+				id="viewColumnHeader1">
+			</xp:viewColumnHeader>
+		</xp:viewColumn>
+		<xp:viewColumn columnName="LastName" id="viewColumn2">
+			<xp:viewColumnHeader value="LastName"
+				id="viewColumnHeader2">
+			</xp:viewColumnHeader>
+		</xp:viewColumn>
+		<xp:viewColumn columnName="Address" id="viewColumn3">
+			<xp:viewColumnHeader value="Address"
+				id="viewColumnHeader3">
+			</xp:viewColumnHeader>
+		</xp:viewColumn>
+		<xp:viewColumn columnName="ZIP" id="viewColumn4">
+			<xp:viewColumnHeader value="ZIP" id="viewColumnHeader4"></xp:viewColumnHeader>
+		</xp:viewColumn>
+		<xp:viewColumn columnName="Location" id="viewColumn5">
+			<xp:viewColumnHeader value="Location"
+				id="viewColumnHeader5">
+			</xp:viewColumnHeader>
+		</xp:viewColumn>
+	</xp:viewPanel>
+	<wgpoi:spreadsheet id="wbDefinition"
+		downloadFileName="contacts.xlsx">
+		<wgpoi:this.spreadsheets>
+			<wgpoi:table name="AllContacts" create="true">
+				<wgpoi:this.exportDefinitions>
+					<wgpoi:data2rowExport startRow="3" var="rd"
+						stepSize="1" index="indRow">
+						<wgpoi:this.columns>
+							<wgpoi:columnDefinition columnNumber="2"
+								columnTitle="LastName" rowShift="0">
+							</wgpoi:columnDefinition>
+							<wgpoi:columnDefinition columnNumber="1"
+								rowShift="0" columnTitle="FirstName">
+							</wgpoi:columnDefinition>
+						</wgpoi:this.columns>
+
+						<wgpoi:this.dataSource>
+							<wgpoi:dominoViewSource
+								viewName="Contacts">
+							</wgpoi:dominoViewSource>
+						</wgpoi:this.dataSource>
+					</wgpoi:data2rowExport>
+				</wgpoi:this.exportDefinitions>
+			</wgpoi:table>
+		</wgpoi:this.spreadsheets>
+		<wgpoi:this.templateSource>
+			<wgpoi:resourcetemplate fileName="TEST-Export.xlsx"></wgpoi:resourcetemplate>
+		</wgpoi:this.templateSource>
+	</wgpoi:spreadsheet>
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+	<xp:button value="Export als Excel" id="btExport">
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+			<xp:this.action>
+				<wgpoi:generateWorkbook workbookId="wbDefinition"></wgpoi:generateWorkbook>
+			</xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+</xp:view>
