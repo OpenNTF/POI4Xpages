@@ -16,6 +16,7 @@
 package biz.webgate.dominoext.poi.component.kernel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
@@ -24,6 +25,7 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -70,14 +72,7 @@ public class WorkbookProcessor {
 
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
-				InputStream is = itsCurrent.getFileStream();
-				Workbook wbCurrent = WorkbookFactory.create(is);
-				// ;
-				itsCurrent.cleanUP();
-				// Processing all Spreadsheets to the File
-				for (Spreadsheet spCurrent : lstSP) {
-					processSpreadSheet(spCurrent, wbCurrent, context);
-				}
+				Workbook wbCurrent = processWorkbook(itsCurrent, lstSP, context);
 
 				// Push the Result to the HttpServlet
 				httpResponse.setContentType("application/octet-stream");
@@ -97,6 +92,20 @@ public class WorkbookProcessor {
 					"Error during Workbookgeneration", e);
 		}
 
+	}
+
+	public Workbook processWorkbook(ITemplateSource itsCurrent,
+			List<Spreadsheet> lstSP, FacesContext context) throws IOException,
+			InvalidFormatException, POIException {
+		InputStream is = itsCurrent.getFileStream();
+		Workbook wbCurrent = WorkbookFactory.create(is);
+		// ;
+		itsCurrent.cleanUP();
+		// Processing all Spreadsheets to the File
+		for (Spreadsheet spCurrent : lstSP) {
+			processSpreadSheet(spCurrent, wbCurrent, context);
+		}
+		return wbCurrent;
 	}
 
 	private void processSpreadSheet(Spreadsheet spCurrent, Workbook wbCurrent,

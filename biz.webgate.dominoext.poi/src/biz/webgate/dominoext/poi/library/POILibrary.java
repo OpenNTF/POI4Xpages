@@ -26,6 +26,7 @@ public class POILibrary extends AbstractXspLibrary {
 	@Override
 	public String[] getFacesConfigFiles() {
 		String[] files = new String[] {
+				"META-INF/poi-beans-faces-config.xml",
 				"META-INF/poi-spreadsheet-faces-config.xml",
 				"META-INF/poi-document-faces-config.xml" };
 		return files;

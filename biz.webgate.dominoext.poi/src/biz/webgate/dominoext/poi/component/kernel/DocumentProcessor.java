@@ -135,12 +135,7 @@ public class DocumentProcessor {
 		try {
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
-				InputStream is = itsCurrent.getFileStream();
-				XWPFDocument dxDocument = getDocument(is);
-				itsCurrent.cleanUP();
-				if (bookmarks != null && bookmarks.size() > 0) {
-					processBookmarks2Document(dxDocument, bookmarks);
-				}
+				XWPFDocument dxDocument = processDocument(itsCurrent, bookmarks);
 				httpResponse.setContentType("application/octet-stream");
 				httpResponse.addHeader("Content-disposition",
 						"inline; filename=\"" + strFileName + "\"");
@@ -157,5 +152,16 @@ public class DocumentProcessor {
 			ErrorPageBuilder.getInstance().processError(httpResponse,
 					"Error during Documentgeneration", e);
 		}
+	}
+
+	public XWPFDocument processDocument(ITemplateSource itsCurrent,
+			List<IDocumentBookmark> bookmarks) {
+		InputStream is = itsCurrent.getFileStream();
+		XWPFDocument dxDocument = getDocument(is);
+		itsCurrent.cleanUP();
+		if (bookmarks != null && bookmarks.size() > 0) {
+			processBookmarks2Document(dxDocument, bookmarks);
+		}
+		return dxDocument;
 	}
 }
