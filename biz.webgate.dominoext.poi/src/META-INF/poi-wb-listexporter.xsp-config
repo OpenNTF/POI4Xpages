@@ -41,13 +41,18 @@
 		</property>
   		<property>
     		<description>Export DataSource</description>
-	 	 	<display-name>dataSource</display-name>
+	 	 	<display-name>Export DataSource</display-name>
 		    <property-name>dataSource</property-name>
     		<property-class>biz.webgate.dominoext.poi.component.sources.IExportSource</property-class>
         	<property-extension>
                 <allow-run-time-binding>false</allow-run-time-binding>
-                 <required>true</required>
         	</property-extension>
+  		</property>
+  		<property>
+	    	<description>If you do not set a Export DataSource then you can use a Data Source form the XPages, by referencing the var name of this source</description>
+	 	 	<display-name>dataSourceVar</display-name>
+		    <property-name>dataSourceVar</property-name>
+    		<property-class>java.lang.String</property-class>
   		</property>
   		<property>
     		<description>Variable under with the datatsource rowdata are accessible</description>
@@ -110,8 +115,13 @@
     		<property-class>biz.webgate.dominoext.poi.component.sources.IExportSource</property-class>
         	<property-extension>
                 <allow-run-time-binding>false</allow-run-time-binding>
-                 <required>true</required>
         	</property-extension>
+  		</property>
+  		<property>
+	    	<description>If you do not set a Export DataSource then you can use a Data Source form the XPages, by referencing the var name of this source</description>
+	 	 	<display-name>dataSourceVar</display-name>
+		    <property-name>dataSourceVar</property-name>
+    		<property-class>java.lang.String</property-class>
   		</property>
   		<property>
     		<description>Variable under with the datatsource rowdata are accessible</description>

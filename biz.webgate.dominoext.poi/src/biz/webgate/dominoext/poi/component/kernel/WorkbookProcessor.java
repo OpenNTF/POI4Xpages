@@ -40,10 +40,9 @@ import biz.webgate.dominoext.poi.component.data.ss.IListDataExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Spreadsheet;
 import biz.webgate.dominoext.poi.component.data.ss.cell.CellBookmark;
 import biz.webgate.dominoext.poi.component.data.ss.cell.CellValue;
-import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
-import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
-import biz.webgate.dominoext.poi.component.sources.IExportSource;
+import biz.webgate.dominoext.poi.component.kernel.workbook.EmbeddedDataSourceExportProcessor;
+import biz.webgate.dominoext.poi.component.kernel.workbook.XPagesDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
@@ -139,19 +138,35 @@ public class WorkbookProcessor {
 		if (spCurrent.getExportDefinitions() != null) {
 			for (IListDataExporter lstExport : spCurrent.getExportDefinitions()) {
 				if (lstExport instanceof Data2ColumnExporter) {
-					processExportCol((Data2ColumnExporter) lstExport,
-							shProcess, context);
+					if (lstExport.getDataSource() != null) {
+						EmbeddedDataSourceExportProcessor.getInstance()
+								.processExportCol(
+										(Data2ColumnExporter) lstExport,
+										shProcess, context);
+					} else {
+						XPagesDataSourceExportProcessor.getInstances()
+								.processExportCol(
+										(Data2ColumnExporter) lstExport,
+										shProcess, context);
+					}
 				}
 				if (lstExport instanceof Data2RowExporter) {
-					processExportRow((Data2RowExporter) lstExport, shProcess,
-							context);
+					if (lstExport.getDataSource() != null) {
+						EmbeddedDataSourceExportProcessor.getInstance()
+								.processExportRow((Data2RowExporter) lstExport,
+										shProcess, context);
+					} else {
+						XPagesDataSourceExportProcessor.getInstances()
+								.processExportRow((Data2RowExporter) lstExport,
+										shProcess, context);
+					}
 
 				}
 			}
 		}
 	}
 
-	private void setCellValue(Sheet shProcess, int nRow, int nCol,
+	public void setCellValue(Sheet shProcess, int nRow, int nCol,
 			Object objValue) {
 		Row rw = shProcess.getRow(nRow);
 		if (rw == null) {
@@ -172,64 +187,6 @@ public class WorkbookProcessor {
 		}
 	}
 
-	private void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
-			FacesContext context) throws POIException {
-		try {
-			IExportSource is = lstExport.getDataSource();
-			int nAccess = is.accessSource();
-			if (nAccess < 1) {
-				throw new POIException("Error accessing Source: "
-						+ is.getClass() + " Error: " + nAccess);
-			}
-			int nRow = lstExport.getStartRow();
-			int nStepSize = lstExport.getStepSize();
-
-			int nCount = 0;
-			while (is.accessNextRow() == 1) {
-				nCount++;
-				// TODO: Variablen setzen
-				for (ColumnDefinition clDef : lstExport.getColumns()) {
-					int nCol = clDef.getColumnNumber();
-					int nMyRow = clDef.getRowShift() + nRow;
-					Object objCurrent = is.getValue(clDef);
-					setCellValue(shProcess, nMyRow, nCol, objCurrent);
-				}
-				nRow = nRow + nStepSize;
-			}
-			is.closeSource();
-		} catch (Exception e) {
-			throw new POIException("Error in processExportRow", e);
-		}
-	}
-
-	private void processExportCol(Data2ColumnExporter lstExport,
-			Sheet shProcess, FacesContext context) throws POIException {
-		IExportSource is = lstExport.getDataSource();
-		int nAccess = is.accessSource();
-		if (nAccess < 1) {
-			throw new POIException("Error accessing Source: " + is.getClass()
-					+ " Error: " + nAccess);
-		}
-		try {
-			int nCol = lstExport.getStartColumn();
-			int nStepSize = lstExport.getStepSize();
-			int nCount = 0;
-			while (is.accessNextRow() == 1) {
-				nCount++;
-				for (RowDefinition rdDef : lstExport.getRows()) {
-					int nMyCol = rdDef.getColumnShift() + nCol;
-					int nRow = rdDef.getRowNumber();
-					Object objCurrent = is.getValue(rdDef);
-					setCellValue(shProcess, nRow, nMyCol, objCurrent);
-				}
-				nCol = nCol + nStepSize;
-			}
-			is.closeSource();
-		} catch (Exception e) {
-			throw new POIException("Error in processExportCol", e);
-		}
-	}
-
 	public void findAndReplaceAll(Sheet sheet, String find, Object replace) {
 		if (replace == null) {
 			replace = "";
@@ -240,7 +197,8 @@ public class WorkbookProcessor {
 			int iLastCell = currentRow.getLastCellNum();
 			for (int i = 0; i < iLastCell; i++) {
 				Cell currentCell = currentRow.getCell(i);
-				if (currentCell != null && currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
+				if (currentCell != null
+						&& currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
 					if (currentCell.getStringCellValue().contains(find)) {
 						currentCell.setCellValue(currentCell
 								.getStringCellValue().replace(find,
