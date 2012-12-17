@@ -129,11 +129,16 @@
         	      <category>POI 4 XPages</category>
         	      <render-markup>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#xd;
 						&lt;xp:view xmlns:xp="http://www.ibm.com/xsp/core"&gt;&#xd;
-						&lt;xp:image url="/icons/ms_word_96.png" id="image1"&gt;&lt;/xp:image&gt;&#xd;
+						&lt;xp:image url="/icons/Word_96.png" id="image1"&gt;&lt;/xp:image&gt;&#xd;
 						&lt;/xp:view&gt;&#xd;
 				</render-markup>
              </designer-extension>
   		</component-extension>
+  		<icon>
+			<small-icon>/icons/Word_16.PNG</small-icon>
+			<large-icon>/icons/Word_32.png</large-icon>
+		</icon>
+  		
 	</component>
 </faces-config>
 

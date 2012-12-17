@@ -1,6 +1,6 @@
 package biz.webgate.dominoext.poi.component.sources;
 
-import biz.webgate.dominoext.poi.component.data.ss.cell.IDefinition;
+import biz.webgate.dominoext.poi.component.data.IDefinition;
 
 public interface IExportSource {
 

@@ -1,17 +1,16 @@
-package biz.webgate.dominoext.poi.component.kernel.workbook;
+package biz.webgate.dominoext.poi.component.kernel.csv;
+
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.faces.el.PropertyResolver;
 import javax.faces.model.DataModel;
 
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.commons.csv.CSVPrinter;
 
 import biz.webgate.dominoext.poi.POIException;
-import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
-import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
-import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
-import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
-import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
+import biz.webgate.dominoext.poi.component.containers.UICSV;
+import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.component.UIDataEx;
@@ -22,85 +21,43 @@ import com.ibm.xsp.model.TabularDataModel;
 import com.ibm.xsp.model.ViewRowData;
 import com.ibm.xsp.model.domino.DominoViewDataModel;
 
-public class XPagesDataSourceExportProcessor implements
-		IDataSourceExportProcessor {
-
+public class XPagesDataSourceExportProcessor implements IDataSourceProcessor {
 	private static XPagesDataSourceExportProcessor m_Processor;
 
 	private XPagesDataSourceExportProcessor() {
 
 	}
 
-	public static XPagesDataSourceExportProcessor getInstances() {
+	public static XPagesDataSourceExportProcessor getInstance() {
 		if (m_Processor == null) {
 			m_Processor = new XPagesDataSourceExportProcessor();
 		}
 		return m_Processor;
 	}
 
-	public void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
-			FacesContext context) throws POIException {
-
-		DataSource ds = lstExport.getPageDataSource();
-
-		if (ds != null) {
-			try {
-				TabularDataModel tdm = getTDM(ds, context);
-				int nRow = lstExport.getStartRow();
-				int nStepSize = lstExport.getStepSize();
-				for (int nCount = 0; nCount < tdm.getRowCount(); nCount++) {
-					tdm.setRowIndex(nCount);
-					// TODO: Variablen setzen
-					if (tdm.isRowAvailable()) {
-						for (ColumnDefinition clDef : lstExport.getColumns()) {
-							int nCol = clDef.getColumnNumber();
-							int nMyRow = clDef.getRowShift() + nRow;
-							Object objCurrent = getColumnValue(
-									clDef.getColumnTitle(), tdm, context);
-							WorkbookProcessor.setCellValue(shProcess, nMyRow,
-									nCol, objCurrent);
-						}
-
-						nRow = nRow + nStepSize;
-					} else {
-						System.out.println("no Row available at " + nCount);
-					}
-				}
-			} catch (Exception e) {
-				throw new POIException("Error in processExportRow", e);
-			}
-		} else {
-			throw new POIException("No DataSource found", null);
-		}
-	}
-
-	public void processExportCol(Data2ColumnExporter lstExport,
-			Sheet shProcess, FacesContext context) throws POIException {
-		DataSource ds = lstExport.getPageDataSource();
+	public void process(List<CSVColumn> lstColumns, UICSV csvDef,
+			CSVPrinter csvPrinter, FacesContext context) throws POIException {
+		DataSource ds = csvDef.getPageDataSource();
 
 		if (ds != null) {
 			try {
 				TabularDataModel tdm = getTDM(ds, context);
-				int nCol = lstExport.getStartColumn();
-				int nStepSize = lstExport.getStepSize();
 				for (int nCount = 0; nCount < tdm.getRowCount(); nCount++) {
 					nCount++;
-					for (RowDefinition rdDef : lstExport.getRows()) {
-						int nMyCol = rdDef.getColumnShift() + nCol;
-						int nRow = rdDef.getRowNumber();
-						Object objCurrent = getColumnValue(
-								rdDef.getColumnTitle(), tdm, context);
-						WorkbookProcessor.setCellValue(shProcess, nRow, nMyCol,
-								objCurrent);
+					for (CSVColumn cl : lstColumns) {
+						Object objCurrent = getColumnValue(cl.getColumnTitle(),
+								tdm, context);
+						csvPrinter.print(objCurrent);
 					}
-					nCol = nCol + nStepSize;
+					csvPrinter.println();
 				}
 			} catch (Exception e) {
-				throw new POIException("Error in processExportCol", e);
+				throw new POIException("Error in process", e);
 			}
 		} else {
 			throw new POIException("No DataSource found", null);
 		}
+
 	}
 
 	private TabularDataModel getTDM(DataSource dsCurrent, FacesContext context) {

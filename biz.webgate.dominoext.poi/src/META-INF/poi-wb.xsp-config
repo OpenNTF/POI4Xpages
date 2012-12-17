@@ -147,11 +147,15 @@
         	      <category>POI 4 XPages</category>
         	      <render-markup>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#xd;
 						&lt;xp:view xmlns:xp="http://www.ibm.com/xsp/core"&gt;&#xd;
-						&lt;xp:image url="/icons/excel_96.png" id="excel"&gt;&lt;/xp:image&gt;&#xd;
+						&lt;xp:image url="/icons/Excel_96.png" id="excel"&gt;&lt;/xp:image&gt;&#xd;
 						&lt;/xp:view&gt;&#xd;
 				</render-markup>
              </designer-extension>
   		</component-extension>
+		<icon>
+			<small-icon>/icons/Excel_16.PNG</small-icon>
+			<large-icon>/icons/Excel_32.png</large-icon>
+		</icon>
 	</component>
 	
 	

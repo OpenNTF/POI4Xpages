@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.data.ss.cell.IDefinition;
+import biz.webgate.dominoext.poi.component.data.IDefinition;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 

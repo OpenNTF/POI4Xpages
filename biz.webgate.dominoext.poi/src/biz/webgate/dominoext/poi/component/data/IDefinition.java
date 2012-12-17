@@ -1,4 +1,4 @@
-package biz.webgate.dominoext.poi.component.data.ss.cell;
+package biz.webgate.dominoext.poi.component.data;
 
 public interface IDefinition {
 

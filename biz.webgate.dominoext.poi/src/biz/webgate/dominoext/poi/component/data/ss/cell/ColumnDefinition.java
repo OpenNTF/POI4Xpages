@@ -18,6 +18,8 @@ package biz.webgate.dominoext.poi.component.data.ss.cell;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import biz.webgate.dominoext.poi.component.data.IDefinition;
+
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
 public class ColumnDefinition extends ValueBindingObjectImpl implements IDefinition {

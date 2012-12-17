@@ -166,24 +166,28 @@ public class WorkbookProcessor {
 		}
 	}
 
-	public void setCellValue(Sheet shProcess, int nRow, int nCol,
+	public static void setCellValue(Sheet shProcess, int nRow, int nCol,
 			Object objValue) {
-		Row rw = shProcess.getRow(nRow);
-		if (rw == null) {
-			rw = shProcess.createRow(nRow);
-		}
-		Cell c = rw.getCell(nCol);
-		if (c == null) {
-			c = rw.createCell(nCol);
-		}
-		if (objValue instanceof Double) {
-			c.setCellValue((Double) objValue);
-		} else {
-			if (objValue instanceof Date) {
-				c.setCellValue((Date) objValue);
-			} else {
-				c.setCellValue("" + objValue);
+		try {
+			Row rw = shProcess.getRow(nRow);
+			if (rw == null) {
+				rw = shProcess.createRow(nRow);
 			}
+			Cell c = rw.getCell(nCol);
+			if (c == null) {
+				c = rw.createCell(nCol);
+			}
+			if (objValue instanceof Double) {
+				c.setCellValue((Double) objValue);
+			} else {
+				if (objValue instanceof Date) {
+					c.setCellValue((Date) objValue);
+				} else {
+					c.setCellValue("" + objValue);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

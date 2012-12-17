@@ -26,7 +26,7 @@ import lotus.domino.Session;
 import lotus.domino.View;
 import lotus.domino.ViewEntry;
 import lotus.domino.ViewEntryCollection;
-import biz.webgate.dominoext.poi.component.data.ss.cell.IDefinition;
+import biz.webgate.dominoext.poi.component.data.IDefinition;
 import biz.webgate.dominoext.poi.util.POILibUtil;
 import biz.webgate.dominoext.poi.util.ValueBindingSupport;
 

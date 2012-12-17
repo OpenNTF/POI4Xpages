@@ -27,6 +27,7 @@ public class POILibrary extends AbstractXspLibrary {
 	public String[] getFacesConfigFiles() {
 		String[] files = new String[] {
 				"META-INF/poi-beans-faces-config.xml",
+				"META-INF/poi-csv-faces-config.xml",
 				"META-INF/poi-spreadsheet-faces-config.xml",
 				"META-INF/poi-document-faces-config.xml" };
 		return files;
@@ -44,7 +45,8 @@ public class POILibrary extends AbstractXspLibrary {
 				"META-INF/poi-wb-icellvalue.xsp-config",
 				"META-INF/poi-wb-listexporter.xsp-config",
 				"META-INF/poi-wb.xsp-config",
-				"META-INF/poi-document.xsp-config" };
+				"META-INF/poi-document.xsp-config",
+				"META-INF/poi-csv.xsp-config"};
 	}
 
 }

@@ -8,7 +8,7 @@ Bundle-Vendor: WebGate Consulting AG
 Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: biz.webgate.dominoext.poi.csvprocessor,
- org.apache.commons.csv
+Export-Package: biz.webgate.dominoext.poi.csvprocessor;uses:="org.osgi.framework",
+ org.apache.commons.csv;uses:="new org.apache.commons.csv"
 Bundle-ClassPath: .,
  lib/commons-csv-1.0-SNAPSHOT.jar
