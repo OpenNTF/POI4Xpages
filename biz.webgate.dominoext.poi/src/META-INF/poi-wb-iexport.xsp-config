@@ -29,9 +29,9 @@
     		<property-class>java.lang.String</property-class>
   		</property>
   		<property>
-    		<description>Key</description>
+    		<description>Key (get All documents by key...)</description>
 	 	 	<display-name>key</display-name>
-		    <property-name>Key</property-name>
+		    <property-name>key</property-name>
     		<property-class>java.lang.String</property-class>
   		</property>	  	
   		<property>
@@ -39,6 +39,13 @@
 	 	 	<display-name>search</display-name>
 		    <property-name>search</property-name>
     		<property-class>java.lang.String</property-class>
+  		</property>
+
+  		<property>
+    		<description>Maximum rows to export / per default is set to 1000</description>
+	 	 	<display-name>maxRow</display-name>
+		    <property-name>maxRow</property-name>
+    		<property-class>int</property-class>
   		</property>
   		
   		<complex-extension>

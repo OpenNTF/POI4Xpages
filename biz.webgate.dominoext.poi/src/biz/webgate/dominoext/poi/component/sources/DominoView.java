@@ -38,6 +38,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 	private String m_Database;
 	private String m_Key;
 	private String m_Search;
+	private int m_maxRow = 1000;
 
 	private DataTempStore m_tempDataStore;
 
@@ -47,6 +48,15 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		public ViewEntry m_Entry;
 		public ViewEntryCollection m_Col;
 		public List<String> m_ColTitle;
+		public int m_rowCount;
+	}
+
+	public int getMaxRow() {
+		return m_maxRow;
+	}
+
+	public void setMaxRow(int maxRow) {
+		m_maxRow = maxRow;
 	}
 
 	public int accessNextRow() {
@@ -62,6 +72,10 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				ve.recycle();
 			}
 			if (m_tempDataStore.m_Entry == null) {
+				return 0;
+			}
+			m_tempDataStore.m_rowCount++;
+			if (m_tempDataStore.m_rowCount > m_maxRow) {
 				return 0;
 			}
 		} catch (Exception e) {
@@ -100,6 +114,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 					return -2;
 				}
 				View viwLUP = ndbAccess.getView(strView);
+
 				if (viwLUP == null) {
 					ndbAccess.recycle();
 					return -3;
@@ -107,19 +122,22 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				ViewEntryCollection nvcCurrent = viwLUP.getAllEntries();
 				if (strKey != null) {
 					nvcCurrent = viwLUP.getAllEntriesByKey(strKey, true);
+					System.out.println("Build collection with Key: " + strKey
+							+ "(" + nvcCurrent.getCount() + ")");
 				} else {
 					if (strSearch != null) {
 						nvcCurrent.FTSearch(strSearch);
+
 					}
 				}
 				m_tempDataStore.m_Database = ndbAccess;
 				m_tempDataStore.m_View = viwLUP;
 				m_tempDataStore.m_Col = nvcCurrent;
 				m_tempDataStore.m_ColTitle = new ArrayList<String>();
+				m_tempDataStore.m_rowCount = 0;
 				for (Iterator<?> itNames = viwLUP.getColumnNames().iterator(); itNames
 						.hasNext();) {
 					String strCLNAME = (String) itNames.next();
-					System.out.println(strCLNAME);
 					m_tempDataStore.m_ColTitle.add(strCLNAME);
 				}
 			} catch (Exception e) {
@@ -221,12 +239,13 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[5];
+		Object[] state = new Object[6];
 		state[0] = super.saveState(context);
 		state[1] = m_Database;
 		state[2] = m_ViewName;
 		state[3] = m_Key;
 		state[4] = m_Search;
+		state[5] = new Integer(m_maxRow);
 		return state;
 	}
 
@@ -238,6 +257,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		m_ViewName = (String) state[2];
 		m_Key = (String) state[3];
 		m_Search = (String) state[4];
+		m_maxRow = (Integer) state[5];
 	}
 
 }

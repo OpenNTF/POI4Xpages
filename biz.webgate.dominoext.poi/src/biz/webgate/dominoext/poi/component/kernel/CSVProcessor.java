@@ -16,6 +16,7 @@
 package biz.webgate.dominoext.poi.component.kernel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Collections;
@@ -28,9 +29,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
+import biz.webgate.dominoext.poi.POIException;
 import biz.webgate.dominoext.poi.component.containers.UICSV;
 import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
 import biz.webgate.dominoext.poi.component.kernel.csv.EmbeddedDataSourceExportProcessor;
+import biz.webgate.dominoext.poi.component.kernel.csv.XPagesDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
 
 public class CSVProcessor {
@@ -54,41 +57,7 @@ public class CSVProcessor {
 		try {
 			// First getting the File
 
-			ByteArrayOutputStream csvBAOS = new ByteArrayOutputStream();
-			OutputStreamWriter csvWriter = new OutputStreamWriter(csvBAOS);
-			CSVPrinter csvPrinter = new CSVPrinter(csvWriter, CSVFormat.DEFAULT);
-
-			List<CSVColumn> lstColumns = csvDef.getColumns();
-			Collections.sort(lstColumns, new Comparator<CSVColumn>() {
-
-				public int compare(CSVColumn o1, CSVColumn o2) {
-					return o1.getPosition().compareTo(o2.getPosition());
-				}
-
-			});
-			if (csvDef.isIncludeHeader()) {
-				for (CSVColumn cl : lstColumns) {
-					csvPrinter.print(cl.getTitle());
-				}
-				csvPrinter.println();
-			}
-
-			// DATASOURCE holen und verarbeiten.
-			if (csvDef.getDataSource() != null) {
-				EmbeddedDataSourceExportProcessor.getInstance().process(
-						lstColumns, csvDef, csvPrinter, context);
-			} else {
-			}
-
-			csvPrinter.flush();
-
-			// Push the Result to the HttpServlet
-			// response.setContentType("text/csv");
-			// response.setHeader("Cache-Control", "no-cache");
-			// response.setDateHeader("Expires", -1);
-			// response.setContentLength(csvBAOS.size());
-			// response.setHeader( "Content-Disposition",
-			// "attachment; filename=\"export.csv\"" );
+			ByteArrayOutputStream csvBAOS = generateCSV(csvDef, context);
 
 			httpResponse.setContentType("text/csv");
 			httpResponse.setHeader("Cache-Control", "no-cache");
@@ -104,6 +73,40 @@ public class CSVProcessor {
 					"Error during CSV-Generation", e);
 		}
 
+	}
+
+	public ByteArrayOutputStream generateCSV(UICSV csvDef, FacesContext context)
+			throws IOException, POIException {
+		ByteArrayOutputStream csvBAOS = new ByteArrayOutputStream();
+		OutputStreamWriter csvWriter = new OutputStreamWriter(csvBAOS);
+		CSVPrinter csvPrinter = new CSVPrinter(csvWriter, CSVFormat.DEFAULT);
+
+		List<CSVColumn> lstColumns = csvDef.getColumns();
+		Collections.sort(lstColumns, new Comparator<CSVColumn>() {
+
+			public int compare(CSVColumn o1, CSVColumn o2) {
+				return o1.getPosition().compareTo(o2.getPosition());
+			}
+
+		});
+		if (csvDef.isIncludeHeader()) {
+			for (CSVColumn cl : lstColumns) {
+				csvPrinter.print(cl.getTitle());
+			}
+			csvPrinter.println();
+		}
+
+		// DATASOURCE holen und verarbeiten.
+		if (csvDef.getDataSource() != null) {
+			EmbeddedDataSourceExportProcessor.getInstance().process(lstColumns,
+					csvDef, csvPrinter, context);
+		} else {
+			XPagesDataSourceExportProcessor.getInstance().process(lstColumns,
+					csvDef, csvPrinter, context);
+		}
+
+		csvPrinter.flush();
+		return csvBAOS;
 	}
 
 }

@@ -48,7 +48,8 @@ public class XPagesDataSourceExportProcessor implements
 				TabularDataModel tdm = getTDM(ds, context);
 				int nRow = lstExport.getStartRow();
 				int nStepSize = lstExport.getStepSize();
-				for (int nCount = 0; nCount < tdm.getRowCount(); nCount++) {
+				int nDSRCount = tdm.getRowCount();
+				for (int nCount = 0; nCount < nDSRCount; nCount++) {
 					tdm.setRowIndex(nCount);
 					// TODO: Variablen setzen
 					if (tdm.isRowAvailable()) {
@@ -83,15 +84,19 @@ public class XPagesDataSourceExportProcessor implements
 				TabularDataModel tdm = getTDM(ds, context);
 				int nCol = lstExport.getStartColumn();
 				int nStepSize = lstExport.getStepSize();
-				for (int nCount = 0; nCount < tdm.getRowCount(); nCount++) {
-					nCount++;
-					for (RowDefinition rdDef : lstExport.getRows()) {
-						int nMyCol = rdDef.getColumnShift() + nCol;
-						int nRow = rdDef.getRowNumber();
-						Object objCurrent = getColumnValue(
-								rdDef.getColumnTitle(), tdm, context);
-						WorkbookProcessor.setCellValue(shProcess, nRow, nMyCol,
-								objCurrent);
+				int nDSMRRowCount = tdm.getRowCount();
+				for (int nCount = 0; nCount < nDSMRRowCount; nCount++) {
+					tdm.setRowIndex(nCount);
+					// TODO: Variablen setzen
+					if (tdm.isRowAvailable()) {
+						for (RowDefinition rdDef : lstExport.getRows()) {
+							int nMyCol = rdDef.getColumnShift() + nCol;
+							int nRow = rdDef.getRowNumber();
+							Object objCurrent = getColumnValue(
+									rdDef.getColumnTitle(), tdm, context);
+							WorkbookProcessor.setCellValue(shProcess, nRow,
+									nMyCol, objCurrent);
+						}
 					}
 					nCol = nCol + nStepSize;
 				}
@@ -116,13 +121,13 @@ public class XPagesDataSourceExportProcessor implements
 				if (tdm instanceof DominoViewDataModel) {
 					DominoViewDataModel tdmv = (DominoViewDataModel) tdm;
 					// tdmv.setDataControl(new DummyDataIterator());
-					tdmv.setDataControl(new UIDataEx());
+					UIDataEx uidEX = new UIDataEx();
+					tdmv.setDataControl(uidEX);
 					tdmv.getRowCount();
-					System.out.println(tdmv.getRowCount());
 					((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx) tdmv
 							.getDominoViewDataContainer().getNavigator())
 							.calculateExactCount(tdmv.getView());
-					System.out.println(tdmv.getRowCount());
+					uidEX.setRows(tdmv.getRowCount());
 					return tdmv;
 				}
 				if (tdm instanceof TabularDataModel) {
@@ -139,17 +144,13 @@ public class XPagesDataSourceExportProcessor implements
 
 	private Object getColumnValue(String strColName, TabularDataModel tdm,
 			FacesContext context) {
-		System.out.println("Check Value 4 " + strColName);
 		if (StringUtil.isNotEmpty(strColName)) {
 			// Read from a rowData object
 			Object rowData = tdm.getRowData();
 			if (rowData instanceof ViewRowData) {
-				System.out.println("Bin ViewRowData");
 				ViewRowData vr = (ViewRowData) rowData;
-				System.out.println(vr.getColumnValue(strColName));
 				return vr.getColumnValue(strColName);
 			}
-			System.out.println(rowData.getClass().getCanonicalName());
 			// Use the JSF property resolver
 			PropertyResolver pr = context.getApplication()
 					.getPropertyResolver();

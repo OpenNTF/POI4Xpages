@@ -48,7 +48,6 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 	public UIWorkbook() {
 
 		super();
-		System.out.println("Creating UIWorkbook");
 		setRendererType(RENDERER_TYPE);
 	}
 
@@ -147,6 +146,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		// Disable the XPages response buffer as this will collide with the
 		// engine one
 		// We mark it as committed and use its delegate instead
+
 		if (httpResponse instanceof XspHttpServletResponse) {
 			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
 			r.setCommitted(true);

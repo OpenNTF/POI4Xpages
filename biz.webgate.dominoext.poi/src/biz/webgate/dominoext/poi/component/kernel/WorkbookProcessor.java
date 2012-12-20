@@ -68,7 +68,6 @@ public class WorkbookProcessor {
 
 		try {
 			// First getting the File
-
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
 				Workbook wbCurrent = processWorkbook(itsCurrent, lstSP, context);
@@ -198,15 +197,17 @@ public class WorkbookProcessor {
 		int iLastRow = sheet.getLastRowNum();
 		for (int i1 = 0; i1 < iLastRow; i1++) {
 			Row currentRow = sheet.getRow(i1);
-			int iLastCell = currentRow.getLastCellNum();
-			for (int i = 0; i < iLastCell; i++) {
-				Cell currentCell = currentRow.getCell(i);
-				if (currentCell != null
-						&& currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
-					if (currentCell.getStringCellValue().contains(find)) {
-						currentCell.setCellValue(currentCell
-								.getStringCellValue().replace(find,
-										"" + replace));
+			if (currentRow != null) {
+				int iLastCell = currentRow.getLastCellNum();
+				for (int i = 0; i < iLastCell; i++) {
+					Cell currentCell = currentRow.getCell(i);
+					if (currentCell != null
+							&& currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
+						if (currentCell.getStringCellValue().contains(find)) {
+							currentCell.setCellValue(currentCell
+									.getStringCellValue().replace(find,
+											"" + replace));
+						}
 					}
 				}
 			}

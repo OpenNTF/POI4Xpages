@@ -48,7 +48,6 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	public UIDocument() {
 
 		super();
-		System.out.println("Creating UIDocument");
 		setRendererType(RENDERER_TYPE);
 	}
 

@@ -52,7 +52,7 @@ public class EmbeddedDataSourceExportProcessor implements
 					int nCol = clDef.getColumnNumber();
 					int nMyRow = clDef.getRowShift() + nRow;
 					Object objCurrent = is.getValue(clDef);
-					WorkbookProcessor.getInstance().setCellValue(shProcess,
+					WorkbookProcessor.setCellValue(shProcess,
 							nMyRow, nCol, objCurrent);
 				}
 				nRow = nRow + nStepSize;
@@ -81,7 +81,7 @@ public class EmbeddedDataSourceExportProcessor implements
 					int nMyCol = rdDef.getColumnShift() + nCol;
 					int nRow = rdDef.getRowNumber();
 					Object objCurrent = is.getValue(rdDef);
-					WorkbookProcessor.getInstance().setCellValue(shProcess,
+					WorkbookProcessor.setCellValue(shProcess,
 							nRow, nMyCol, objCurrent);
 				}
 				nCol = nCol + nStepSize;
