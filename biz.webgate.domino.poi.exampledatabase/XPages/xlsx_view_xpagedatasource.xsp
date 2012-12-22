@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:wgpoi="http://www.webgate.biz/xsp/poi"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:this.data>
+		<xp:dominoView var="vwContacts" viewName="Contacts"></xp:dominoView>
+		<xp:dominoView var="viwContacts2" viewName="Contacts2"></xp:dominoView>
+	</xp:this.data>
+	<xc:ccApplication pageTitle="Export View / XPage Datasource"
+		navigationPath="/xlsx/viewxpagesdatasource">
+		<xp:this.facets>
+			<xc:ccNavXlsx xp:key="facetLeft"></xc:ccNavXlsx>
+			<xp:panel xp:key="facetRight">
+
+				<wgpoi:spreadsheet id="shContacts"
+					downloadFileName="allContacts.xlsx">
+					<wgpoi:this.templateSource>
+						<wgpoi:resourcetemplate
+							fileName="SampleExcel.xlsx">
+						</wgpoi:resourcetemplate>
+					</wgpoi:this.templateSource>
+					<wgpoi:this.spreadsheets>
+						<wgpoi:table name="Contacts" create="false">
+							<wgpoi:this.cellValues>
+								<wgpoi:cellBookmark name="user">
+									<wgpoi:this.value><![CDATA[#{javascript:@Name("[CN]",@UserName())}]]></wgpoi:this.value>
+								</wgpoi:cellBookmark>
+								<wgpoi:cellBookmark name="date"
+									value="#{javascript:@Text(@Today())}">
+								</wgpoi:cellBookmark>
+							</wgpoi:this.cellValues>
+							<wgpoi:this.exportDefinitions>
+								<wgpoi:data2rowExport startRow="4"
+									stepSize="1" dataSourceVar="viwContacts2">
+
+									<wgpoi:this.columns>
+										<wgpoi:columnDefinition
+											columnNumber="0" columnTitle="FirstName" rowShift="0">
+										</wgpoi:columnDefinition>
+										<wgpoi:columnDefinition
+											columnNumber="1" columnTitle="LastName" rowShift="0">
+										</wgpoi:columnDefinition>
+										<wgpoi:columnDefinition
+											columnNumber="2" columnTitle="City" rowShift="0">
+										</wgpoi:columnDefinition>
+										<wgpoi:columnDefinition
+											columnNumber="3" columnTitle="State" rowShift="0">
+										</wgpoi:columnDefinition>
+										<wgpoi:columnDefinition
+											columnNumber="4" columnTitle="EMail" rowShift="0">
+										</wgpoi:columnDefinition>
+									</wgpoi:this.columns>
+								</wgpoi:data2rowExport>
+							</wgpoi:this.exportDefinitions>
+						</wgpoi:table>
+					</wgpoi:this.spreadsheets>
+				</wgpoi:spreadsheet>
+
+				<xp:button value="get Excel-File" id="btExport">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<wgpoi:generateWorkbook
+								workbookId="shContacts">
+							</wgpoi:generateWorkbook>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+			</xp:panel>
+			<xp:panel xp:key="facetMiddle">
+				This sample shows how a view can be exported to an excel
+				file with a xpage-datasource definition.
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:pager layout="Previous Group Next"
+					partialRefresh="true" id="pager1" for="repeat1">
+				</xp:pager>
+				<xp:table>
+					<xp:tr>
+						<xp:td>First Name</xp:td>
+						<xp:td>Last Name</xp:td>
+						<xp:td>City</xp:td>
+						<xp:td>State</xp:td>
+						<xp:td>E-Mail</xp:td>
+
+					</xp:tr>
+					<xp:repeat id="repeat1" rows="10"
+						value="#{vwContacts}" var="row" indexVar="indRow">
+						<xp:tr>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField1" value="#{row.FirstName}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField2" value="#{row.LastName}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField3" value="#{row.City}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField4" value="#{row.State}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField5" value="#{row.EMail}">
+								</xp:text>
+							</xp:td>
+						</xp:tr>
+
+					</xp:repeat>
+				</xp:table>
+				<xp:br></xp:br>
+				<xp:section id="section1"
+					header="Programming documentation" initClosed="true">
+					We use the SampleExcel.xlsx (under Resources/Files)
+					as a template for this output. The File looks like
+					this:
+					<xp:br></xp:br>
+					<xp:image id="image1">
+						<xp:this.url><![CDATA[#{javascript:"excel_Sample.png"}]]></xp:this.url>
+					</xp:image>
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					In the XPage the &quot;POI Workbook&quot; control is
+					used. With the action &quot;generate workbook&quot;
+					the view &quot;contacts2&quot; will be exported:
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					<xp:image id="image2">
+						<xp:this.url><![CDATA[#{javascript:"excel_programming.png"}]]></xp:this.url>
+					</xp:image>
+				</xp:section>
+			</xp:panel>
+
+		</xp:this.facets>
+	</xc:ccApplication>
+
+</xp:view>

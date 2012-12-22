@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
+<xp:this.resources>
+		<xp:dojoModule name="extlib.dijit.Loading"></xp:dojoModule>
+	</xp:this.resources>
+	<xc:ccApplication navigationPath="/admin/home"
+		pageTitle="Initialize Database">
+		<xp:this.facets>
+			<xp:panel xp:key="facetLeft"></xp:panel>
+			<xp:panel xp:key="facetMiddle">
+				<xp:panel id="panel6">
+					<xp:label
+						value="Create a sample dataset to experiment the application features (users, states, discussion threads...)"
+						id="label5" style="font-weight:bold">
+					</xp:label>
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					This creates:
+					<xp:table>
+						<xp:tr>
+							<th>Sample Data Set</th>
+							<th>Bigger Data Set</th>
+						</xp:tr>
+						<xp:tr>
+							<xp:td>
+								<ul>
+									<li>200 users</li>
+									<li>
+										All the US states (code and label)
+								</li>
+								</ul>
+								<xp:button value="Create Sample Data Set" id="button5">
+									<xp:eventHandler event="onclick" submit="true"
+										refreshMode="complete">
+										<xp:this.action><![CDATA[#{javascript:var d = new extlib.DataInitializer()
+d.initDeleteDocuments()
+d.initUsers(200)
+d.initStates()
+d.initAllTypes()
+d.run()
+
+var msg = "Created Sample Data Set";
+@WarningMessage(msg)
+}]]></xp:this.action>
+										<xp:this.script><![CDATA[XSP.animateLoading('#{id:panel6}')]]></xp:this.script>
+									</xp:eventHandler>
+								</xp:button>
+							</xp:td>
+							<xp:td>
+								<ul>
+									<li>10000 users</li>
+									<li>
+										All the US states (code and label)
+								</li>
+								</ul>
+								<xp:button value="Create Bigger Data Set" id="button7">
+									<xp:eventHandler event="onclick" submit="true"
+										refreshMode="complete">
+										<xp:this.action><![CDATA[#{javascript:var d = new extlib.DataInitializer()
+d.initDeleteDocuments()
+d.initUsers(10000)
+d.initStates()
+d.initAllTypes()
+d.run()
+
+var msg = "Created Sample Data Set";
+@WarningMessage(msg)
+}]]></xp:this.action>
+										<xp:this.script><![CDATA[XSP.animateLoading('#{id:panel6}')]]></xp:this.script>
+									</xp:eventHandler>
+								</xp:button>
+							</xp:td>
+						</xp:tr>
+					</xp:table>
+
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					<xp:messages id="messages1"></xp:messages>
+					<xp:br></xp:br>
+				</xp:panel>
+			</xp:panel>
+		</xp:this.facets>
+	</xc:ccApplication>
+</xp:view>

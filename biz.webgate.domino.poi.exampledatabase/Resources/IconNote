@@ -2,11 +2,11 @@
 <!DOCTYPE note SYSTEM 'xmlschemas/domino_8_5_3.dtd'>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='8.5'
  maintenanceversion='3.0' replicaid='C1257A6A004D4D0A'>
-<noteinfo noteid='11a' unid='95E3967D74BCCF56C1257A6A004D4D0F' sequence='3'>
+<noteinfo noteid='11a' unid='95E3967D74BCCF56C1257A6A004D4D0F' sequence='0'>
 <created><datetime dst='true'>20120830T160419,99+02</datetime></created>
-<modified><datetime dst='true'>20120830T160420,07+02</datetime></modified>
-<revised><datetime dst='true'>20120830T160420,06+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20120830T160420,07+02</datetime></lastaccessed>
+<modified><datetime>20121220T004837,75+01</datetime></modified>
+<revised><datetime>20121220T004826,73+01</datetime></revised>
+<lastaccessed><datetime>20121220T004837,75+01</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20120830T160420,03+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
 <item name='IconBitmap' summary='true'>
@@ -24,7 +24,10 @@ L2ZvgAAACMZmZmZmZmZmZmZmbIAAAACMZmZmZmZmZmZmZsgAAAAACMZmZmZmZmZmZmyAAAAAAACM
 9mZmZmZmZm/IAAAAAAAACIz2ZmZmZm/IgAAAAAAAAAAIiMZmZmyIgAAAAAAAAAAAAACIiIiIAAAA
 AAAAUEECICABAAD/////+A4DgA==
 </rawitemdata></item>
-<item name='$Flags'><text>J</text></item>
-<item name='$Daos'><text>0</text></item>
-<item name='$TITLE'><text>POI Example</text></item></note>
+<item name='$TITLE'><text>POI Example</text></item>
+<item name='$DefaultClientXPage'><text>home.xsp</text></item>
+<item name='$Flags'><text>J7?!</text></item>
+<item name='$FlagsNoRefresh'><text/></item>
+<item name='$DefaultXPage'><text>home.xsp</text></item>
+<item name='$Daos'><text>0</text></item></note>
 

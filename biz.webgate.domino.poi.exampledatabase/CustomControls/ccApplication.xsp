@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	<xe:applicationLayout id="applicationLayout1">
+		<xp:callback facetName="facetMiddle" id="facetMiddle"></xp:callback>
+		<xe:this.facets>
+			<xp:callback facetName="facetRight" id="facetRight"
+				xp:key="RightColumn">
+			</xp:callback>
+			<xp:callback facetName="facetLeft" id="facetLeft"
+				xp:key="LeftColumn">
+			</xp:callback>
+		</xe:this.facets>
+		<xe:this.configuration>
+			<xe:oneuiApplication productLogo="/poi4xpageslogo.jpg"
+				productLogoAlt="POI 4 XPages" titleBarName="POI 4 XPages Demo"
+				productLogoHeight="20px" productLogoWidth="100px"
+				placeBarName="#{javascript:compositeData.pageTitle}"
+				navigationPath="#{javascript:compositeData.navigationPath}"
+				legalText="(c) by WebGate Consulting AG, 2012">
+				<xe:this.footerLinks>
+					<xe:basicContainerNode label="Container 1">
+						<xe:this.children>
+							<xe:basicLeafNode label="Documentation"
+								href="http://my.webgate.biz/poi.documentation">
+							</xe:basicLeafNode>
+							<xe:basicLeafNode
+								label="WebGate Consulting AG" href="http://www.webgate.biz">
+							</xe:basicLeafNode>
+							<xe:basicLeafNode
+								label="Project on OpenNTF">
+								<xe:this.href><![CDATA[http://www.openntf.org/internal/home.nsf/project.xsp?action=openDocument&name=POI%204%20XPages]]></xe:this.href>
+							</xe:basicLeafNode>
+							<xe:basicLeafNode label="OpenNTF.org"
+								href="http://www.openntf.org">
+							</xe:basicLeafNode>
+						</xe:this.children>
+					</xe:basicContainerNode>
+
+
+
+				</xe:this.footerLinks>
+				<xe:this.titleBarTabs>
+					<xe:pageTreeNode label="docX - Word"
+						selection="/docx/.*" page="/docx_contractdocument.xsp">
+					</xe:pageTreeNode>
+					<xe:pageTreeNode label="xls (x) - Excel"
+						selection="/xlsx/.*" page="/xlsx_view_embdatasource.xsp">
+					</xe:pageTreeNode>
+					<xe:pageTreeNode label="CSV" selection="/csv/.*"></xe:pageTreeNode>
+				</xe:this.titleBarTabs>
+				<xe:this.bannerApplicationLinks>
+					<xe:basicLeafNode label="OpenNTF"
+						href="http://www.openntf.org">
+					</xe:basicLeafNode>
+					<xe:basicLeafNode label="WebGate Consulting AG"
+						href="http://www.webgate.biz">
+					</xe:basicLeafNode>
+
+				</xe:this.bannerApplicationLinks>
+				<xe:this.bannerUtilityLinks>
+					<xe:basicLeafNode>
+						<xe:this.label><![CDATA[#{javascript:"POI Lib Version: " + poiBean.getLibVersion()}]]></xe:this.label>
+					</xe:basicLeafNode>
+				</xe:this.bannerUtilityLinks>
+				<xe:this.placeBarActions>
+					<xe:pageTreeNode label="Administration"
+						page="/admin_home.xsp">
+					</xe:pageTreeNode>
+				</xe:this.placeBarActions></xe:oneuiApplication>
+		</xe:this.configuration>
+	</xe:applicationLayout></xp:view>

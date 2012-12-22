@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE note SYSTEM 'xmlschemas/domino_8_5_3.dtd'>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='8.5' maintenanceversion='3.0'
+ replicaid='C1257A6A004D4D0A'>
+<noteinfo noteid='202' unid='CC69F2D5A20B173DC1257AD7003326D9' sequence='3'>
+<created><datetime>20121217T101842,81+01</datetime></created>
+<modified><datetime>20121217T101938,97+01</datetime></modified>
+<revised><datetime>20121217T101938,96+01</datetime></revised>
+<lastaccessed><datetime>20121217T212440,95+01</datetime></lastaccessed>
+<addedtofile><datetime>20121217T101842,94+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
+<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='$TITLE' sign='true'><text>AllNames</text></item>
+<item name='$Index' sign='true'><text/></item>
+<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+iAACADAAAwAkMTAABQAJAEZpcnN0TmFtZQABAAEAIAAiAgUACABMYXN0TmFtZSICAwAFACYAIQAE
+AAMABQAJAAQAJDEwRU1haWwkQ29uZmxpY3QkUkVGAAQABAAAACAABQAEAEZvcm0BAAcAQ29udGFj
+dAAKAgQABAADAAcADAAFAAkzUzRTAA==
+</formula></item>
+<item name='$Collation' summary='true'>
+<rawitemdata type='2'>
+EAABAABEgGYAAAADACQxMA==
+</rawitemdata></item>
+<item name='$Collation1' summary='true'>
+<rawitemdata type='2'>
+EAABAABEgGYAAAADACQxMA==
+</rawitemdata></item>
+<item name='$Collation2' summary='true'>
+<rawitemdata type='2'>
+EAABAABEgWYAAAADACQxMA==
+</rawitemdata></item>
+<item name='$ViewFormat' summary='true' sign='true'>
+<rawitemdata type='5'>
+AQACAAwACAAAAFZDAQMDAAQAPgAAANwAAQAACgAAAAAAAAAAAAICAAAAVkMAAAUABQAAAAAA8QAB
+AAAKAAAAAAAAAAAAAgIAAAAkMTBOYW1lPgACADAAAwAkMTAABQAJAEZpcnN0TmFtZQABAAEAIAAi
+AgUACABMYXN0TmFtZSICAwAHAAwABQAJMFMwRQBFTWFpbEVNYWlsJgABAAAAAQEACQEAAAoBAQ4K
+AAABAK0rAQABAAEAAAAAAAAAAABXQwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAA
+AAAAAAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAEIA
+AAAAAAEA////AAUA////AAEAAAAAAAAAAAAAAAAAAQD///8AAQD///8AAAABAAAAAAABAAAAAAAB
+AAAAAAAAAAgAAAAAAAEA
+</rawitemdata></item>
+<item name='$Flags'><text>PY</text></item>
+<item name='$WebFlags' sign='true'><text>A</text></item>
+<item name='$SelQuery' sign='true'>
+<rawitemdata type='f'>
+gQYAAAAAif8TAAAAAAABAAcAQ29udGFjdAA=
+</rawitemdata></item>
+<item name='$Comment' sign='true'><text>from XPagesExt.nsf</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
+

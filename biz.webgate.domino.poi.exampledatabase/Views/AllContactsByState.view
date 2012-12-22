@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE note SYSTEM 'xmlschemas/domino_8_5_3.dtd'>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='8.5' maintenanceversion='3.0'
+ replicaid='C1257A6A004D4D0A'>
+<noteinfo noteid='1f6' unid='1560FFB7F852F532C1257AD7003326D6' sequence='5'>
+<created><datetime>20121217T101842,78+01</datetime></created>
+<modified><datetime>20121220T003052,31+01</datetime></modified>
+<revised><datetime>20121220T003052,30+01</datetime></revised>
+<lastaccessed><datetime>20121220T003052,31+01</datetime></lastaccessed>
+<addedtofile><datetime>20121217T101842,86+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
+<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='$TITLE' sign='true'><text>AllContactsByState</text></item>
+<item name='$Index' sign='true'><text/></item>
+<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+MAECACAACQBGaXJzdE5hbWUABQAJAEZpcnN0TmFtZQADAAIAHAAIAExhc3ROYW1lBQAIAExhc3RO
+YW1lAwACABgABQBFTWFpbAAFAAUARU1haWwAAwACABQABABDaXR5BQAEAENpdHkDAAIAEgAHAGNy
+ZWF0ZWQAaQADAAIAMAADACQxMAAFAAkARmlyc3ROYW1lAAEAAQAgACICBQAIAExhc3ROYW1lIgID
+AAUAVABQAAoABQACAAkACAAFAAQABwADAAkABABTdGF0ZUlkRmlyc3ROYW1lTGFzdE5hbWVFTWFp
+bENpdHljcmVhdGVkJDEwJENvbmZsaWN0JFJFRgQABAAAACAABQAEAEZvcm0BAAcAQ29udGFjdAAK
+AgQABAADAAcADAAFAAkzUzRTAA==
+</formula></item>
+<item name='$Collation' summary='true'>
+<rawitemdata type='2'>
+EgABAABEiGYHAAAFAFN0YXRl
+</rawitemdata></item>
+<item name='$Collation1' summary='true'>
+<rawitemdata type='2'>
+FgABAABEgGYAAAAJAEZpcnN0TmFtZQ==
+</rawitemdata></item>
+<item name='$Collation2' summary='true'>
+<rawitemdata type='2'>
+FgABAABEgWYAAAAJAEZpcnN0TmFtZQ==
+</rawitemdata></item>
+<item name='$Collation3' summary='true'>
+<rawitemdata type='2'>
+FQABAABEgGYAAAAIAExhc3ROYW1l
+</rawitemdata></item>
+<item name='$Collation4' summary='true'>
+<rawitemdata type='2'>
+FQABAABEgWYAAAAIAExhc3ROYW1l
+</rawitemdata></item>
+<item name='$Collation5' summary='true'>
+<rawitemdata type='2'>
+EQABAABEgWYAAAAEAENpdHk=
+</rawitemdata></item>
+<item name='$Collation6' summary='true'>
+<rawitemdata type='2'>
+EAABAABEgGYAAAADACQxMA==
+</rawitemdata></item>
+<item name='$Collation7' summary='true'>
+<rawitemdata type='2'>
+EAABAABEgWYAAAADACQxMA==
+</rawitemdata></item>
+<item name='$Comment' sign='true'><text>from XPagesExt.nsf</text></item>
+<item name='$Flags'><text>PY</text></item>
+<item name='$WebFlags'><text>A</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$SelQuery' sign='true'>
+<rawitemdata type='f'>
+gQYAAAAAif8TAAAAAAABAAcAQ29udGFjdAA=
+</rawitemdata></item>
+<item name='$ViewFormat' sign='true'>
+<rawitemdata type='5'>
+AQAIAA0ACAAAAFZDAwAFAAUAAAAAAHQAAQAACgABAAAAAAAAAAICAAAAVkMAAAIAAgAAAAAAUAAB
+AAAKAAAAAAAAAAAAAgIAAABWQwADCQAJACIAAABQAAEAAAoAAAAAAAAAAAACAgAAAFZDAAMIAAgA
+HgAAAGUAAQAACgAAAAAAAAAAAAICAAAAVkMAAAUABQAaAAAAhQABAAAKAAAAAAAAAAAAAgIAAABW
+QwACBAAEABYAAABQAAEAAAoAAAAAAAAAAAACAgAAAFZDAAAHAAcAFAAAAHIAAQAACgAAAAAAAAAA
+AAICAAAAVkMAAwMABAA+AAAA3AABAAAKAAAAAAAAAAAAAgIAAABTdGF0ZVN0YXRlSWRJZEZpcnN0
+TmFtZUZpcnN0TmFtZSIAAgAgAAkARmlyc3ROYW1lAAUACQBGaXJzdE5hbWUAAwBMYXN0TmFtZUxh
+c3ROYW1lHgACABwACABMYXN0TmFtZQUACABMYXN0TmFtZQMARU1haWxFTWFpbBoAAgAYAAUARU1h
+aWwABQAFAEVNYWlsAAMAQ2l0eUNpdHkWAAIAFAAEAENpdHkFAAQAQ2l0eQMAY3JlYXRlZENyZWF0
+ZWQUAAIAEgAHAGNyZWF0ZWQAaQADACQxME5hbWU+AAIAMAADACQxMAAFAAkARmlyc3ROYW1lAAEA
+AQAgACICBQAIAExhc3ROYW1lIgIDAAcADAAFAAkwUzBFACYAAQAAAAEBAAkBAAAKAQEOCgAAAQCt
+KwEAAQABAAAAAAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAA
+AAAAAFdDAQEACQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABXQwEBAAkA
+AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAAAAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAA
+AAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA
+AP//AAAAAAAAAAAAAAAAAABXQwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAA
+AAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEA
+CQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABCAAAAAAABAP///wAFAP//
+/wABAAAAAAAAAAAAAAAAAAEA////AAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAAB
+AA==
+</rawitemdata></item></note>
+

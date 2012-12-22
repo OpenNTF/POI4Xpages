@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:wgpoi="http://www.webgate.biz/xsp/poi"
+	xmlns:xe="http://www.ibm.com/xsp/coreex" xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:this.data>
+		<xp:dominoView var="vwContacts" viewName="Contacts"></xp:dominoView>
+	</xp:this.data>
+	<xc:ccApplication pageTitle="Generate a Contract document"
+		navigationPath="/docx/generatebyInput">
+		<xp:this.facets>
+			<xp:panel xp:key="facetRight">
+				<wgpoi:document id="docContract" downloadFileName="contract.docx"
+					pathInfo="download">
+
+
+					<wgpoi:this.bookmarks>
+						<wgpoi:docbookmark value="#{javascript:viewScope.name}"
+							name="name">
+						</wgpoi:docbookmark>
+						<wgpoi:docbookmark value="#{javascript:viewScope.address}"
+							name="address">
+						</wgpoi:docbookmark>
+						<wgpoi:docbookmark value="#{javascript:viewScope.zip}"
+							name="zip">
+						</wgpoi:docbookmark>
+						<wgpoi:docbookmark name="location"
+							value="#{javascript:viewScope.location}">
+						</wgpoi:docbookmark>
+						<wgpoi:docbookmark name="e-mail"
+							value="#{javascript:viewScope.email}">
+						</wgpoi:docbookmark>
+					</wgpoi:this.bookmarks>
+					<wgpoi:this.templateSource>
+						<wgpoi:resourcetemplate fileName="SampleContract.docx">
+						</wgpoi:resourcetemplate>
+					</wgpoi:this.templateSource>
+				</wgpoi:document>
+
+			</xp:panel>
+			<xp:panel xp:key="facetMiddle">
+				This sample shows how values from a view can be
+				&#160;
+				inserted
+				into a word document.
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:pager layout="Previous Group Next" partialRefresh="true"
+					id="pager1" for="repeat1">
+				</xp:pager>
+				<xp:table>
+					<xp:tr>
+						<xp:td>First Name</xp:td>
+						<xp:td>Last Name</xp:td>
+						<xp:td>City</xp:td>
+						<xp:td>State</xp:td>
+						<xp:td>E-Mail</xp:td>
+						<xp:td></xp:td>
+					</xp:tr>
+					<xp:repeat id="repeat1" rows="10" value="#{vwContacts}"
+						var="row" indexVar="indRow">
+						<xp:tr>
+							<xp:td>
+								<xp:text escape="true" id="computedField1" value="#{row.FirstName}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true" id="computedField2" value="#{row.LastName}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true" id="computedField3" value="#{row.City}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true" id="computedField4" value="#{row.State}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true" id="computedField5" value="#{row.EMail}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:link escape="true" id="lnkGen" text="generate document">
+									<xp:eventHandler event="onclick" submit="true"
+										refreshMode="complete">
+										<xp:this.action>
+
+											<xp:actionGroup>
+
+
+												<xp:executeScript>
+													<xp:this.script><![CDATA[#{javascript:viewScope.name = row.getColumnValue("FirstName") +" "+row.getColumnValue("LastName");
+viewScope.address = "n/a";
+viewScope.zip = "n/a";
+viewScope.location = row.getColumnValue("City");
+viewScope.email = row.getColumnValue("EMail");}]]></xp:this.script>
+												</xp:executeScript>
+												<wgpoi:generateDocument documentId="docContract">
+												</wgpoi:generateDocument>
+											</xp:actionGroup>
+										</xp:this.action>
+									</xp:eventHandler>
+								</xp:link>
+							</xp:td>
+						</xp:tr>
+					</xp:repeat>
+				</xp:table>
+				<xp:br></xp:br>
+				<xp:section id="section1" header="Programming documentation"
+					initClosed="true">
+					We use the SampleContract.docx (under Resources/Files) as a
+					template for this output. The File looks like this:
+					<xp:br></xp:br>
+					<xp:image id="image1">
+						<xp:this.url><![CDATA[#{javascript:"Word_Sample.png"}]]></xp:this.url>
+					</xp:image>
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					In the XPage the &quot;POI Document&quot; control
+					is used. The
+					action &quot;generat document&quot; saves the required viewScope variables witch are mapped to the &quot;docBookmarks&quot;-values:
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					<xp:image id="image2">
+						<xp:this.url><![CDATA[#{javascript:"Word_view_Sample_programming.png"}]]></xp:this.url>
+					</xp:image>
+				</xp:section>
+			</xp:panel>
+			<xc:ccNavDocX xp:key="facetLeft"></xc:ccNavDocX>
+		</xp:this.facets>
+	</xc:ccApplication>
+
+</xp:view>
