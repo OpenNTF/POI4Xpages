@@ -1,0 +1,59 @@
+OpenNTF XSP Apache POI Integration
+http://poi4xpages.openntf.org
+© Copyright WebGate Consulting AG
+
+This product includes software contributed to 
+OpenNTF Alliance – (http://www.OpenNTF.org/)
+
+
+List of third party software used in this project:
+
+The exampledatabase uses:
+    - the sample data geneartion from the ExtLib - Exampledatabase ("http://exlib.openntf.org") under Apache V2.0 (http://www.apache.org/licenses/)
+
+    - SampleDataUtil.java from Philippe Riand which is part of the ExtLib - Exampledatabase ("http://exlib.openntf.org") under Apache V2.0 (http://www.apache.org/licenses/)
+
+
+Apache POI, Version 3.8 (http://poi.apache.org) under Apache V2.0 (http://www.apache.org/licenses/)
+
+Commons CVS, Version 1.0.SNAPSHOT (http://commons.apache.org/csv/) under Apache V2.0 (http://www.apache.org/licenses/)
+
+The Apache POI Project includes the following thid party software:
+
+    - Apache Commons Logging, Version 1.1 (http://commons.apache.org/logging/)  under Apache V2.0 (http://www.apache.org/licenses/)
+
+    - Apache log4J, Version 1.2.13 (http://logging.apache.org/log4j)  under Apache V2.0 (http://www.apache.org/licenses/)
+
+    - junit, Version 3.8.1 ( http://junit.sourceforge.net/) (Part of the Apache POI Project) under Common Public License - v 1.0 (http://junit.sourceforge.net/cpl-v10.html)
+
+    - stax-api-1.0.1.jar (http://stax.codehaus.org/Home) by Chris Fry and Alexander Slominskiy under Apache V2.0 (http://www.apache.org/licenses/)
+
+    - Apache Xmlbeans 2.3.0
+
+The Apache XmxBeans Project includes following third party software:
+
+    - one or more source files from the Apache Xerces-J and Apache Axis
+      products, Copyright (c) 1999-2003 Apache Software Foundation
+
+    - W3C XML Schema documents Copyright 2001-2003 (c) World Wide Web
+      Consortium (Massachusetts Institute of Technology, European Research
+      Consortium for Informatics and Mathematics, Keio University)
+
+    - resolver.jar from Apache Xml Commons project,
+      Copyright (c) 2001-2003 Apache Software Foundation
+
+    - Piccolo XML Parser for Java from http://piccolo.sourceforge.net/,
+      Copyright 2002 Yuval Oren under the terms of the Apache Software License 2.0
+
+    - JSR-173 Streaming API for XML from http://sourceforge.net/projects/xmlpullparser/,
+      Copyright 2005 BEA under the terms of the Apache Software License 2.0
+
+
+
+Icons:
+MS Excel and MS Word are from http://www.softicons.com/free-icons/designers/dakirby309, under http://creativecommons.org/licenses/by/3.0/ 
+available at http://www.softicons.com
+
+The CSV Icon is from Bdate Kaspar/Franziska Sponsel (http://rrze-icon-set.berlios.de/index.html), under http://creativecommons.org/licenses/by-sa/3.0/
+available at http://rrze-icon-set.berlios.de/gallery.html#text-csv-text
+ 

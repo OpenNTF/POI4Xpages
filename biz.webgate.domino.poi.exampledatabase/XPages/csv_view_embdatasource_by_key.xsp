@@ -6,69 +6,49 @@
 			keys="#{javascript:viewScope.stateSelector}">
 		</xp:dominoView>
 	</xp:this.data>
-	<xc:ccApplication pageTitle="Excel Export (only one category)"
-		navigationPath="/xlsx/catdatasource">
+	<xc:ccApplication pageTitle="CSV Export (only one category)"
+		navigationPath="/csv/catdatasource">
 		<xp:this.facets>
 			<xc:ccNavXlsx xp:key="facetLeft"></xc:ccNavXlsx>
 			<xp:panel xp:key="facetRight">
+				<wgpoi:csv id="csvExport" downloadFileName="export.csv"
+					includeHeader="true" pathInfo="csvdownload">
+					<wgpoi:this.dataSource>
+						<wgpoi:dominoViewSource
+							viewName="AllContactsByState"
+							key="#{javascript:viewScope.stateSelector}">
+						</wgpoi:dominoViewSource>
+					</wgpoi:this.dataSource>
+					<wgpoi:this.columns>
+						<wgpoi:csvcolumn columnTitle="FirstName"
+							position="1" title="The FirstName">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn columnTitle="LastName"
+							position="2" title="The LastName">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn columnTitle="City" title="City"
+							position="3">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn columnTitle="State"
+							title="State" position="4">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn columnTitle="EMail"
+							title="e-mail" position="5">
+						</wgpoi:csvcolumn>
+					</wgpoi:this.columns>
+				</wgpoi:csv>
+				<xp:button value="get CSV" id="btExport">
 
-				<wgpoi:spreadsheet id="shContacts"
-					downloadFileName="allContacts.xlsx">
-					<wgpoi:this.templateSource>
-						<wgpoi:resourcetemplate
-							fileName="SampleExcel.xlsx">
-						</wgpoi:resourcetemplate>
-					</wgpoi:this.templateSource>
-					<wgpoi:this.spreadsheets>
-						<wgpoi:table name="Contacts" create="false">
-							<wgpoi:this.cellValues>
-								<wgpoi:cellBookmark name="user">
-									<wgpoi:this.value><![CDATA[#{javascript:@Name("[CN]",@UserName())}]]></wgpoi:this.value>
-								</wgpoi:cellBookmark>
-								<wgpoi:cellBookmark name="date"
-									value="#{javascript:@Text(@Today())}">
-								</wgpoi:cellBookmark>
-							</wgpoi:this.cellValues>
-							<wgpoi:this.exportDefinitions>
-								<wgpoi:data2rowExport startRow="4"
-									stepSize="1">
-									<wgpoi:this.dataSource>
-										<wgpoi:dominoViewSource
-											viewName="AllContactsByState"
-											key="#{javascript:viewScope.stateSelector}">
-
-										</wgpoi:dominoViewSource>
-									</wgpoi:this.dataSource>
-									<wgpoi:this.columns>
-										<wgpoi:columnDefinition
-											columnNumber="0" columnTitle="FirstName" rowShift="0">
-										</wgpoi:columnDefinition>
-										<wgpoi:columnDefinition
-											columnNumber="1" columnTitle="LastName" rowShift="0">
-										</wgpoi:columnDefinition>
-										<wgpoi:columnDefinition
-											columnNumber="2" columnTitle="City" rowShift="0">
-										</wgpoi:columnDefinition>
-										<wgpoi:columnDefinition
-											columnNumber="3" columnTitle="State" rowShift="0">
-										</wgpoi:columnDefinition>
-										<wgpoi:columnDefinition
-											columnNumber="4" columnTitle="EMail" rowShift="0">
-										</wgpoi:columnDefinition>
-									</wgpoi:this.columns>
-								</wgpoi:data2rowExport>
-							</wgpoi:this.exportDefinitions>
-						</wgpoi:table>
-					</wgpoi:this.spreadsheets>
-				</wgpoi:spreadsheet>
-
-				<xp:button value="get Excel-File" id="btExport">
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="complete">
 						<xp:this.action>
-							<wgpoi:generateWorkbook
-								workbookId="shContacts">
-							</wgpoi:generateWorkbook>
+
+							<xp:actionGroup>
+								<wgpoi:generateCSV csvId="csvExport"></wgpoi:generateCSV>
+								<xp:executeScript
+									script="#{javascript:context.reloadPage()}">
+								</xp:executeScript>
+							</xp:actionGroup>
 						</xp:this.action>
 					</xp:eventHandler>
 				</xp:button>
@@ -136,22 +116,13 @@
 				<xp:br></xp:br>
 				<xp:section id="section1"
 					header="Programming documentation" initClosed="true">
-					We use the SampleExcel.xlsx (under Resources/Files)
-					as a template for this output. The File looks like
-					this:
-					<xp:br></xp:br>
-					<xp:image id="image1">
-						<xp:this.url><![CDATA[#{javascript:"excel_Sample.png"}]]></xp:this.url>
-					</xp:image>
-					<xp:br></xp:br>
-					<xp:br></xp:br>
-					In the XPage the &quot;POI Workbook&quot; control is
-					used. With the action &quot;generate workbook&quot;
+					In the XPage the &quot;CSV Output&quot; control is
+					used. With the action &quot;generate csv&quot;
 					the view &quot;contacts2&quot; will be exported:
 					<xp:br></xp:br>
 					<xp:br></xp:br>
 					<xp:image id="image2">
-						<xp:this.url><![CDATA[#{javascript:"excel_programming.png"}]]></xp:this.url>
+						<xp:this.url><![CDATA[#{javascript:"csv_programming.png"}]]></xp:this.url>
 					</xp:image>
 				</xp:section>
 			</xp:panel>

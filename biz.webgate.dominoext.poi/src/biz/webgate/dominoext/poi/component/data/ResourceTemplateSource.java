@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
@@ -38,6 +39,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import biz.webgate.dominoext.poi.util.LoggerFactory;
 import biz.webgate.dominoext.poi.util.POILibUtil;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
@@ -112,6 +114,7 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 	}
 
 	public int accessTemplate() {
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 		String strDB = getDatabaseName();
 		String strFileName = getFileName();
 		if (strFileName == null) {
@@ -134,10 +137,15 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 			if (ndbAccess == null) {
 				return -2;
 			}
-			NoteCollection ncCurrent = ndbAccess.createNoteCollection(true);
-			ncCurrent.selectAllDesignElements(true);
+			logCurrent.info("Getting NoteCollection");
+			NoteCollection ncCurrent = ndbAccess.createNoteCollection(false);
+			logCurrent.info("Select only MiscFormaElements");
+			//ncCurrent.selectAllDesignElements(true);
+			ncCurrent.setSelectMiscFormatElements(true);
+			logCurrent.info("buildColleciton");
 			// ncCurrent.selectAllCodeElements(true);
 			ncCurrent.buildCollection();
+			logCurrent.info("browseColllection");
 			String strID = ncCurrent.getFirstNoteID();
 			while (strID != null) {
 				Document docNode = ndbAccess.getDocumentByID(strID);
@@ -162,6 +170,8 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 				}
 				docNode.recycle();
 			}
+			logCurrent.info("DONE");
+
 			ncCurrent.recycle();
 			ndbAccess.recycle();
 			if (m_Data != null) {

@@ -12,12 +12,12 @@
 
 
 	<complex-type>
-  		<description>Domino View to Export</description>
+  		<description>Domino view to export</description>
   		<display-name>DominoView</display-name>
   		<complex-id>biz.webgate.dominoext.poi.component.sources.DominoView</complex-id>
   		<complex-class>biz.webgate.dominoext.poi.component.sources.DominoView</complex-class>
   		<property>
-    		<description>View Name</description>
+    		<description>Name of the view</description>
 	 	 	<display-name>viewName</display-name>
 		    <property-name>viewName</property-name>
     		<property-class>java.lang.String</property-class>
@@ -29,7 +29,7 @@
     		<property-class>java.lang.String</property-class>
   		</property>
   		<property>
-    		<description>Key (get All documents by key...)</description>
+    		<description>Key (get all documents by key...)</description>
 	 	 	<display-name>key</display-name>
 		    <property-name>key</property-name>
     		<property-class>java.lang.String</property-class>
@@ -61,7 +61,7 @@
   		<complex-id>biz.webgate.dominoext.poi.component.sources.ListObjectDataSource</complex-id>
   		<complex-class>biz.webgate.dominoext.poi.component.sources.ListObjectDataSource</complex-class>
   		<property>
-    		<description>Values (as List)</description>
+    		<description>Values (as java.util.List)</description>
 	 	 	<display-name>values</display-name>
 		    <property-name>values</property-name>
     		<property-class>java.util.List</property-class>

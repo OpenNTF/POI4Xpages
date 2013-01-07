@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:wgpoi="http://www.webgate.biz/xsp/poi"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:this.data>
+		<xp:dominoView var="vwContacts" viewName="Contacts"></xp:dominoView>
+	</xp:this.data>
+	<xc:ccApplication pageTitle="Export View / Poi-datasource"
+		navigationPath="/csv/viewpoidatasource">
+		<xp:this.facets>
+			<xc:ccNavCSV xp:key="facetLeft"></xc:ccNavCSV>
+
+			<xp:panel xp:key="facetRight">
+				<wgpoi:csv id="csvExport" downloadFileName="export.csv"
+					includeHeader="true" pathInfo="csvdownload">
+					<wgpoi:this.dataSource>
+						<wgpoi:dominoViewSource viewName="contacts2"></wgpoi:dominoViewSource>
+					</wgpoi:this.dataSource>
+					<wgpoi:this.columns>
+						<wgpoi:csvcolumn columnTitle="FirstName"
+							position="1" title="The FirstName">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn columnTitle="LastName"
+							position="2" title="The LastName">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn columnTitle="City" title="City"
+							position="3">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn columnTitle="State"
+							title="State" position="4">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn columnTitle="EMail"
+							title="e-mail" position="5">
+						</wgpoi:csvcolumn>
+					</wgpoi:this.columns>
+				</wgpoi:csv>
+				<xp:button value="get CSV" id="btExport">
+
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<wgpoi:generateCSV csvId="csvExport"></wgpoi:generateCSV>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+			</xp:panel>
+			<xp:panel xp:key="facetMiddle">
+				This sample shows how a view can be exported to an excel
+				file with a poi-datasource definition.
+				<xp:br></xp:br>
+				<xp:br></xp:br>
+				<xp:pager layout="Previous Group Next"
+					partialRefresh="true" id="pager1" for="repeat1">
+				</xp:pager>
+				<xp:table>
+					<xp:tr>
+						<xp:td>First Name</xp:td>
+						<xp:td>Last Name</xp:td>
+						<xp:td>City</xp:td>
+						<xp:td>State</xp:td>
+						<xp:td>E-Mail</xp:td>
+
+					</xp:tr>
+					<xp:repeat id="repeat1" rows="10"
+						value="#{vwContacts}" var="row" indexVar="indRow">
+						<xp:tr>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField1" value="#{row.FirstName}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField2" value="#{row.LastName}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField3" value="#{row.City}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField4" value="#{row.State}">
+								</xp:text>
+							</xp:td>
+							<xp:td>
+								<xp:text escape="true"
+									id="computedField5" value="#{row.EMail}">
+								</xp:text>
+							</xp:td>
+						</xp:tr>
+
+					</xp:repeat>
+				</xp:table>
+				<xp:br></xp:br>
+				<xp:section id="section1"
+					header="Programming documentation" initClosed="true">
+					In the XPage the &quot;CSV Output&quot; control is
+					used. With the action &quot;generate csv&quot;
+					the view &quot;contacts2&quot; will be exported:
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					<xp:image id="image2">
+						<xp:this.url><![CDATA[#{javascript:"csv_programming.png"}]]></xp:this.url>
+					</xp:image>
+				</xp:section>
+			</xp:panel>
+
+		</xp:this.facets>
+	</xc:ccApplication>
+
+</xp:view>

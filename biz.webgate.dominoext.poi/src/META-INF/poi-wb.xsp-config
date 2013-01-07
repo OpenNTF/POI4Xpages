@@ -5,7 +5,7 @@
 	</faces-config-extension>
 
 	<complex-type>
-        <description>Produce the output of a workbook (Collection of spreadsheets) by this action</description>
+        <description>Produce the output of a workbook (collection of spreadsheets) by this action</description>
         <display-name>Generate Workbook</display-name>
         <complex-class>biz.webgate.dominoext.poi.component.actions.WorkbookGenerationServerAction</complex-class>
         <complex-id>biz.webgate.dominoext.poi.component.actions.WorkbookGenerationServerAction</complex-id>
@@ -39,7 +39,7 @@
     </complex-type>
 
 	<complex-type>
-  		<description>A Tablesheet in a Workbook</description>
+  		<description>A table sheet in a Workbook</description>
   		<display-name>Table</display-name>
   		<complex-id>biz.webgate.dominoext.poi.component.data.ss.spreadsheet</complex-id>
   		<complex-class>biz.webgate.dominoext.poi.component.data.ss.Spreadsheet</complex-class>
@@ -68,7 +68,7 @@
         	</property-extension>
 		</property>
 		<property>
-			<description>Cell Values to set</description>
+			<description>Cell values to set</description>
 			<display-name>CellValues</display-name>
 			<property-name>cellValues</property-name>
             <property-class>java.util.List</property-class>
@@ -117,7 +117,7 @@
         	</property-extension>
   		</property>
 		<property>
-    		<description>The path extension under witch the document could be downloaded</description>
+    		<description>The path extension under which the document could be downloaded</description>
 	 	 	<display-name>pathInfo</display-name>
 		    <property-name>pathInfo</property-name>
     		<property-class>java.lang.String</property-class>

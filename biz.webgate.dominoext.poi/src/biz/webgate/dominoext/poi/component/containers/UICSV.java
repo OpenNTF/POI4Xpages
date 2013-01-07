@@ -26,6 +26,7 @@ import javax.faces.el.ValueBinding;
 import javax.servlet.http.HttpServletResponse;
 
 import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
+import biz.webgate.dominoext.poi.component.kernel.CSVProcessor;
 import biz.webgate.dominoext.poi.component.sources.IExportSource;
 
 import com.ibm.commons.util.StringUtil;
@@ -44,7 +45,6 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 
 	private String m_pathInfo;
 	private String m_DownloadFileName;
-	private Integer m_StepSize;
 	private List<CSVColumn> m_Columns;
 
 	private IExportSource m_DataSource;
@@ -153,7 +153,8 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 		}
 
 		try {
-			// CALL to the CSVProcessor
+			CSVProcessor.getInstance().generateNewFile(this, httpResponse,
+					context);
 		} catch (Exception e) {
 			try {
 				e.printStackTrace();
@@ -178,8 +179,8 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 			state[4] = StateHolderUtil.saveList(context, m_Columns);
 			state[5] = m_DataSourceVar;
 			state[6] = m_Index;
-			state[7] = m_StepSize;
-			state[8] = m_Var;
+			state[7] = m_Var;
+			state[8] = m_includeHeader;
 
 			return state;
 		} catch (Exception e) {
@@ -199,23 +200,8 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 		m_Columns = StateHolderUtil.restoreList(context, this, state[4]);
 		m_DataSourceVar = (String) state[5];
 		m_Index = (String) state[6];
-		m_StepSize = (Integer) state[7];
-		m_Var = (String) state[8];
-	}
-
-	public int getStepSize() {
-		if (m_StepSize != null) {
-			return m_StepSize;
-		}
-		ValueBinding _vb = getValueBinding("stepSize"); //$NON-NLS-1$
-		if (_vb != null) {
-			return (Integer) _vb.getValue(FacesContext.getCurrentInstance());
-		}
-		return 1;
-	}
-
-	public void setStepSize(int stepSize) {
-		m_StepSize = stepSize;
+		m_Var = (String) state[7];
+		m_includeHeader = (Boolean)state[8];
 	}
 
 	public List<CSVColumn> getColumns() {

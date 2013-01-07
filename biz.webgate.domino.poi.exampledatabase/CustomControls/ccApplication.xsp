@@ -48,7 +48,9 @@
 					<xe:pageTreeNode label="xls (x) - Excel"
 						selection="/xlsx/.*" page="/xlsx_view_embdatasource.xsp">
 					</xe:pageTreeNode>
-					<xe:pageTreeNode label="CSV" selection="/csv/.*"></xe:pageTreeNode>
+					<xe:pageTreeNode label="CSV" selection="/csv/.*"
+						page="/csv_view_embdatasource.xsp">
+					</xe:pageTreeNode>
 				</xe:this.titleBarTabs>
 				<xe:this.bannerApplicationLinks>
 					<xe:basicLeafNode label="OpenNTF"

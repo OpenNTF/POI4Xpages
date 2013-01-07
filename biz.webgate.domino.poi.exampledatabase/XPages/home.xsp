@@ -27,7 +27,7 @@
 						<xp:td>Export XPages or POI Datasources line by line or column by column to a prepared Excel Workbook. Use the same placeholder style like the word documents and export defined values to a specific cell and row.</xp:td>
 					</xp:tr>
 					<xp:tr>
-						<xp:td><xp:image url="CSV_64.png" id="image4"></xp:image></xp:td>
+						<xp:td><xp:image url="csv_96.png" id="image4"></xp:image></xp:td>
 						<xp:td>Coming soon</xp:td>
 					</xp:tr>
 				</xp:table>

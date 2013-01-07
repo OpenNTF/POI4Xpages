@@ -19,10 +19,13 @@ package biz.webgate.dominoext.poi.component.sources;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.component.data.IDefinition;
+import biz.webgate.dominoext.poi.util.LoggerFactory;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
@@ -30,6 +33,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 		IExportSource {
 
 	private List<?> m_Values;
+	private List<?> m_ValuesProcess;
 	private Iterator<?> m_tempIt;
 	private Object m_tempObj;
 
@@ -49,26 +53,36 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 	}
 
 	public Object getValue(IDefinition idCurrent) {
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass()
+				.getCanonicalName());
 		try {
 			Method mt = m_tempObj.getClass().getMethod(
-					"get" + idCurrent.getColumnTitle(), Object.class);
-			return mt.invoke(m_tempObj);
+					"get" + idCurrent.getColumnTitle());
+			logCurrent.info("ColumnTitle = " + idCurrent.getColumnTitle());
+			logCurrent.info("MT =" + mt);
+			Object objRC = mt.invoke(m_tempObj);
+			logCurrent.info("Result =" + objRC);
+			return objRC;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logCurrent.log(Level.SEVERE, "Error on getValue()", e);
 		}
 		return null;
 	}
 
 	public int accessNextRow() {
-		m_tempObj = m_tempIt.next();
-		return m_tempIt.hasNext() ? 1 : 0;
+		int nResult = m_tempIt.hasNext() ? 1 : 0;
+		if (nResult == 1) {
+			m_tempObj = m_tempIt.next();
+		}
+		return nResult;
 	}
 
 	public int accessSource() {
-		if (m_Values != null) {
-			m_tempIt = m_Values.iterator();
+		m_ValuesProcess = getValues();
+		if (m_ValuesProcess != null) {
+			m_tempIt = m_ValuesProcess.iterator();
 		}
-		return m_Values != null ? 1 : 0;
+		return m_ValuesProcess != null ? 1 : 0;
 	}
 
 	public int closeSource() {

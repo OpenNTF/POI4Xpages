@@ -12,7 +12,7 @@
 
 
 	<complex-type>
-  		<description>Using a attachment in a document for the datasource as document</description>
+  		<description>Using a attachment in a document for the data source as document</description>
   		<display-name>Attachment template</display-name>
   		<complex-id>biz.webgate.dominoext.poi.component.data.attachmenttemplate</complex-id>
   		<complex-class>biz.webgate.dominoext.poi.component.data.AttachmentTemplateSource</complex-class>
@@ -29,13 +29,13 @@
     		<property-class>java.lang.String</property-class>
   		</property>
   		<property>
-    		<description>Key to access the docment</description>
+    		<description>Key to access the document</description>
 	 	 	<display-name>keyName</display-name>
 		    <property-name>keyName</property-name>
     		<property-class>java.lang.String</property-class>
   		</property>
   		<property>
-    		<description>Name of the Field, where the attachment is</description>
+    		<description>Name of the field where the attachment is</description>
 	 	 	<display-name>fieldName</display-name>
 		    <property-name>fieldName</property-name>
     		<property-class>java.lang.String</property-class>

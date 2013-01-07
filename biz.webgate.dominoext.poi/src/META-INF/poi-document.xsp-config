@@ -17,11 +17,6 @@
 			<property-extension>
                 <designer-extension>
                     <editor>com.ibm.designer.domino.xsp.idpicker</editor>
-                    <!-- TODO talk to the Designer team about a version
-                    of the idpicker that includes an editor-param
-                    that would restrict the IDs shown to just the ids
-                    of the tags with the given tag-name or 
-                    substitutable for the given component-type -->
                     <tags>
                         todo
                     </tags>
@@ -99,7 +94,7 @@
         	</property-extension>
   		</property>
 		<property>
-    		<description>The path extension under witch the document could be downloaded</description>
+    		<description>The path extension under which the document could be downloaded</description>
 	 	 	<display-name>pathInfo</display-name>
 		    <property-name>pathInfo</property-name>
     		<property-class>java.lang.String</property-class>

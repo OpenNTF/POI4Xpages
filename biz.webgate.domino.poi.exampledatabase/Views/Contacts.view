@@ -2,11 +2,11 @@
 <!DOCTYPE note SYSTEM 'xmlschemas/domino_8_5_3.dtd'>
 <note class='view' xmlns='http://www.lotus.com/dxl' version='8.5' maintenanceversion='3.0'
  replicaid='C1257A6A004D4D0A'>
-<noteinfo noteid='192' unid='7746E38DEAD5D404C1257AD00039BDFA' sequence='6'>
+<noteinfo noteid='192' unid='7746E38DEAD5D404C1257AD00039BDFA' sequence='8'>
 <created><datetime>20121210T113041,86+01</datetime></created>
-<modified><datetime>20121217T212758,62+01</datetime></modified>
-<revised><datetime>20121217T212758,61+01</datetime></revised>
-<lastaccessed><datetime>20121217T212758,62+01</datetime></lastaccessed>
+<modified><datetime>20130104T212827,29+01</datetime></modified>
+<revised><datetime>20130104T212827,28+01</datetime></revised>
+<lastaccessed><datetime>20130104T212827,29+01</datetime></lastaccessed>
 <addedtofile><datetime>20121210T113041,89+01</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
 <wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
@@ -14,8 +14,8 @@
 <item name='$TITLE' sign='true'><text>Contacts</text></item>
 <item name='$Index' sign='true'><text/></item>
 <item name='$Formula' summary='true' sign='true'><formula compiled='true'>
-UAAFAEIAPgAHAAkACAAEAAUABQAJAAQARmlyc3ROYW1lTGFzdE5hbWVDaXR5U3RhdGVFTWFpbCRD
-b25mbGljdCRSRUYEAAQAAAAIAGYAAwA=
+bgAFAEIAPgAHAAkACAAEAAUABQAJAAQARmlyc3ROYW1lTGFzdE5hbWVDaXR5U3RhdGVFTWFpbCRD
+b25mbGljdCRSRUYEAAQAAAAcAAUABABGb3JtAQAHAENvbnRhY3QACgIDAAcACgAEAAlMMVM=
 </formula></item>
 <item name='$Collation' summary='true'>
 <rawitemdata type='2'>

@@ -25,5 +25,4 @@
     <managed-bean-class>biz.webgate.dominoext.poi.beans.PoiBean</managed-bean-class>
     <managed-bean-scope>application</managed-bean-scope>
   </managed-bean>
-
 </faces-config>
