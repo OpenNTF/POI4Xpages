@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI Libraries
 Bundle-SymbolicName: biz.webgate.dominoext.poi.library;singleton:=true
-Bundle-Version: 1.0.1.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.library.Activator
 Bundle-Vendor: WebGate Consulting AG
 Require-Bundle: org.eclipse.core.runtime
@@ -416,11 +416,11 @@ Export-Package: biz.webgate.dominoext.poi.library;uses:="org.osgi.framework",
 Bundle-ClassPath: .,
  lib/dom4j-1.6.1.jar,
  lib/log4j-1.2.13.jar,
- lib/poi-3.8-20120326.jar,
- lib/poi-examples-3.8-20120326.jar,
- lib/poi-excelant-3.8-20120326.jar,
- lib/poi-ooxml-3.8-20120326.jar,
- lib/poi-ooxml-schemas-3.8-20120326.jar,
- lib/poi-scratchpad-3.8-20120326.jar,
+ lib/poi-3.9-20121203.jar,
+ lib/poi-examples-3.9-20121203.jar,
+ lib/poi-excelant-3.9-20121203.jar,
+ lib/poi-ooxml-3.9-20121203.jar,
+ lib/poi-ooxml-schemas-3.9-20121203.jar,
+ lib/poi-scratchpad-3.9-20121203.jar,
  lib/stax-api-1.0.1.jar,
  lib/xmlbeans-2.3.0.jar
