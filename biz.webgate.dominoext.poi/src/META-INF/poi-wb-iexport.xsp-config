@@ -64,7 +64,7 @@
     		<description>Values (as java.util.List)</description>
 	 	 	<display-name>values</display-name>
 		    <property-name>values</property-name>
-    		<property-class>java.util.List</property-class>
+    		<property-class>object</property-class>
   		</property>
   		
   		<complex-extension>
