@@ -14,11 +14,13 @@ The example database uses:
     - SampleDataUtil.java from Philippe Riand which is part of the ExtLib - example database ("http://exlib.openntf.org") under Apache V2.0 (http://www.apache.org/licenses/)
 
 
-Apache POI, Version 3.8 (http://poi.apache.org) under Apache V2.0 (http://www.apache.org/licenses/)
+Apache POI, Version 3.9 (http://poi.apache.org) under Apache V2.0 (http://www.apache.org/licenses/)
 
 Commons CVS, Version 1.0.SNAPSHOT (http://commons.apache.org/csv/) under Apache V2.0 (http://www.apache.org/licenses/)
 
 The Apache POI Project includes the following third party software:
+
+    - Apache Commons Codec, Version 1.5 (http://commons.apache.org/codec/) under Apache V2.0 (http://www.apache.org/licenses/)
 
     - Apache Commons Logging, Version 1.1 (http://commons.apache.org/logging/)  under Apache V2.0 (http://www.apache.org/licenses/)
 
