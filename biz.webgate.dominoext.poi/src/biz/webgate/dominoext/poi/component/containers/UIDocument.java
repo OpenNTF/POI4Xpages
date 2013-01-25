@@ -21,14 +21,18 @@ import java.util.List;
 
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
 import biz.webgate.dominoext.poi.component.kernel.DocumentProcessor;
 
 import com.ibm.commons.util.StringUtil;
+import com.ibm.xsp.binding.MethodBindingEx;
 import com.ibm.xsp.component.FacesAjaxComponent;
 import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
@@ -44,6 +48,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	private String m_pathInfo;
 	private String m_DownloadFileName;
 	private ITemplateSource m_TemplateSource;
+	private MethodBinding m_PostGenerationProcess;
 
 	public UIDocument() {
 
@@ -161,7 +166,8 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		System.out.println("processing....");
 		try {
 			DocumentProcessor.getInstance().generateNewFile(itsCurrent,
-					getBookmarks(), httpResponse, getDownloadFileName());
+					getBookmarks(), httpResponse, getDownloadFileName(),
+					getFacesContext(), this);
 		} catch (Exception e) {
 			try {
 				e.printStackTrace();
@@ -177,13 +183,15 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	@Override
 	public Object saveState(FacesContext context) {
 		try {
-			Object[] state = new Object[5];
+			Object[] state = new Object[6];
 			state[0] = super.saveState(context);
 			state[1] = m_DownloadFileName;
 			state[2] = m_pathInfo;
 			state[3] = FacesUtil
 					.objectToSerializable(context, m_TemplateSource);
 			state[4] = StateHolderUtil.saveList(context, m_Bookmarks);
+			state[5] = StateHolderUtil.saveMethodBinding(context,
+					m_PostGenerationProcess);
 			return state;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,6 +208,37 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		m_TemplateSource = (ITemplateSource) FacesUtil.objectFromSerializable(
 				context, this, state[3]);
 		m_Bookmarks = StateHolderUtil.restoreList(context, this, state[4]);
+		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context,
+				this, state[5]);
 
 	}
+
+	public MethodBinding getPostGenerationProcess() {
+		return m_PostGenerationProcess;
+	}
+
+	public void setPostGenerationProcess(MethodBinding postGenerationProcess) {
+		m_PostGenerationProcess = postGenerationProcess;
+	}
+
+	public boolean postGenerationProcess(FacesContext context,
+			XWPFDocument document) {
+		if (m_PostGenerationProcess != null) {
+			Object[] params = null;
+			if (m_PostGenerationProcess instanceof MethodBindingEx) {
+				params = new Object[] { document };
+				((MethodBindingEx) m_PostGenerationProcess).setComponent(this);
+				((MethodBindingEx) m_PostGenerationProcess)
+						.setParamNames(s_postGenParamNames);
+			}
+			if (FacesUtil.isCancelled(m_PostGenerationProcess.invoke(context,
+					params))) {
+				return false;
+			}
+			return true;
+		}
+		return true;
+	}
+
+	private static final String[] s_postGenParamNames = { "xwpfdocument" }; // $NON-NLS-1$
 }

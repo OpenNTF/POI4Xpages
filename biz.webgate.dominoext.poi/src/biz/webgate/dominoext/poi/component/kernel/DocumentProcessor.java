@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -32,6 +33,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
+import biz.webgate.dominoext.poi.component.containers.UIDocument;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
 import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
@@ -130,12 +132,13 @@ public class DocumentProcessor {
 
 	public void generateNewFile(ITemplateSource itsCurrent,
 			List<IDocumentBookmark> bookmarks,
-			HttpServletResponse httpResponse, String strFileName)
-			throws IOException {
+			HttpServletResponse httpResponse, String strFileName,
+			FacesContext context, UIDocument uiDoc) throws IOException {
 		try {
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
-				XWPFDocument dxDocument = processDocument(itsCurrent, bookmarks);
+				XWPFDocument dxDocument = processDocument(itsCurrent,
+						bookmarks, context, uiDoc);
 				httpResponse.setContentType("application/octet-stream");
 				httpResponse.addHeader("Content-disposition",
 						"inline; filename=\"" + strFileName + "\"");
@@ -155,12 +158,16 @@ public class DocumentProcessor {
 	}
 
 	public XWPFDocument processDocument(ITemplateSource itsCurrent,
-			List<IDocumentBookmark> bookmarks) {
+			List<IDocumentBookmark> bookmarks, FacesContext context,
+			UIDocument uiDocument) {
 		InputStream is = itsCurrent.getFileStream();
 		XWPFDocument dxDocument = getDocument(is);
 		itsCurrent.cleanUP();
 		if (bookmarks != null && bookmarks.size() > 0) {
 			processBookmarks2Document(dxDocument, bookmarks);
+		}
+		if (uiDocument != null) {
+			uiDocument.postGenerationProcess(context, dxDocument);
 		}
 		return dxDocument;
 	}

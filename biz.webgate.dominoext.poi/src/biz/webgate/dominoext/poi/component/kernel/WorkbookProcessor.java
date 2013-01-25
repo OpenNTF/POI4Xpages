@@ -33,6 +33,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import biz.webgate.dominoext.poi.POIException;
+import biz.webgate.dominoext.poi.component.containers.UIWorkbook;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
@@ -64,13 +65,15 @@ public class WorkbookProcessor {
 
 	public void generateNewFile(ITemplateSource itsCurrent,
 			List<Spreadsheet> lstSP, String strFileName,
-			HttpServletResponse httpResponse, FacesContext context) {
+			HttpServletResponse httpResponse, FacesContext context,
+			UIWorkbook uiWB) {
 
 		try {
 			// First getting the File
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
-				Workbook wbCurrent = processWorkbook(itsCurrent, lstSP, context);
+				Workbook wbCurrent = processWorkbook(itsCurrent, lstSP,
+						context, uiWB);
 
 				// Push the Result to the HttpServlet
 				httpResponse.setContentType("application/octet-stream");
@@ -93,8 +96,8 @@ public class WorkbookProcessor {
 	}
 
 	public Workbook processWorkbook(ITemplateSource itsCurrent,
-			List<Spreadsheet> lstSP, FacesContext context) throws IOException,
-			InvalidFormatException, POIException {
+			List<Spreadsheet> lstSP, FacesContext context, UIWorkbook uiWB)
+			throws IOException, InvalidFormatException, POIException {
 		InputStream is = itsCurrent.getFileStream();
 		Workbook wbCurrent = WorkbookFactory.create(is);
 		// ;
@@ -102,6 +105,9 @@ public class WorkbookProcessor {
 		// Processing all Spreadsheets to the File
 		for (Spreadsheet spCurrent : lstSP) {
 			processSpreadSheet(spCurrent, wbCurrent, context);
+		}
+		if (uiWB != null) {
+			uiWB.postGenerationProcess(context, wbCurrent);
 		}
 		return wbCurrent;
 	}
@@ -113,7 +119,7 @@ public class WorkbookProcessor {
 		String strName = spCurrent.getName();
 		Sheet shProcess = wbCurrent.getSheet(strName);
 		if (shProcess == null && !spCurrent.isCreate()) {
-			throw new POIException("No Sheet found with name " + strName);
+			return;
 		}
 		if (shProcess == null) {
 			shProcess = wbCurrent.createSheet(strName);

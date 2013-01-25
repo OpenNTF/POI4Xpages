@@ -22,22 +22,49 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
+import biz.webgate.dominoext.poi.POIException;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
 import biz.webgate.dominoext.poi.util.LoggerFactory;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
+import com.ibm.xsp.util.StateHolderUtil;
 
 public class ListObjectDataSource extends ValueBindingObjectImpl implements
 		IExportSource {
+
+	private MethodBinding m_BuildValues;
+
+	public MethodBinding getBuildValues() {
+		return m_BuildValues;
+	}
+
+	public void setBuildValues(MethodBinding buildValues) {
+		m_BuildValues = buildValues;
+	}
 
 	private List<?> m_Values;
 	private List<?> m_ValuesProcess;
 	private Iterator<?> m_tempIt;
 	private Object m_tempObj;
 
-	public List<?> getValues() {
+	public List<?> getValues() throws POIException {
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass()
+				.getCanonicalName());
+		if (m_BuildValues != null) {
+			logCurrent.info("Exectue BuildValues");
+			Object objCurrent = m_BuildValues.invoke(getFacesContext(), null);
+			logCurrent.info(objCurrent.getClass().getCanonicalName());
+			if (objCurrent instanceof List<?>) {
+				return (List<?>) objCurrent;
+			} else {
+				throw new POIException(
+						"buildValues must return a java.util.List Object");
+			}
+		}
 		if (m_Values != null) {
 			return m_Values;
 		}
@@ -77,7 +104,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 		return nResult;
 	}
 
-	public int accessSource() {
+	public int accessSource() throws POIException {
 		m_ValuesProcess = getValues();
 		if (m_ValuesProcess != null) {
 			m_tempIt = m_ValuesProcess.iterator();
@@ -89,6 +116,25 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 		m_tempIt = null;
 		m_tempObj = null;
 		return 1;
+	}
+
+	@Override
+	public Object saveState(FacesContext context) {
+		Object[] state = new Object[3];
+		state[0] = super.saveState(context);
+		state[1] = StateHolderUtil.saveList(context, m_Values);
+		state[2] = StateHolderUtil.saveMethodBinding(context, m_BuildValues);
+		return state;
+	}
+
+	@Override
+	public void restoreState(FacesContext context, Object arg1) {
+		Object[] state = (Object[]) arg1;
+		super.restoreState(context, state[0]);
+		m_Values = StateHolderUtil.restoreList(context, getComponent(),
+				state[1]);
+		m_BuildValues = StateHolderUtil.restoreMethodBinding(context,
+				getComponent(), state[2]);
 	}
 
 }

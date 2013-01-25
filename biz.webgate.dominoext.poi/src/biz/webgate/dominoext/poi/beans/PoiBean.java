@@ -59,8 +59,12 @@ public class PoiBean {
 						public XWPFDocument run() {
 							try {
 								return DocumentProcessor.getInstance()
-										.processDocument(itsCurrentFin,
-												bookmarksFin);
+										.processDocument(
+												itsCurrentFin,
+												bookmarksFin,
+												FacesContext
+														.getCurrentInstance(),
+												null);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -143,7 +147,8 @@ public class PoiBean {
 													itsCurrentFIN,
 													lstSPFIN,
 													FacesContext
-															.getCurrentInstance());
+															.getCurrentInstance(),
+													null);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
