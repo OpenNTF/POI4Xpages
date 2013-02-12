@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.core.runtime,
  com.ibm.xsp.domino,
  com.ibm.notes.java.api,
  biz.webgate.dominoext.poi.library,
- biz.webgate.dominoext.poi.csvprocessor
+ biz.webgate.dominoext.poi.csvprocessor,
+ biz.webgate.dominoext.poi.pdf
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",

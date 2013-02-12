@@ -116,6 +116,17 @@
         	</property-extension>
   		</property>
   		<property>
+    		<description>... </description>
+	 	 	<display-name>Pdf Output</display-name>
+		    <property-name>pdfOutput</property-name>
+    		<property-class>boolean</property-class>
+        	<property-extension>
+            	<designer-extension>
+            		<category>poi</category>
+            	</designer-extension>
+        	</property-extension>
+  		</property>
+  		<property>
 			<description>Triggered after creation of the document. The workbook is available under the variable xwpfdocument</description>
 			<display-name>manipulate the generated document</display-name>
 			<property-name>postGenerationProcess</property-name>

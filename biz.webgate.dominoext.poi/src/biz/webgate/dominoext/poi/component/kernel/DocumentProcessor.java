@@ -15,6 +15,7 @@
  */
 package biz.webgate.dominoext.poi.component.kernel;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,8 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import biz.webgate.dominoext.poi.component.containers.UIDocument;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
+import biz.webgate.dominoext.poi.pdf.IPDFService;
+import biz.webgate.dominoext.poi.pdf.PDFConversionService;
 import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
 
 public class DocumentProcessor {
@@ -139,14 +142,40 @@ public class DocumentProcessor {
 			if (nTemplateAccess == 1) {
 				XWPFDocument dxDocument = processDocument(itsCurrent,
 						bookmarks, context, uiDoc);
-				httpResponse.setContentType("application/octet-stream");
-				httpResponse.addHeader("Content-disposition",
-						"inline; filename=\"" + strFileName + "\"");
-				OutputStream os = httpResponse.getOutputStream();
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				dxDocument.write(bos);
-				bos.writeTo(os);
-				os.close();
+				if (uiDoc.getPdfOutput()) {
+					System.out.println("Print PDF");
+					ByteArrayOutputStream bosDoc = new ByteArrayOutputStream();
+					dxDocument.write(bosDoc);
+					bosDoc.flush();
+					System.out.println("Grösse bosDoc: " + bosDoc.size());
+					ByteArrayInputStream is = new ByteArrayInputStream(bosDoc.toByteArray());
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					IPDFService isCurrent = PDFConversionService.getInstance().getPDFService();
+					
+					isCurrent.buildPDF(is, bos);
+					is.close();
+					bos.flush();
+					System.out.println("Grösse bos: " + bos.size());
+					httpResponse.setContentType("application/octet-stream");
+					httpResponse.addHeader("Content-disposition",
+							"inline; filename=\"" + strFileName + "\"");
+					OutputStream os = httpResponse.getOutputStream();
+					bos.writeTo(os);
+					bos.close();
+					os.close();
+
+				} else {
+					System.out.println("Print DocX");
+					httpResponse.setContentType("application/octet-stream");
+					httpResponse.addHeader("Content-disposition",
+							"inline; filename=\"" + strFileName + "\"");
+					OutputStream os = httpResponse.getOutputStream();
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					dxDocument.write(bos);
+					bos.writeTo(os);
+					bos.close();
+					os.close();
+				}
 			} else {
 				ErrorPageBuilder.getInstance().processError(httpResponse,
 						"TemplateAccess Problem NR: " + nTemplateAccess, null);

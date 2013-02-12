@@ -49,7 +49,8 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	private String m_DownloadFileName;
 	private ITemplateSource m_TemplateSource;
 	private MethodBinding m_PostGenerationProcess;
-
+	private Boolean m_PdfOutput;
+	
 	public UIDocument() {
 
 		super();
@@ -118,6 +119,24 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		return COMPONENT_FAMILY;
 	}
 
+	public boolean getPdfOutput() {
+		if (null != m_PdfOutput) {
+			return m_PdfOutput;
+		}
+		ValueBinding _vb = getValueBinding("pdfOutput"); //$NON-NLS-1$
+		if (_vb != null) {
+			return (Boolean) _vb.getValue(FacesContext
+					.getCurrentInstance());
+		} else {
+			return false;
+		}
+	}
+
+	public void setPdfOutput(boolean pdfOutput) {
+		System.out.println("ischergsetzt=ja: " + pdfOutput);
+		m_PdfOutput = pdfOutput;
+	}
+
 	public boolean handles(FacesContext context) {
 		String reqPathInfo = context.getExternalContext().getRequestPathInfo();
 		if (StringUtil.isNotEmpty(reqPathInfo)) {
@@ -183,7 +202,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	@Override
 	public Object saveState(FacesContext context) {
 		try {
-			Object[] state = new Object[6];
+			Object[] state = new Object[7];
 			state[0] = super.saveState(context);
 			state[1] = m_DownloadFileName;
 			state[2] = m_pathInfo;
@@ -192,6 +211,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 			state[4] = StateHolderUtil.saveList(context, m_Bookmarks);
 			state[5] = StateHolderUtil.saveMethodBinding(context,
 					m_PostGenerationProcess);
+			state[6] = m_PdfOutput;
 			return state;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,6 +230,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		m_Bookmarks = StateHolderUtil.restoreList(context, this, state[4]);
 		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context,
 				this, state[5]);
+		m_PdfOutput = (Boolean) state[6];
 
 	}
 
