@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI Integration
 Bundle-SymbolicName: biz.webgate.dominoext.poi;singleton:=true
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.1.5.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.Activator
 Require-Bundle: org.eclipse.core.runtime,
  com.ibm.xsp.core,
@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.core.runtime,
  com.ibm.notes.java.api,
  biz.webgate.dominoext.poi.library,
  biz.webgate.dominoext.poi.csvprocessor,
- biz.webgate.dominoext.poi.pdf
+ biz.webgate.dominoext.poi.pdf,
+ biz.webgate.dominoext.poi.utils
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",

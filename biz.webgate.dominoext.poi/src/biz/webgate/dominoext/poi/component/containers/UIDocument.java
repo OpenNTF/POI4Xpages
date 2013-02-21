@@ -18,6 +18,8 @@ package biz.webgate.dominoext.poi.component.containers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
@@ -30,6 +32,8 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
 import biz.webgate.dominoext.poi.component.kernel.DocumentProcessor;
+import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.binding.MethodBindingEx;
@@ -50,7 +54,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	private ITemplateSource m_TemplateSource;
 	private MethodBinding m_PostGenerationProcess;
 	private Boolean m_PdfOutput;
-	
+
 	public UIDocument() {
 
 		super();
@@ -125,8 +129,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		}
 		ValueBinding _vb = getValueBinding("pdfOutput"); //$NON-NLS-1$
 		if (_vb != null) {
-			return (Boolean) _vb.getValue(FacesContext
-					.getCurrentInstance());
+			return (Boolean) _vb.getValue(FacesContext.getCurrentInstance());
 		} else {
 			return false;
 		}
@@ -166,10 +169,9 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	public void processAjaxRequest(FacesContext context) throws IOException {
 		HttpServletResponse httpResponse = (HttpServletResponse) context
 				.getExternalContext().getResponse();
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass()
+				.getCanonicalName());
 
-		// Disable the XPages response buffer as this will collide with the
-		// engine one
-		// We mark it as committed and use its delegate instead
 		if (httpResponse instanceof XspHttpServletResponse) {
 			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
 			r.setCommitted(true);
@@ -178,22 +180,29 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 
 		ITemplateSource itsCurrent = getTemplateSource();
 		if (itsCurrent == null) {
-			// TODO: BUILD Error
+			ErrorPageBuilder.getInstance().processError(httpResponse,
+					"No Templatesource found!", null);
+			logCurrent.severe("No Template found!");
 			return;
 		}
-
-		System.out.println("processing....");
+		logCurrent.info("Start processing UIDocument generation");
 		try {
 			DocumentProcessor.getInstance().generateNewFile(itsCurrent,
 					getBookmarks(), httpResponse, getDownloadFileName(),
 					getFacesContext(), this);
 		} catch (Exception e) {
 			try {
+				logCurrent.log(Level.SEVERE, "Error in UIGeneration", e);
 				e.printStackTrace();
 				e.printStackTrace(httpResponse.getWriter());
+				ErrorPageBuilder.getInstance().processError(httpResponse,
+						"General Error!", e);
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				e.printStackTrace();
+				ErrorPageBuilder.getInstance().processError(httpResponse,
+						"General Error!", e2);
+
 			}
 		}
 	}

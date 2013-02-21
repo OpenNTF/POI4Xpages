@@ -178,6 +178,17 @@
 		    <property-name>columnTitle</property-name>
     		<property-class>java.lang.String</property-class>
   		</property>
+  		<property>
+			<description>Function will be executed, if there is no columnTitle defined. The current line and the current object are accessabel with the defined variables</description>
+			<display-name>computeValue</display-name>
+			<property-name>computeValue</property-name>
+			<property-class>javax.faces.el.MethodBinding</property-class>
+			<property-extension>
+				<since>1.1.5</since>
+				<method-binding-property>true</method-binding-property>
+			</property-extension>
+		</property>
+  		
   		<complex-extension>
     		<tag-name>columnDefinition</tag-name>
   		</complex-extension>
@@ -213,6 +224,17 @@
 		    <property-name>columnTitle</property-name>
     		<property-class>java.lang.String</property-class>
   		</property>
+  		<property>
+			<description>Function will be executed, if there is no columnTitle defined. The current line and the current object are accessabel with the defined variables</description>
+			<display-name>computeValue</display-name>
+			<property-name>computeValue</property-name>
+			<property-class>javax.faces.el.MethodBinding</property-class>
+			<property-extension>
+				<since>1.1.5</since>
+				<method-binding-property>true</method-binding-property>
+			</property-extension>
+		</property>
+  		
   		<complex-extension>
     		<tag-name>rowDefinition</tag-name>
   		</complex-extension>

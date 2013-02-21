@@ -13,7 +13,8 @@
 
 			<xp:panel xp:key="facetRight">
 				<wgpoi:csv id="csvExport" downloadFileName="export.csv"
-					includeHeader="true" pathInfo="csvdownload">
+					includeHeader="true" pathInfo="csvdownload" var="row"
+					index="index">
 					<wgpoi:this.dataSource>
 						<wgpoi:dominoViewSource viewName="contacts2"></wgpoi:dominoViewSource>
 					</wgpoi:this.dataSource>
@@ -32,6 +33,13 @@
 						</wgpoi:csvcolumn>
 						<wgpoi:csvcolumn columnTitle="EMail"
 							title="e-mail" position="5">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn
+							computeValue="#{javascript:index}" position="6" title="Count">
+						</wgpoi:csvcolumn>
+						<wgpoi:csvcolumn
+							computeValue="#{javascript:row.getDocument().getUniversalID()}"
+							position="7" title="UniversalID">
 						</wgpoi:csvcolumn>
 					</wgpoi:this.columns>
 				</wgpoi:csv>

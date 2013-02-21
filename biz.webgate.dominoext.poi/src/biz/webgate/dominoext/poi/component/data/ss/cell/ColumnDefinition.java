@@ -18,11 +18,12 @@ package biz.webgate.dominoext.poi.component.data.ss.cell;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import biz.webgate.dominoext.poi.component.data.AbstractDefinition;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
 
-import com.ibm.xsp.complex.ValueBindingObjectImpl;
+import com.ibm.xsp.util.StateHolderUtil;
 
-public class ColumnDefinition extends ValueBindingObjectImpl implements IDefinition {
+public class ColumnDefinition extends AbstractDefinition implements IDefinition {
 	private Integer m_ColumnNumber;
 	private String m_ColumnTitle;
 	private Integer m_RowShift = 0;
@@ -33,19 +34,18 @@ public class ColumnDefinition extends ValueBindingObjectImpl implements IDefinit
 		}
 		ValueBinding vb = getValueBinding("columnNumber");
 		if (vb != null) {
-			Integer intValue = (Integer)vb.getValue(getFacesContext());
+			Integer intValue = (Integer) vb.getValue(getFacesContext());
 			if (intValue != null) {
 				return intValue;
 			}
 		}
 		return 0;
-		
+
 	}
 
 	public void setColumnNumber(int columnNumber) {
 		m_ColumnNumber = columnNumber;
 	}
-
 
 	public int getRowShift() {
 		if (m_RowShift != null) {
@@ -53,7 +53,7 @@ public class ColumnDefinition extends ValueBindingObjectImpl implements IDefinit
 		}
 		ValueBinding vb = getValueBinding("rowShift");
 		if (vb != null) {
-			Integer intValue = (Integer)vb.getValue(getFacesContext());
+			Integer intValue = (Integer) vb.getValue(getFacesContext());
 			if (intValue != null) {
 				return intValue;
 			}
@@ -65,13 +65,16 @@ public class ColumnDefinition extends ValueBindingObjectImpl implements IDefinit
 	public void setRowShift(int rowShift) {
 		m_RowShift = rowShift;
 	}
+
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[4];
+		Object[] state = new Object[5];
 		state[0] = super.saveState(context);
 		state[1] = m_ColumnNumber;
 		state[2] = m_RowShift;
 		state[3] = m_ColumnTitle;
+		state[4] = StateHolderUtil
+				.saveMethodBinding(context, getComputeValue());
 		return state;
 	}
 
@@ -79,11 +82,12 @@ public class ColumnDefinition extends ValueBindingObjectImpl implements IDefinit
 	public void restoreState(FacesContext context, Object arg1) {
 		Object[] state = (Object[]) arg1;
 		super.restoreState(context, state[0]);
-		m_ColumnNumber = (Integer)state[1];
-		m_RowShift = (Integer)state[2];
-		m_ColumnTitle = (String)state[3];
+		m_ColumnNumber = (Integer) state[1];
+		m_RowShift = (Integer) state[2];
+		m_ColumnTitle = (String) state[3];
+		setComputeValue(StateHolderUtil.restoreMethodBinding(context,
+				getComponent(), state[4]));
 	}
-
 
 	public String getColumnTitle() {
 		if (m_ColumnTitle != null) {
@@ -91,7 +95,7 @@ public class ColumnDefinition extends ValueBindingObjectImpl implements IDefinit
 		}
 		ValueBinding vb = getValueBinding("columnTitle");
 		if (vb != null) {
-			String strValue = (String)vb.getValue(getFacesContext());
+			String strValue = (String) vb.getValue(getFacesContext());
 			if (strValue != null) {
 				return strValue;
 			}

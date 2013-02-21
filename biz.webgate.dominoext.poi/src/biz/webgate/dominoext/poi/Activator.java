@@ -15,6 +15,9 @@
  */
 package biz.webgate.dominoext.poi;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -32,6 +35,26 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
+		try {
+			String s = AccessController
+					.doPrivileged(new PrivilegedAction<String>() {
+						public String run() {
+							Object o = Activator.getContext().getBundle()
+									.getHeaders().get("Bundle-Version"); // $NON-NLS-1$
+							if (o != null) {
+								return o.toString();
+							}
+							return null;
+						}
+					});
+			if (s != null) {
+				biz.webgate.dominoext.poi.utils.Activator.setPoiVersion(s);
+			} else {
+				biz.webgate.dominoext.poi.utils.Activator.setPoiVersion("<POI VERSION not Initialized?");
+			}
+		} catch (SecurityException ex) {
+		}
+
 	}
 
 	/*

@@ -4,14 +4,14 @@ import javax.faces.context.FacesContext;
 
 import org.apache.poi.ss.usermodel.Sheet;
 
-import biz.webgate.dominoext.poi.POIException;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
 
 public interface IDataSourceExportProcessor {
 	void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
-			FacesContext context) throws POIException;
+			FacesContext context, String strVar, String strIndex) throws POIException;
 
 	void processExportCol(Data2ColumnExporter lstExport, Sheet shProcess,
-			FacesContext context) throws POIException;
+			FacesContext context, String strVar, String strIndex) throws POIException;
 }

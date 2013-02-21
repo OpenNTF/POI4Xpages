@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +40,8 @@ import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
 import biz.webgate.dominoext.poi.pdf.IPDFService;
 import biz.webgate.dominoext.poi.pdf.PDFConversionService;
-import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
+import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 public class DocumentProcessor {
 
@@ -137,17 +139,19 @@ public class DocumentProcessor {
 			List<IDocumentBookmark> bookmarks,
 			HttpServletResponse httpResponse, String strFileName,
 			FacesContext context, UIDocument uiDoc) throws IOException {
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());	
 		try {
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
 				XWPFDocument dxDocument = processDocument(itsCurrent,
 						bookmarks, context, uiDoc);
 				if (uiDoc.getPdfOutput()) {
-					System.out.println("Print PDF");
+					
+					logCurrent.info("Build PDF");
 					ByteArrayOutputStream bosDoc = new ByteArrayOutputStream();
 					dxDocument.write(bosDoc);
 					bosDoc.flush();
-					System.out.println("Grösse bosDoc: " + bosDoc.size());
+					logCurrent.info("Size of worddocument ByteArrayOutputStream: " + bosDoc.size());
 					ByteArrayInputStream is = new ByteArrayInputStream(bosDoc.toByteArray());
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
 					IPDFService isCurrent = PDFConversionService.getInstance().getPDFService();
@@ -155,7 +159,7 @@ public class DocumentProcessor {
 					isCurrent.buildPDF(is, bos);
 					is.close();
 					bos.flush();
-					System.out.println("Grösse bos: " + bos.size());
+					logCurrent.info("Size of pdf ByteArrayOutputStream: " + bos.size());
 					httpResponse.setContentType("application/octet-stream");
 					httpResponse.addHeader("Content-disposition",
 							"inline; filename=\"" + strFileName + "\"");
@@ -165,7 +169,7 @@ public class DocumentProcessor {
 					os.close();
 
 				} else {
-					System.out.println("Print DocX");
+					logCurrent.info("Build docx");
 					httpResponse.setContentType("application/octet-stream");
 					httpResponse.addHeader("Content-disposition",
 							"inline; filename=\"" + strFileName + "\"");

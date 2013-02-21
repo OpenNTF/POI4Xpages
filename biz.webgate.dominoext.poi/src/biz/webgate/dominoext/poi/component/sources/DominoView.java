@@ -28,7 +28,7 @@ import lotus.domino.ViewEntry;
 import lotus.domino.ViewEntryCollection;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
 import biz.webgate.dominoext.poi.util.POILibUtil;
-import biz.webgate.dominoext.poi.util.ValueBindingSupport;
+import biz.webgate.dominoext.poi.utils.xsp.ValueBindingSupport;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
@@ -172,13 +172,25 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		return 1;
 	}
 
-	public Object getValue(IDefinition idCurrent) {
+	public Object getValue(IDefinition idCurrent, String strVarName,
+			String strIndName, int nIndex, FacesContext context) {
+		String strVarNameUse = (strVarName == null || "".equals(strVarName)) ? "exportRow"
+				: strVarName;
+		String strIndNameUse = (strIndName == null || "".equals(strIndName)) ? "indexRow"
+				: strIndName;
 		try {
-			if (m_tempDataStore.m_ColTitle.contains(idCurrent.getColumnTitle())) {
-				int nPos = m_tempDataStore.m_ColTitle.indexOf(idCurrent
-						.getColumnTitle());
-				return m_tempDataStore.m_Entry.getColumnValues()
-						.elementAt(nPos);
+			String strTitle = idCurrent.getColumnTitle();
+			if (strTitle != null && !"".equals(strTitle)) {
+				if (m_tempDataStore.m_ColTitle.contains(strTitle)) {
+					int nPos = m_tempDataStore.m_ColTitle.indexOf(strTitle);
+					return m_tempDataStore.m_Entry.getColumnValues().elementAt(
+							nPos);
+				}
+			} else {
+				
+				return idCurrent.executeComputeValue(context,
+						m_tempDataStore.m_Entry, nIndex, strVarNameUse,
+						strIndNameUse);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -28,7 +28,7 @@
 					</xp:tr>
 					<xp:tr>
 						<xp:td><xp:image url="csv_96.png" id="image4"></xp:image></xp:td>
-						<xp:td>Coming soon</xp:td>
+						<xp:td>Exoprt XPages or POI Datasource line by line to a CSV file.</xp:td>
 					</xp:tr>
 				</xp:table>
 				<xp:panel>

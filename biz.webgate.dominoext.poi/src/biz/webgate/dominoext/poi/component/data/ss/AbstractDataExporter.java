@@ -42,7 +42,7 @@ public abstract class AbstractDataExporter extends ValueBindingObjectImpl {
 			if (intValue != null)
 				return intValue;
 		}
-		return 0;
+		return 1;
 	}
 
 	public void setStepSize(int stepSize) {
@@ -51,12 +51,14 @@ public abstract class AbstractDataExporter extends ValueBindingObjectImpl {
 
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[4];
+		Object[] state = new Object[6];
 		state[0] = super.saveState(context);
 		state[1] = m_StepSize;
 		state[2] = FacesUtil.objectToSerializable(getFacesContext(),
 				m_DataSource);
 		state[3] = m_DataSourceVar;
+		state[4] = m_Var;
+		state[5] = m_Index;
 		return state;
 	}
 
@@ -68,6 +70,8 @@ public abstract class AbstractDataExporter extends ValueBindingObjectImpl {
 		m_DataSource = (IExportSource) FacesUtil.objectFromSerializable(
 				getFacesContext(), getComponent(), state[2]);
 		m_DataSourceVar = (String) state[3];
+		m_Var = (String) state[4];
+		m_Index = (String)state[5];
 
 	}
 

@@ -30,6 +30,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ss.Spreadsheet;
 import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
+import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.binding.MethodBindingEx;
@@ -49,7 +50,6 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 	private String m_DownloadFileName;
 	private ITemplateSource m_TemplateSource;
 	private MethodBinding m_PostGenerationProcess;
-	
 
 	public UIWorkbook() {
 
@@ -161,8 +161,8 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 
 		ITemplateSource itsCurrent = getTemplateSource();
 		if (itsCurrent == null) {
-			System.out.println("Nix TemplateSource");
-			// TODO: BUILD Error
+			ErrorPageBuilder.getInstance().processError(httpResponse,
+					"No Templatesource found!", null);
 			return;
 		}
 		try {
@@ -173,13 +173,15 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 			try {
 				e.printStackTrace();
 				e.printStackTrace(httpResponse.getWriter());
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e);
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				e.printStackTrace();
-				// TODO: handle exception
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e2);
 			}
 		}
 	}
+
 	public MethodBinding getPostGenerationProcess() {
 		return m_PostGenerationProcess;
 	}
@@ -199,7 +201,8 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 			state[3] = FacesUtil
 					.objectToSerializable(context, m_TemplateSource);
 			state[4] = StateHolderUtil.saveList(context, m_Spreadsheets);
-			state[5] = StateHolderUtil.saveMethodBinding(context, m_PostGenerationProcess);
+			state[5] = StateHolderUtil.saveMethodBinding(context,
+					m_PostGenerationProcess);
 			return state;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -216,11 +219,12 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		m_TemplateSource = (ITemplateSource) FacesUtil.objectFromSerializable(
 				context, this, state[3]);
 		m_Spreadsheets = StateHolderUtil.restoreList(context, this, state[4]);
-		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context, this, state[5]);
+		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context,
+				this, state[5]);
 	}
 
 	public boolean postGenerationProcess(FacesContext context,
-			Workbook wbCurrent)  {
+			Workbook wbCurrent) {
 		if (m_PostGenerationProcess != null) {
 			Object[] params = null;
 			if (m_PostGenerationProcess instanceof MethodBindingEx) {
@@ -240,5 +244,4 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 
 	private static final String[] s_postGenParamNames = { "workbook" }; // $NON-NLS-1$
 
-	
 }

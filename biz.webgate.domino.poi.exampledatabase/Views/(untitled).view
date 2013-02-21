@@ -2,13 +2,14 @@
 <!DOCTYPE note SYSTEM 'xmlschemas/domino_8_5_3.dtd'>
 <note default='true' class='view' xmlns='http://www.lotus.com/dxl' version='8.5'
  maintenanceversion='3.0' replicaid='C1257A6A004D4D0A'>
-<noteinfo noteid='116' unid='A6AE2B272B81791CC1257A6A004D4D0E' sequence='1'>
+<noteinfo noteid='116' unid='A6AE2B272B81791CC1257A6A004D4D0E' sequence='3'>
 <created><datetime dst='true'>20120830T160419,98+02</datetime></created>
-<modified><datetime dst='true'>20120830T160420,01+02</datetime></modified>
-<revised><datetime dst='true'>20120830T160420,00+02</datetime></revised>
-<lastaccessed><datetime>20121210T113602,20+01</datetime></lastaccessed>
+<modified><datetime>20130212T222711,27+01</datetime></modified>
+<revised><datetime>20130212T222711,26+01</datetime></revised>
+<lastaccessed><datetime>20130212T222711,27+01</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20120830T160420,01+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
 <item name='$TITLE'><text/></item>
 <item name='$Formula' summary='true'><formula compiled='true'>
 HAAFAA4ACgABAAQAJCQkJAQABAAAAAgAZgADAA==

@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
 import biz.webgate.dominoext.poi.component.kernel.CSVProcessor;
 import biz.webgate.dominoext.poi.component.sources.IExportSource;
+import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.component.FacesAjaxComponent;
@@ -159,10 +160,14 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 			try {
 				e.printStackTrace();
 				e.printStackTrace(httpResponse.getWriter());
+				ErrorPageBuilder.getInstance().processError(httpResponse,
+						"General Error!", e);
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				e.printStackTrace();
-				// TODO: handle exception
+				ErrorPageBuilder.getInstance().processError(httpResponse,
+						"General Error!", e2);
+
 			}
 		}
 	}
@@ -201,7 +206,7 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 		m_DataSourceVar = (String) state[5];
 		m_Index = (String) state[6];
 		m_Var = (String) state[7];
-		m_includeHeader = (Boolean)state[8];
+		m_includeHeader = (Boolean) state[8];
 	}
 
 	public List<CSVColumn> getColumns() {

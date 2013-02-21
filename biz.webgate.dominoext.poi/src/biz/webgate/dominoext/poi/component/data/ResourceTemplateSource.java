@@ -39,7 +39,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import biz.webgate.dominoext.poi.util.LoggerFactory;
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 import biz.webgate.dominoext.poi.util.POILibUtil;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
@@ -152,7 +152,7 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 
 				if (docNode.hasItem("$Title") && docNode.hasItem("$FileData")) {
 					Item itmTitle = docNode.getFirstItem("$Title");
-					if (itmTitle.containsValue(m_FileName)) {
+					if (itmTitle.containsValue(strFileName)) {
 						String str64 = getBASE64StringFormFileResource(docNode,
 								sesSigner);
 						if (str64 != null) {

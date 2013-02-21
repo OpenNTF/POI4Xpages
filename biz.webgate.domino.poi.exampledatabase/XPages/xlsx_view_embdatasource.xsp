@@ -31,7 +31,7 @@
 							</wgpoi:this.cellValues>
 							<wgpoi:this.exportDefinitions>
 								<wgpoi:data2rowExport startRow="4"
-									stepSize="1">
+									stepSize="1" var="row" index="index">
 									<wgpoi:this.dataSource>
 										<wgpoi:dominoViewSource
 											viewName="contacts2">
@@ -52,6 +52,13 @@
 										</wgpoi:columnDefinition>
 										<wgpoi:columnDefinition
 											columnNumber="4" columnTitle="EMail" rowShift="0">
+										</wgpoi:columnDefinition>
+										<wgpoi:columnDefinition
+											columnNumber="5" computeValue="#{javascript:index}">
+										</wgpoi:columnDefinition>
+										<wgpoi:columnDefinition
+											columnNumber="6"
+											computeValue="#{javascript:row.getDocument().getUniversalID()}">
 										</wgpoi:columnDefinition>
 									</wgpoi:this.columns>
 								</wgpoi:data2rowExport>

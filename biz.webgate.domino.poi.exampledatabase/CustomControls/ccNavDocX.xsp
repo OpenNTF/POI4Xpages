@@ -15,5 +15,8 @@
 			<xe:pageTreeNode label="via poiBean" page="docx_poi.xsp"
 				rendered="true">
 			</xe:pageTreeNode>
+			<xe:pageTreeNode label="direct Input as PDF"
+				page="/docx_contractdocument_pdf.xsp">
+			</xe:pageTreeNode>
 		</xe:this.treeNodes>
 	</xe:navigator></xp:view>

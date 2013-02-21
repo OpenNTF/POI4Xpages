@@ -29,12 +29,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import biz.webgate.dominoext.poi.POIException;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.containers.UICSV;
 import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
 import biz.webgate.dominoext.poi.component.kernel.csv.EmbeddedDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.csv.XPagesDataSourceExportProcessor;
-import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
+import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 public class CSVProcessor {
 

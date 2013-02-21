@@ -6,7 +6,7 @@ import javax.faces.model.DataModel;
 
 import org.apache.poi.ss.usermodel.Sheet;
 
-import biz.webgate.dominoext.poi.POIException;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
@@ -39,7 +39,8 @@ public class XPagesDataSourceExportProcessor implements
 	}
 
 	public void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
-			FacesContext context) throws POIException {
+			FacesContext context, String strVarName, String strIndexName)
+			throws POIException {
 
 		DataSource ds = lstExport.getPageDataSource();
 
@@ -51,13 +52,19 @@ public class XPagesDataSourceExportProcessor implements
 				int nDSRCount = tdm.getRowCount();
 				for (int nCount = 0; nCount < nDSRCount; nCount++) {
 					tdm.setRowIndex(nCount);
-					// TODO: Variablen setzen
 					if (tdm.isRowAvailable()) {
 						for (ColumnDefinition clDef : lstExport.getColumns()) {
 							int nCol = clDef.getColumnNumber();
 							int nMyRow = clDef.getRowShift() + nRow;
-							Object objCurrent = getColumnValue(
-									clDef.getColumnTitle(), tdm, context);
+							String strTitle = clDef.getColumnTitle();
+							Object objCurrent = null;
+							if (strTitle != null && !"".equals(strTitle)) {
+								objCurrent = getColumnValue(
+										clDef.getColumnTitle(), tdm, context);
+							} else {
+								objCurrent = clDef.executeComputeValue(context, tdm.getRowData(), nCount,
+										strVarName, strIndexName);
+							}
 							WorkbookProcessor.setCellValue(shProcess, nMyRow,
 									nCol, objCurrent);
 						}
@@ -76,7 +83,8 @@ public class XPagesDataSourceExportProcessor implements
 	}
 
 	public void processExportCol(Data2ColumnExporter lstExport,
-			Sheet shProcess, FacesContext context) throws POIException {
+			Sheet shProcess, FacesContext context, String strVarName,
+			String strIndexName) throws POIException {
 		DataSource ds = lstExport.getPageDataSource();
 
 		if (ds != null) {
@@ -87,13 +95,19 @@ public class XPagesDataSourceExportProcessor implements
 				int nDSMRRowCount = tdm.getRowCount();
 				for (int nCount = 0; nCount < nDSMRRowCount; nCount++) {
 					tdm.setRowIndex(nCount);
-					// TODO: Variablen setzen
 					if (tdm.isRowAvailable()) {
 						for (RowDefinition rdDef : lstExport.getRows()) {
 							int nMyCol = rdDef.getColumnShift() + nCol;
 							int nRow = rdDef.getRowNumber();
-							Object objCurrent = getColumnValue(
-									rdDef.getColumnTitle(), tdm, context);
+							String strTitle = rdDef.getColumnTitle();
+							Object objCurrent = null;
+							if (strTitle != null && !"".equals(strTitle)) {
+								objCurrent = getColumnValue(
+										rdDef.getColumnTitle(), tdm, context);
+							} else {
+								objCurrent = rdDef.executeComputeValue(context, tdm.getRowData(), nCount,
+										strVarName, strIndexName);
+							}
 							WorkbookProcessor.setCellValue(shProcess, nRow,
 									nMyCol, objCurrent);
 						}

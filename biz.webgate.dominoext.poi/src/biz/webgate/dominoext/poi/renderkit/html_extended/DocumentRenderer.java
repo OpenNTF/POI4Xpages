@@ -25,11 +25,9 @@ import com.ibm.xsp.renderkit.FacesRenderer;
 public class DocumentRenderer extends FacesRenderer {
 	@Override
 	public void decode(FacesContext context, UIComponent component) {
-		System.out.println("Decode");
 	}
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component){
-		System.out.println("Encode");
 	}
 	@Override
 	public boolean getRendersChildren() {

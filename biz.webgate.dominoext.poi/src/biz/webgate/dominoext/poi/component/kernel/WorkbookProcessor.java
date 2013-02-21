@@ -32,7 +32,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import biz.webgate.dominoext.poi.POIException;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.containers.UIWorkbook;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
@@ -44,7 +44,7 @@ import biz.webgate.dominoext.poi.component.data.ss.cell.CellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
 import biz.webgate.dominoext.poi.component.kernel.workbook.EmbeddedDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.workbook.XPagesDataSourceExportProcessor;
-import biz.webgate.dominoext.poi.util.ErrorPageBuilder;
+import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
 
@@ -147,23 +147,45 @@ public class WorkbookProcessor {
 						EmbeddedDataSourceExportProcessor.getInstance()
 								.processExportCol(
 										(Data2ColumnExporter) lstExport,
-										shProcess, context);
+										shProcess,
+										context,
+										((Data2ColumnExporter) lstExport)
+												.getVar(),
+										((Data2ColumnExporter) lstExport)
+												.getIndex());
 					} else {
 						XPagesDataSourceExportProcessor.getInstances()
 								.processExportCol(
 										(Data2ColumnExporter) lstExport,
-										shProcess, context);
+										shProcess,
+										context,
+										((Data2ColumnExporter) lstExport)
+												.getVar(),
+										((Data2ColumnExporter) lstExport)
+												.getIndex());
 					}
 				}
 				if (lstExport instanceof Data2RowExporter) {
 					if (lstExport.getDataSource() != null) {
-						EmbeddedDataSourceExportProcessor.getInstance()
-								.processExportRow((Data2RowExporter) lstExport,
-										shProcess, context);
+						EmbeddedDataSourceExportProcessor
+								.getInstance()
+								.processExportRow(
+										(Data2RowExporter) lstExport,
+										shProcess,
+										context,
+										((Data2RowExporter) lstExport).getVar(),
+										((Data2RowExporter) lstExport)
+												.getIndex());
 					} else {
-						XPagesDataSourceExportProcessor.getInstances()
-								.processExportRow((Data2RowExporter) lstExport,
-										shProcess, context);
+						XPagesDataSourceExportProcessor
+								.getInstances()
+								.processExportRow(
+										(Data2RowExporter) lstExport,
+										shProcess,
+										context,
+										((Data2RowExporter) lstExport).getVar(),
+										((Data2RowExporter) lstExport)
+												.getIndex());
 					}
 
 				}

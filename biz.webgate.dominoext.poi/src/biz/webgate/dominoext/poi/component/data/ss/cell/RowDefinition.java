@@ -18,12 +18,12 @@ package biz.webgate.dominoext.poi.component.data.ss.cell;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import biz.webgate.dominoext.poi.component.data.AbstractDefinition;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
 
-import com.ibm.xsp.complex.ValueBindingObjectImpl;
+import com.ibm.xsp.util.StateHolderUtil;
 
-public class RowDefinition extends ValueBindingObjectImpl implements
-		IDefinition {
+public class RowDefinition extends AbstractDefinition implements IDefinition {
 	private Integer m_RowNumber;
 	private String m_ColumnTitle;
 	private Integer m_ColumnShift = 0;
@@ -67,11 +67,13 @@ public class RowDefinition extends ValueBindingObjectImpl implements
 
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[4];
+		Object[] state = new Object[5];
 		state[0] = super.saveState(context);
 		state[1] = m_RowNumber;
 		state[2] = m_ColumnShift;
 		state[3] = m_ColumnTitle;
+		state[4] = StateHolderUtil
+				.saveMethodBinding(context, getComputeValue());
 		return state;
 	}
 
@@ -82,6 +84,8 @@ public class RowDefinition extends ValueBindingObjectImpl implements
 		m_RowNumber = (Integer) state[1];
 		m_ColumnShift = (Integer) state[2];
 		m_ColumnTitle = (String) state[3];
+		setComputeValue(StateHolderUtil.restoreMethodBinding(context,
+				getComponent(), state[4]));
 	}
 
 	public String getColumnTitle() {

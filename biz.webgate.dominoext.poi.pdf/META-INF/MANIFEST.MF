@@ -2,27 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI Pdf
 Bundle-SymbolicName: biz.webgate.dominoext.poi.pdf;singleton:=true
-Bundle-Version: 1.1.0.qualifier
-Bundle-ClassPath: .,
- main/resources/,
- lib/avalon-framework-api-4.3.1.jar,
- lib/avalon-framework-impl-4.3.1.jar,
- lib/commons-io-1.3.1.jar,
- lib/fop-1.0.jar,
- lib/jaxb-xslfo-1.0.1.jar,
- lib/log4j-1.2.15.jar,
- lib/stringtemplate-3.2.1.jar,
- lib/xmlgraphics-commons-1.4.jar,
- src/main/resources/
+Bundle-Version: 1.1.5.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.pdf.Activator
 Bundle-Vendor: WebGate Consulting AG
 Export-Package: biz.webgate.dominoext.poi.pdf;uses:="org.osgi.framework",
  biz.webgate.dominoext.poi.pdf.service;uses:="biz.webgate.dominoext.poi.pdf"
 Require-Bundle: org.eclipse.core.runtime,
- com.ibm.xsp.core,
  com.ibm.xsp.domino,
  com.ibm.xsp.designer,
  com.ibm.designer.runtime,
- biz.webgate.dominoext.poi.docx4j
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+ biz.webgate.dominoext.poi.utils,
+ biz.webgate.dominoext.poi.pdf.fopdocx4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

@@ -121,6 +121,7 @@
 		    <property-name>pdfOutput</property-name>
     		<property-class>boolean</property-class>
         	<property-extension>
+        		<since>1.1.5</since>
             	<designer-extension>
             		<category>poi</category>
             	</designer-extension>
@@ -132,6 +133,7 @@
 			<property-name>postGenerationProcess</property-name>
 			<property-class>javax.faces.el.MethodBinding</property-class>
 			<property-extension>
+				<since>1.1.0</since>
 				<method-binding-property>true</method-binding-property>
             	<designer-extension>
             		<category>poi</category>

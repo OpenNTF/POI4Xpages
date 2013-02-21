@@ -26,9 +26,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.POIException;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
-import biz.webgate.dominoext.poi.util.LoggerFactory;
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 import com.ibm.xsp.util.StateHolderUtil;
@@ -79,19 +79,36 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 		m_Values = values;
 	}
 
-	public Object getValue(IDefinition idCurrent) {
+	public Object getValue(IDefinition idCurrent, String strVarName,
+			String strIndName, int nIndex, FacesContext context) {
+		String strVarNameUse = strVarName == null || "".equals(strVarName) ? "exportRow"
+				: strVarName;
+		String strIndNameUse = strIndName == null || "".equals(strIndName) ? "indexRow"
+				: strIndName;
+
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass()
 				.getCanonicalName());
-		try {
-			Method mt = m_tempObj.getClass().getMethod(
-					"get" + idCurrent.getColumnTitle());
-			logCurrent.info("ColumnTitle = " + idCurrent.getColumnTitle());
-			logCurrent.info("MT =" + mt);
-			Object objRC = mt.invoke(m_tempObj);
-			logCurrent.info("Result =" + objRC);
-			return objRC;
-		} catch (Exception e) {
-			logCurrent.log(Level.SEVERE, "Error on getValue()", e);
+		String strCT = idCurrent.getColumnTitle();
+
+		if (strCT != null && !"".equals(strCT)) {
+			try {
+				Method mt = m_tempObj.getClass().getMethod(
+						"get" + idCurrent.getColumnTitle());
+				logCurrent.info("ColumnTitle = " + idCurrent.getColumnTitle());
+				logCurrent.info("MT =" + mt);
+				Object objRC = mt.invoke(m_tempObj);
+				logCurrent.info("Result =" + objRC);
+				return objRC;
+			} catch (Exception e) {
+				logCurrent.log(Level.SEVERE, "Error on getValue()", e);
+			}
+		} else {
+			try {
+				return idCurrent.executeComputeValue(context, m_tempObj,
+						nIndex, strVarNameUse, strIndNameUse);
+			} catch (Exception e) {
+				logCurrent.log(Level.SEVERE, "Error on getValue()", e);
+			}
 		}
 		return null;
 	}

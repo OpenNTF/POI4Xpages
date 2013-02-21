@@ -1,21 +1,16 @@
 package biz.webgate.dominoext.poi.component.kernel.workbook;
 
 import javax.faces.context.FacesContext;
-import javax.faces.el.PropertyResolver;
 
 import org.apache.poi.ss.usermodel.Sheet;
 
-import com.ibm.commons.util.StringUtil;
-import com.ibm.xsp.model.TabularDataModel;
-import com.ibm.xsp.model.ViewRowData;
-
-import biz.webgate.dominoext.poi.POIException;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
 import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
 import biz.webgate.dominoext.poi.component.sources.IExportSource;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 
 public class EmbeddedDataSourceExportProcessor implements
 		IDataSourceExportProcessor {
@@ -33,7 +28,8 @@ public class EmbeddedDataSourceExportProcessor implements
 	}
 
 	public void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
-			FacesContext context) throws POIException {
+			FacesContext context, String strVar, String strIndex)
+			throws POIException {
 		try {
 			IExportSource is = lstExport.getDataSource();
 			int nAccess = is.accessSource();
@@ -47,13 +43,13 @@ public class EmbeddedDataSourceExportProcessor implements
 			int nCount = 0;
 			while (is.accessNextRow() == 1) {
 				nCount++;
-				// TODO: Variablen setzen
 				for (ColumnDefinition clDef : lstExport.getColumns()) {
 					int nCol = clDef.getColumnNumber();
 					int nMyRow = clDef.getRowShift() + nRow;
-					Object objCurrent = is.getValue(clDef);
-					WorkbookProcessor.setCellValue(shProcess,
-							nMyRow, nCol, objCurrent);
+					Object objCurrent = is.getValue(clDef, strVar, strIndex,
+							nCount, context);
+					WorkbookProcessor.setCellValue(shProcess, nMyRow, nCol,
+							objCurrent);
 				}
 				nRow = nRow + nStepSize;
 			}
@@ -64,7 +60,7 @@ public class EmbeddedDataSourceExportProcessor implements
 	}
 
 	public void processExportCol(Data2ColumnExporter lstExport,
-			Sheet shProcess, FacesContext context) throws POIException {
+			Sheet shProcess, FacesContext context, String strVar, String strInd) throws POIException {
 		IExportSource is = lstExport.getDataSource();
 		int nAccess = is.accessSource();
 		if (nAccess < 1) {
@@ -80,9 +76,9 @@ public class EmbeddedDataSourceExportProcessor implements
 				for (RowDefinition rdDef : lstExport.getRows()) {
 					int nMyCol = rdDef.getColumnShift() + nCol;
 					int nRow = rdDef.getRowNumber();
-					Object objCurrent = is.getValue(rdDef);
-					WorkbookProcessor.setCellValue(shProcess,
-							nRow, nMyCol, objCurrent);
+					Object objCurrent = is.getValue(rdDef, strVar, strInd, nCount, context);
+					WorkbookProcessor.setCellValue(shProcess, nRow, nMyCol,
+							objCurrent);
 				}
 				nCol = nCol + nStepSize;
 			}
