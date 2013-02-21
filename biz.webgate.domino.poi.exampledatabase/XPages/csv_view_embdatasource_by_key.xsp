@@ -9,7 +9,7 @@
 	<xc:ccApplication pageTitle="CSV Export (only one category)"
 		navigationPath="/csv/catdatasource">
 		<xp:this.facets>
-			<xc:ccNavXlsx xp:key="facetLeft"></xc:ccNavXlsx>
+			<xc:ccNavCSV xp:key="facetLeft"></xc:ccNavCSV>
 			<xp:panel xp:key="facetRight">
 				<wgpoi:csv id="csvExport" downloadFileName="export.csv"
 					includeHeader="true" pathInfo="csvdownload">
