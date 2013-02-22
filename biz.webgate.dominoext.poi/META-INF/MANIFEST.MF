@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.ibm.commons,
  com.ibm.xsp.domino,
  com.ibm.notes.java.api,
- biz.webgate.dominoext.poi.library,
+ biz.webgate.dominoext.poi.library;visibility:=reexport,
  biz.webgate.dominoext.poi.csvprocessor,
  biz.webgate.dominoext.poi.pdf,
  biz.webgate.dominoext.poi.utils
