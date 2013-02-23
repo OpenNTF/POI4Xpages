@@ -206,7 +206,10 @@ public class WorkbookProcessor {
 			}
 			if (objValue instanceof Double) {
 				c.setCellValue((Double) objValue);
-			} else {
+			} else if (objValue instanceof Integer) {
+				c.setCellValue((Integer) objValue);
+			} else
+			{
 				if (objValue instanceof Date) {
 					c.setCellValue((Date) objValue);
 				} else {
