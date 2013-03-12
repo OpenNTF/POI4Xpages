@@ -228,13 +228,6 @@ END OF TERMS AND CONDITIONS
          unpack="false"/>
 
    <plugin
-         id="biz.webgate.dominoext.poi.library"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="biz.webgate.dominoext.poi.csvprocessor"
          download-size="0"
          install-size="0"

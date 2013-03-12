@@ -21,13 +21,16 @@ import javax.faces.el.ValueBinding;
 import biz.webgate.dominoext.poi.component.data.AbstractDefinition;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
 
+import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
 
 public class ColumnDefinition extends AbstractDefinition implements IDefinition {
 	private Integer m_ColumnNumber;
 	private String m_ColumnTitle;
 	private Integer m_RowShift = 0;
-
+	private Boolean m_CellFormula = false;
+	private PoiCellStyle m_PoiCellStyle;
+	
 	public int getColumnNumber() {
 		if (m_ColumnNumber != null) {
 			return m_ColumnNumber;
@@ -65,16 +68,42 @@ public class ColumnDefinition extends AbstractDefinition implements IDefinition 
 	public void setRowShift(int rowShift) {
 		m_RowShift = rowShift;
 	}
+		
+	public boolean isCellFormula() {
+		return m_CellFormula;
+	}
 
+	public void setCellFormula(boolean cellFormula) {
+		m_CellFormula = cellFormula;
+	}
+	
+	public PoiCellStyle getPoiCellStyle() {
+		return m_PoiCellStyle;
+	}
+
+	public void setPoiCellStyle(PoiCellStyle poiCellStyle) {
+		m_PoiCellStyle = poiCellStyle;
+	}
+
+	public PoiCellStyle getCellStyle() {
+		return getPoiCellStyle();
+	}
+
+	public void setCellStyle(PoiCellStyle poiCellStyle) {
+		setPoiCellStyle(poiCellStyle);
+	}
+	
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[5];
+		Object[] state = new Object[7];
 		state[0] = super.saveState(context);
 		state[1] = m_ColumnNumber;
 		state[2] = m_RowShift;
 		state[3] = m_ColumnTitle;
 		state[4] = StateHolderUtil
 				.saveMethodBinding(context, getComputeValue());
+		state[5] = m_CellFormula;
+		state[6] = FacesUtil.objectToSerializable(context, m_PoiCellStyle);
 		return state;
 	}
 
@@ -87,6 +116,8 @@ public class ColumnDefinition extends AbstractDefinition implements IDefinition 
 		m_ColumnTitle = (String) state[3];
 		setComputeValue(StateHolderUtil.restoreMethodBinding(context,
 				getComponent(), state[4]));
+		m_CellFormula = (Boolean) state[5];
+		m_PoiCellStyle = (PoiCellStyle) FacesUtil.objectFromSerializable(context, state[6]);
 	}
 
 	public String getColumnTitle() {

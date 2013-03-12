@@ -28,8 +28,39 @@
 								<wgpoi:cellBookmark name="date"
 									value="#{javascript:@Text(@Today())}">
 								</wgpoi:cellBookmark>
+
+
+
+								<wgpoi:cellValue value="test"
+									columnNumber="8" rowNumber="8">
+									<wgpoi:this.cellStyle>
+										<wgpoi:cellStyle
+											borderTop="BORDER_NONE" alignment="ALIGN_LEFT"
+											fontName="Georgia">
+										</wgpoi:cellStyle>
+									</wgpoi:this.cellStyle>
+								</wgpoi:cellValue>
 							</wgpoi:this.cellValues>
 							<wgpoi:this.exportDefinitions>
+								<wgpoi:data2columnExport
+									startColumn="8">
+									<wgpoi:this.dataSource>
+										<wgpoi:dominoViewSource
+											key="#{javascript:viewScope.stateSelector}"
+											viewName="AllContactsByState">
+										</wgpoi:dominoViewSource>
+									</wgpoi:this.dataSource>
+									<wgpoi:this.rows>
+										<wgpoi:rowDefinition
+											cellFormula="false" columnTitle="LastName" rowNumber="1">
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													borderTop="BORDER_THIN">
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
+										</wgpoi:rowDefinition>
+									</wgpoi:this.rows>
+								</wgpoi:data2columnExport>
 								<wgpoi:data2rowExport startRow="4"
 									stepSize="1">
 									<wgpoi:this.dataSource>
@@ -41,7 +72,24 @@
 									</wgpoi:this.dataSource>
 									<wgpoi:this.columns>
 										<wgpoi:columnDefinition
-											columnNumber="0" columnTitle="FirstName" rowShift="0">
+											columnNumber="0" rowShift="0" cellFormula="true">
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													alignment="ALIGN_RIGHT" borderBottom="BORDER_MEDIUM"
+													borderLeft="BORDER_DOTTED" bottomBorderColor="DARK_GREEN"
+													fillForegroundColor="VIOLET" fillPattern="SOLID_FOREGROUND"
+													verticalAlignment="VERTICAL_TOP" leftBorderColor="SKY_BLUE"
+													rotation="45" hidden="true" fontColor="AQUA"
+													fontName="zapfellipt bt " fontTypeOffset="SS_NONE"
+													fontUnderline="U_NONE" fontHeightInPoints="14"
+													fontItalic="true" fontStrikeout="true"
+													fontBoldweight="2">
+
+													<wgpoi:this.dataFormat><![CDATA[@"TEST"]]></wgpoi:this.dataFormat>
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
+
+											<wgpoi:this.computeValue><![CDATA[#{javascript:"TEXT(\"Ein kleiner\",\"\")";}]]></wgpoi:this.computeValue>
 										</wgpoi:columnDefinition>
 										<wgpoi:columnDefinition
 											columnNumber="1" columnTitle="LastName" rowShift="0">

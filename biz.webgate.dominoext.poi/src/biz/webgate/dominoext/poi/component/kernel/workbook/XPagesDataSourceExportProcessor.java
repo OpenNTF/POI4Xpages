@@ -66,7 +66,7 @@ public class XPagesDataSourceExportProcessor implements
 										strVarName, strIndexName);
 							}
 							WorkbookProcessor.setCellValue(shProcess, nMyRow,
-									nCol, objCurrent);
+									nCol, objCurrent, clDef.isCellFormula(), clDef.getPoiCellStyle());
 						}
 
 						nRow = nRow + nStepSize;
@@ -109,7 +109,7 @@ public class XPagesDataSourceExportProcessor implements
 										strVarName, strIndexName);
 							}
 							WorkbookProcessor.setCellValue(shProcess, nRow,
-									nMyCol, objCurrent);
+									nMyCol, objCurrent, rdDef.isCellFormula(), rdDef.getPoiCellStyle());
 						}
 					}
 					nCol = nCol + nStepSize;

@@ -179,7 +179,7 @@
     		<property-class>java.lang.String</property-class>
   		</property>
   		<property>
-			<description>Function will be executed, if there is no columnTitle defined. The current line and the current object are accessabel with the defined variables</description>
+			<description>Function will be executed, if there is no columnTitle defined. The current line and the current object are accessible with the defined variables</description>
 			<display-name>computeValue</display-name>
 			<property-name>computeValue</property-name>
 			<property-class>javax.faces.el.MethodBinding</property-class>
@@ -189,6 +189,28 @@
 			</property-extension>
 		</property>
   		
+  		<property>
+			<description>If this property is set to true the entered Value will be handled as a Formula (No = needed in the beginning, use , instead of ;) </description>
+			<display-name>Cell Formula</display-name>
+			<property-name>cellFormula</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Cell Style</description>
+			<display-name>CellStyle</display-name>
+			<property-name>cellStyle</property-name>
+            <property-class>biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle</property-class>
+        	<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
   		<complex-extension>
     		<tag-name>columnDefinition</tag-name>
   		</complex-extension>
@@ -235,10 +257,899 @@
 			</property-extension>
 		</property>
   		
+  		<property>
+			<description>If this property is set to true the entered Value will be handled as a Formula (No = needed in the beginning, use , instead of ;) </description>
+			<display-name>Cell Formula</display-name>
+			<property-name>cellFormula</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Cell Style</description>
+			<display-name>CellStyle</display-name>
+			<property-name>cellStyle</property-name>
+            <property-class>biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle</property-class>
+        	<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
   		<complex-extension>
     		<tag-name>rowDefinition</tag-name>
   		</complex-extension>
 	</complex-type>
 	
+	
+	
+	<complex-type>
+  		<description>Defines a style for the cell</description>
+  		<display-name>CellStyle</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.ss.cell.poicellstyle</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle</complex-class>  
+
+  		<property>
+			<description>Alignment</description>
+			<display-name>Alignment</display-name>
+			<property-name>alignment</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+						ALIGN_GENERAL
+						ALIGN_LEFT
+						ALIGN_CENTER
+						ALIGN_RIGHT
+						ALIGN_FILL
+						ALIGN_JUSTIFY
+						ALIGN_CENTER_SELECTION
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Border Bottom</description>
+			<display-name>BorderBottom</display-name>
+			<property-name>borderBottom</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	BORDER_NONE
+						BORDER_THIN
+						BORDER_MEDIUM
+						BORDER_DASHED
+						BORDER_DOTTED
+						BORDER_THICK
+						BORDER_DOUBLE
+						BORDER_HAIR
+						BORDER_MEDIUM_DASHED
+						BORDER_DASH_DOT
+						BORDER_MEDIUM_DASH_DOT
+						BORDER_DASH_DOT_DOT
+						BORDER_MEDIUM_DASH_DOT_DOT
+						BORDER_SLANTED_DASH_DOT
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Border Top</description>
+			<display-name>BorderTop</display-name>
+			<property-name>borderTop</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	BORDER_NONE
+						BORDER_THIN
+						BORDER_MEDIUM
+						BORDER_DASHED
+						BORDER_DOTTED
+						BORDER_THICK
+						BORDER_DOUBLE
+						BORDER_HAIR
+						BORDER_MEDIUM_DASHED
+						BORDER_DASH_DOT
+						BORDER_MEDIUM_DASH_DOT
+						BORDER_DASH_DOT_DOT
+						BORDER_MEDIUM_DASH_DOT_DOT
+						BORDER_SLANTED_DASH_DOT
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Border Right</description>
+			<display-name>BorderRight</display-name>
+			<property-name>borderRight</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+						BORDER_NONE
+						BORDER_THIN
+						BORDER_MEDIUM
+						BORDER_DASHED
+						BORDER_DOTTED
+						BORDER_THICK
+						BORDER_DOUBLE
+						BORDER_HAIR
+						BORDER_MEDIUM_DASHED
+						BORDER_DASH_DOT
+						BORDER_MEDIUM_DASH_DOT
+						BORDER_DASH_DOT_DOT
+						BORDER_MEDIUM_DASH_DOT_DOT
+						BORDER_SLANTED_DASH_DOT
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+	
+		<property>
+			<description>Border Left</description>
+			<display-name>BorderLeft</display-name>
+			<property-name>borderLeft</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+						BORDER_NONE
+						BORDER_THIN
+						BORDER_MEDIUM
+						BORDER_DASHED
+						BORDER_DOTTED
+						BORDER_THICK
+						BORDER_DOUBLE
+						BORDER_HAIR
+						BORDER_MEDIUM_DASHED
+						BORDER_DASH_DOT
+						BORDER_MEDIUM_DASH_DOT
+						BORDER_DASH_DOT_DOT
+						BORDER_MEDIUM_DASH_DOT_DOT
+						BORDER_SLANTED_DASH_DOT
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+	
+	
+		<property>
+			<description>Bottom Border Color</description>
+			<display-name>BottomBorderColor</display-name>
+			<property-name>bottomBorderColor</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	AQUA
+						AUTOMATIC
+						BLACK
+						BLUE
+						BLUE_GREY
+						BRIGHT_GREEN
+						BROWN
+						CORAL
+						CORNFLOWER_BLUE
+						DARK_BLUE
+						DARK_GREEN
+						DARK_RED
+						DARK_TEAL
+						DARK_YELLOW
+						GOLD
+						GREEN
+						GREY_25_PERCENT
+						GREY_40_PERCENT
+						GREY_50_PERCENT
+						GREY_80_PERCENT
+						INDIGO
+						LAVENDER
+						LEMON_CHIFFON
+						LIGHT_BLUE
+						LIGHT_CORNFLOWER_BLUE
+						LIGHT_GREEN
+						LIGHT_ORANGE
+						LIGHT_TURQUOISE
+						LIGHT_YELLOW
+						LIME
+						MAROON
+						OLIVE_GREEN
+						ORANGE
+						ORCHID
+						PALE_BLUE
+						PINK
+						PLUM
+						RED
+						ROSE
+						ROYAL_BLUE
+						SEA_GREEN
+						SKY_BLUE
+						TAN
+						TEAL
+						TURQUOISE
+						VIOLET
+						WHITE
+						YELLOW
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+	
+	
+		<property>
+			<description>DataFormat</description>
+			<display-name>DataFormat</display-name>
+			<property-name>dataFormat</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		
+		<property>
+			<description>Fill Background Color</description>
+			<display-name>FillBackgroundColor</display-name>
+			<property-name>fillBackgroundColor</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	AQUA
+						AUTOMATIC
+						BLACK
+						BLUE
+						BLUE_GREY
+						BRIGHT_GREEN
+						BROWN
+						CORAL
+						CORNFLOWER_BLUE
+						DARK_BLUE
+						DARK_GREEN
+						DARK_RED
+						DARK_TEAL
+						DARK_YELLOW
+						GOLD
+						GREEN
+						GREY_25_PERCENT
+						GREY_40_PERCENT
+						GREY_50_PERCENT
+						GREY_80_PERCENT
+						INDIGO
+						LAVENDER
+						LEMON_CHIFFON
+						LIGHT_BLUE
+						LIGHT_CORNFLOWER_BLUE
+						LIGHT_GREEN
+						LIGHT_ORANGE
+						LIGHT_TURQUOISE
+						LIGHT_YELLOW
+						LIME
+						MAROON
+						OLIVE_GREEN
+						ORANGE
+						ORCHID
+						PALE_BLUE
+						PINK
+						PLUM
+						RED
+						ROSE
+						ROYAL_BLUE
+						SEA_GREEN
+						SKY_BLUE
+						TAN
+						TEAL
+						TURQUOISE
+						VIOLET
+						WHITE
+						YELLOW
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+	
+		<property>
+			<description>Fill Foreground Color</description>
+			<display-name>FillForegroundColor</display-name>
+			<property-name>fillForegroundColor</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	AQUA
+						AUTOMATIC
+						BLACK
+						BLUE
+						BLUE_GREY
+						BRIGHT_GREEN
+						BROWN
+						CORAL
+						CORNFLOWER_BLUE
+						DARK_BLUE
+						DARK_GREEN
+						DARK_RED
+						DARK_TEAL
+						DARK_YELLOW
+						GOLD
+						GREEN
+						GREY_25_PERCENT
+						GREY_40_PERCENT
+						GREY_50_PERCENT
+						GREY_80_PERCENT
+						INDIGO
+						LAVENDER
+						LEMON_CHIFFON
+						LIGHT_BLUE
+						LIGHT_CORNFLOWER_BLUE
+						LIGHT_GREEN
+						LIGHT_ORANGE
+						LIGHT_TURQUOISE
+						LIGHT_YELLOW
+						LIME
+						MAROON
+						OLIVE_GREEN
+						ORANGE
+						ORCHID
+						PALE_BLUE
+						PINK
+						PLUM
+						RED
+						ROSE
+						ROYAL_BLUE
+						SEA_GREEN
+						SKY_BLUE
+						TAN
+						TEAL
+						TURQUOISE
+						VIOLET
+						WHITE
+						YELLOW
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+	
+		<property>
+			<description>Fill Pattern</description>
+			<display-name>FillPattern</display-name>
+			<property-name>fillPattern</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					 	NO_FILL
+						SOLID_FOREGROUND
+						FINE_DOTS
+						ALT_BARS
+						SPARSE_DOTS
+						THICK_HORZ_BANDS
+						THICK_VERT_BANDS
+						THICK_BACKWARD_DIAG
+						THICK_FORWARD_DIAG
+						BIG_SPOTS
+						BRICKS
+						THIN_HORZ_BANDS
+						THIN_VERT_BANDS
+						THIN_BACKWARD_DIAG
+						THIN_FORWARD_DIAG
+						SQUARES
+						DIAMONDS
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+
+		<property>
+			<description>Font Boldweight</description>
+			<display-name>FontBoldweight</display-name>
+			<property-name>fontBoldweight</property-name>
+			<property-class>short</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+
+		<property>
+			<description>Font Color</description>
+			<display-name>FontColor</display-name>
+			<property-name>fontColor</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				<designer-extension>
+					<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	AQUA
+						AUTOMATIC
+						BLACK
+						BLUE
+						BLUE_GREY
+						BRIGHT_GREEN
+						BROWN
+						CORAL
+						CORNFLOWER_BLUE
+						DARK_BLUE
+						DARK_GREEN
+						DARK_RED
+						DARK_TEAL
+						DARK_YELLOW
+						GOLD
+						GREEN
+						GREY_25_PERCENT
+						GREY_40_PERCENT
+						GREY_50_PERCENT
+						GREY_80_PERCENT
+						INDIGO
+						LAVENDER
+						LEMON_CHIFFON
+						LIGHT_BLUE
+						LIGHT_CORNFLOWER_BLUE
+						LIGHT_GREEN
+						LIGHT_ORANGE
+						LIGHT_TURQUOISE
+						LIGHT_YELLOW
+						LIME
+						MAROON
+						OLIVE_GREEN
+						ORANGE
+						ORCHID
+						PALE_BLUE
+						PINK
+						PLUM
+						RED
+						ROSE
+						ROYAL_BLUE
+						SEA_GREEN
+						SKY_BLUE
+						TAN
+						TEAL
+						TURQUOISE
+						VIOLET
+						WHITE
+						YELLOW
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+
+		<property>
+			<description>Font Height In Points</description>
+			<display-name>FontHeightInPoints</display-name>
+			<property-name>fontHeightInPoints</property-name>
+			<property-class>short</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		
+		<property>
+			<description>Font Name</description>
+			<display-name>FontName</display-name>
+			<property-name>fontName</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				<designer-extension>
+					<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+						Tahoma
+						Arial
+						Verdana
+						Georgia
+						Impact
+						Sylfaen
+						Mangal
+						Raavi
+						Latha
+						Shruti
+						Kartika
+						Vrinda
+						Calibri
+						Cambria
+						Candara
+						Corbel
+						Consolas
+						Constantia
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+			
+		<property>
+			<description>Font Italic</description>
+			<display-name>FontItalic</display-name>
+			<property-name>fontItalic</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Font Strikeout</description>
+			<display-name>FontStrikeout</display-name>
+			<property-name>fontStrikeout</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+
+
+		<property>
+			<description>Font Underline</description>
+			<display-name>FontUnderline</display-name>
+			<property-name>fontUnderline</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				<designer-extension>
+					<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+						U_NONE
+						U_SINGLE
+						U_DOUBLE
+						U_SINGLE_ACCOUNTING
+						U_DOUBLE_ACCOUNTING
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Font Type Offset</description>
+			<display-name>FontTypeOffset</display-name>
+			<property-name>fontTypeOffset</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				<designer-extension>
+					<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+						SS_NONE
+						SS_SUPER
+						SS_SUB
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Hidden</description>
+			<display-name>Hidden</display-name>
+			<property-name>hidden</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+	
+		<property>
+			<description>Indention</description>
+			<display-name>Indention</display-name>
+			<property-name>indention</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+						BORDER_NONE
+						BORDER_THIN
+						BORDER_MEDIUM
+						BORDER_DASHED
+						BORDER_DOTTED
+						BORDER_THICK
+						BORDER_DOUBLE
+						BORDER_HAIR
+						BORDER_MEDIUM_DASHED
+						BORDER_DASH_DOT
+						BORDER_MEDIUM_DASH_DOT
+						BORDER_DASH_DOT_DOT
+						BORDER_MEDIUM_DASH_DOT_DOT
+						BORDER_SLANTED_DASH_DOT
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+	
+		<property>
+			<description>Left Border Color</description>
+			<display-name>LeftBorderColor</display-name>
+			<property-name>leftBorderColor</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	AQUA
+						AUTOMATIC
+						BLACK
+						BLUE
+						BLUE_GREY
+						BRIGHT_GREEN
+						BROWN
+						CORAL
+						CORNFLOWER_BLUE
+						DARK_BLUE
+						DARK_GREEN
+						DARK_RED
+						DARK_TEAL
+						DARK_YELLOW
+						GOLD
+						GREEN
+						GREY_25_PERCENT
+						GREY_40_PERCENT
+						GREY_50_PERCENT
+						GREY_80_PERCENT
+						INDIGO
+						LAVENDER
+						LEMON_CHIFFON
+						LIGHT_BLUE
+						LIGHT_CORNFLOWER_BLUE
+						LIGHT_GREEN
+						LIGHT_ORANGE
+						LIGHT_TURQUOISE
+						LIGHT_YELLOW
+						LIME
+						MAROON
+						OLIVE_GREEN
+						ORANGE
+						ORCHID
+						PALE_BLUE
+						PINK
+						PLUM
+						RED
+						ROSE
+						ROYAL_BLUE
+						SEA_GREEN
+						SKY_BLUE
+						TAN
+						TEAL
+						TURQUOISE
+						VIOLET
+						WHITE
+						YELLOW
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+	
+		<property>
+			<description>Locked</description>
+			<display-name>Locked</display-name>
+			<property-name>locked</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+	
+	
+		<property>
+			<description>Right Border Color</description>
+			<display-name>RightBorderColor</display-name>
+			<property-name>rightBorderColor</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	AQUA
+						AUTOMATIC
+						BLACK
+						BLUE
+						BLUE_GREY
+						BRIGHT_GREEN
+						BROWN
+						CORAL
+						CORNFLOWER_BLUE
+						DARK_BLUE
+						DARK_GREEN
+						DARK_RED
+						DARK_TEAL
+						DARK_YELLOW
+						GOLD
+						GREEN
+						GREY_25_PERCENT
+						GREY_40_PERCENT
+						GREY_50_PERCENT
+						GREY_80_PERCENT
+						INDIGO
+						LAVENDER
+						LEMON_CHIFFON
+						LIGHT_BLUE
+						LIGHT_CORNFLOWER_BLUE
+						LIGHT_GREEN
+						LIGHT_ORANGE
+						LIGHT_TURQUOISE
+						LIGHT_YELLOW
+						LIME
+						MAROON
+						OLIVE_GREEN
+						ORANGE
+						ORCHID
+						PALE_BLUE
+						PINK
+						PLUM
+						RED
+						ROSE
+						ROYAL_BLUE
+						SEA_GREEN
+						SKY_BLUE
+						TAN
+						TEAL
+						TURQUOISE
+						VIOLET
+						WHITE
+						YELLOW
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>
+		
+		
+		<property>
+			<description>Rotation</description>
+			<display-name>Rotation</display-name>
+			<property-name>rotation</property-name>
+			<property-class>short</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>TopBorderColor</description>
+			<display-name>TopBorderColor</display-name>
+			<property-name>topBorderColor</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					  	AQUA
+						AUTOMATIC
+						BLACK
+						BLUE
+						BLUE_GREY
+						BRIGHT_GREEN
+						BROWN
+						CORAL
+						CORNFLOWER_BLUE
+						DARK_BLUE
+						DARK_GREEN
+						DARK_RED
+						DARK_TEAL
+						DARK_YELLOW
+						GOLD
+						GREEN
+						GREY_25_PERCENT
+						GREY_40_PERCENT
+						GREY_50_PERCENT
+						GREY_80_PERCENT
+						INDIGO
+						LAVENDER
+						LEMON_CHIFFON
+						LIGHT_BLUE
+						LIGHT_CORNFLOWER_BLUE
+						LIGHT_GREEN
+						LIGHT_ORANGE
+						LIGHT_TURQUOISE
+						LIGHT_YELLOW
+						LIME
+						MAROON
+						OLIVE_GREEN
+						ORANGE
+						ORCHID
+						PALE_BLUE
+						PINK
+						PLUM
+						RED
+						ROSE
+						ROYAL_BLUE
+						SEA_GREEN
+						SKY_BLUE
+						TAN
+						TEAL
+						TURQUOISE
+						VIOLET
+						WHITE
+						YELLOW
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>		
+
+		<property>
+			<description>Vertical Alignment</description>
+			<display-name>VerticalAlignment</display-name>
+			<property-name>verticalAlignment</property-name>
+			<property-class>java.lang.String</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+				 <designer-extension>
+				<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+					 	VERTICAL_TOP
+						VERTICAL_CENTER
+						VERTICAL_BOTTOM
+						VERTICAL_JUSTIFY
+					</editor-parameter>
+				 </designer-extension>
+			</property-extension>
+		</property>	
+		
+		<property>
+			<description>Wrap Text</description>
+			<display-name>WrapText</display-name>
+			<property-name>wrapText</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		<complex-extension>
+    		<tag-name>cellStyle</tag-name>
+  		</complex-extension>
+  		
+	</complex-type>
 </faces-config>
 

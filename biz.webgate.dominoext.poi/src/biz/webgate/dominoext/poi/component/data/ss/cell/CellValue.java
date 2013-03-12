@@ -19,13 +19,16 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
+import com.ibm.xsp.util.FacesUtil;
 
 public class CellValue extends ValueBindingObjectImpl implements ICellValue {
 
 	private Object m_Value;
 	private Integer m_ColumnNumber;
 	private Integer m_RowNumber;
-
+	private Boolean m_CellFormula = false;
+	private PoiCellStyle m_PoiCellStyle;
+	
 	public int getRowNumber() {
 		if (m_RowNumber != null) {
 			return m_RowNumber;
@@ -77,13 +80,40 @@ public class CellValue extends ValueBindingObjectImpl implements ICellValue {
 	public void setColumnNumber(int columnNumber) {
 		m_ColumnNumber = columnNumber;
 	}
+	
+	
+	public boolean isCellFormula() {
+		return m_CellFormula;
+	}
+
+	public void setCellFormula(boolean cellFormula) {
+		m_CellFormula = cellFormula;
+	}
+	
+	public PoiCellStyle getPoiCellStyle() {
+			return m_PoiCellStyle;
+	}
+
+	public void setPoiCellStyle(PoiCellStyle poiCellStyle) {
+		m_PoiCellStyle = poiCellStyle;
+	}
+	
+	public PoiCellStyle getCellStyle() {
+		return getPoiCellStyle();
+	}
+
+	public void setCellStyle(PoiCellStyle poiCellStyle) {
+		setPoiCellStyle(poiCellStyle);
+	}
 	@Override
 	public Object saveState(FacesContext context) {
-		Object[] state = new Object[4];
+		Object[] state = new Object[6];
 		state[0] = super.saveState(context);
 		state[1] = m_ColumnNumber;
 		state[2] = m_RowNumber;
 		state[3] = m_Value;
+		state[4] = m_CellFormula;
+		state[5] = FacesUtil.objectToSerializable(context, m_PoiCellStyle);
 		return state;
 	}
 
@@ -94,5 +124,7 @@ public class CellValue extends ValueBindingObjectImpl implements ICellValue {
 		m_ColumnNumber = (Integer)state[1];
 		m_RowNumber = (Integer)state[2];
 		m_Value = state[3];
+		m_CellFormula = (Boolean) state[4];
+		m_PoiCellStyle = (PoiCellStyle) FacesUtil.objectFromSerializable(context, state[5]);
 	}
 }

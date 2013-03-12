@@ -5,7 +5,7 @@
 	xmlns:xc="http://www.ibm.com/xsp/custom">
 	<xp:this.data>
 		<xp:dominoView var="vwContacts" viewName="Contacts"></xp:dominoView>
-	</xp:this.data>
+	</xp:this.data> 
 	<xc:ccApplication pageTitle="Export View / Poi-datasource"
 		navigationPath="/xlsx/viewpoidatasource">
 		<xp:this.facets>
@@ -40,6 +40,13 @@
 									<wgpoi:this.columns>
 										<wgpoi:columnDefinition
 											columnNumber="0" columnTitle="FirstName" rowShift="0">
+
+
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													alignment="Align Right">
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
 										</wgpoi:columnDefinition>
 										<wgpoi:columnDefinition
 											columnNumber="1" columnTitle="LastName" rowShift="0">

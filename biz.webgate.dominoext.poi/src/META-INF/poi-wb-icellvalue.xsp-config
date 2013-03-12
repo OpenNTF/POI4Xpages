@@ -58,6 +58,28 @@
 		    <property-name>value</property-name>
     		<property-class>java.lang.Object</property-class>
     	</property>
+    	<property>
+			<description>If this property is set to true the entered Value will be handled as a Formula (No = needed in the beginning, use , instead of ;) </description>
+			<display-name>Cell Formula</display-name>
+			<property-name>cellFormula</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Cell Style</description>
+			<display-name>CellStyle</display-name>
+			<property-name>cellStyle</property-name>
+            <property-class>biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle</property-class>
+        	<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
   		<complex-extension>
     		<tag-name>cellValue</tag-name>
     		<base-complex-id>biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue</base-complex-id>
