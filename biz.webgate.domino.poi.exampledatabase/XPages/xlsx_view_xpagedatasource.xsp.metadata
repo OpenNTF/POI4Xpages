@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="3.0" replicaid="C1257A6A004D4D0A" version="8.5" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="2e2" sequence="8" unid="74C4E64B04AAC419C1257AD8004ECDA8">
-<created><datetime>20121218T152044,56+01</datetime></created>
-<modified><datetime>20121218T152601,11+01</datetime></modified>
-<revised><datetime>20121218T152601,10+01</datetime></revised>
-<lastaccessed><datetime>20121218T152601,11+01</datetime></lastaccessed>
-<addedtofile><datetime>20121218T152044,57+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
-<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
+<?xml version="1.0" encoding="UTF-8"?><note class="form" replicaid="C1257B470024EEF4" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="162" sequence="7" unid="44E199C638BA3412C1257B470024EF88">
+<created><datetime dst="true">20130408T084326,16+02</datetime></created>
+<modified><datetime dst="true">20130408T085353,44+02</datetime></modified>
+<revised><datetime dst="true">20130408T085353,43+02</datetime></revised>
+<lastaccessed><datetime dst="true">20130408T085353,44+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20130408T084326,21+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Lena Troxler/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Lena Troxler/O=WGC/C=CH</name></wassignedby>
 <item name="$Flags"><text>gC~4K</text></item>
 <item name="$TITLE" sign="true"><text>xlsx_view_xpagedatasource.xsp</text></item>
 

@@ -30,7 +30,20 @@ import biz.webgate.dominoext.poi.Activator;
 
 import com.ibm.domino.xsp.module.nsf.NotesContext;
 
+import com.ibm.designer.runtime.Version;
+
 public class POILibUtil {
+
+	private static Boolean _9;
+	public static final boolean isXPages9() {
+		if (_9 == null) {
+			Version v = Version.CurrentRuntimeVersion;
+			_9 = (v.getMajor() == 9);
+		}
+		return _9;
+	}
+
+	
 
 	public static String getPOILibUtilVersion() {
 		try {

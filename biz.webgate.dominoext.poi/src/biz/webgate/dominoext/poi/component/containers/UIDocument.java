@@ -136,7 +136,6 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	}
 
 	public void setPdfOutput(boolean pdfOutput) {
-		System.out.println("ischergsetzt=ja: " + pdfOutput);
 		m_PdfOutput = pdfOutput;
 	}
 

@@ -44,7 +44,11 @@
 
 											<wgpoi:this.cellStyle>
 												<wgpoi:cellStyle
+<<<<<<< HEAD
 													alignment="Align Right">
+=======
+													alignment="ALIGN_RIGHT">
+>>>>>>> Domino 9
 												</wgpoi:cellStyle>
 											</wgpoi:this.cellStyle>
 										</wgpoi:columnDefinition>

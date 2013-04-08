@@ -6,6 +6,7 @@ import javax.faces.model.DataModel;
 
 import org.apache.poi.ss.usermodel.Sheet;
 
+import biz.webgate.dominoext.poi.util.POILibUtil;
 import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
@@ -138,9 +139,15 @@ public class XPagesDataSourceExportProcessor implements
 					UIDataEx uidEX = new UIDataEx();
 					tdmv.setDataControl(uidEX);
 					tdmv.getRowCount();
-					((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx) tdmv
+					if(POILibUtil.isXPages9()){
+					((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx9) tdmv
 							.getDominoViewDataContainer().getNavigator())
 							.calculateExactCount(tdmv.getView());
+					}else{
+						((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx) tdmv
+								.getDominoViewDataContainer().getNavigator())
+								.calculateExactCount(tdmv.getView());
+					}
 					uidEX.setRows(tdmv.getRowCount());
 					return tdmv;
 				}
@@ -153,6 +160,7 @@ public class XPagesDataSourceExportProcessor implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 
