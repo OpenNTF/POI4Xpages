@@ -32,6 +32,7 @@ import com.ibm.domino.xsp.module.nsf.NotesContext;
 
 import com.ibm.designer.runtime.Version;
 
+@SuppressWarnings("deprecation")
 public class POILibUtil {
 
 	private static Boolean _9;
