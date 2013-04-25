@@ -18,6 +18,7 @@ package biz.webgate.dominoext.poi.component.sources;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import javax.faces.context.FacesContext;
 
@@ -49,6 +50,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		public ViewEntryCollection m_Col;
 		public List<String> m_ColTitle;
 		public int m_rowCount;
+		public Vector<?> m_ColValues;
 	}
 
 	public int getMaxRow() {
@@ -66,9 +68,11 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		try {
 			if (m_tempDataStore.m_Entry == null) {
 				m_tempDataStore.m_Entry = m_tempDataStore.m_Col.getFirstEntry();
+				m_tempDataStore.m_ColValues = m_tempDataStore.m_Entry.getColumnValues();
 			} else {
 				ViewEntry ve = m_tempDataStore.m_Entry;
-				m_tempDataStore.m_Entry = m_tempDataStore.m_Col.getNextEntry();
+				m_tempDataStore.m_Entry = m_tempDataStore.m_Col.getNextEntry(ve);
+				m_tempDataStore.m_ColValues = m_tempDataStore.m_Entry.getColumnValues();
 				ve.recycle();
 			}
 			if (m_tempDataStore.m_Entry == null) {
@@ -183,7 +187,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 			if (strTitle != null && !"".equals(strTitle)) {
 				if (m_tempDataStore.m_ColTitle.contains(strTitle)) {
 					int nPos = m_tempDataStore.m_ColTitle.indexOf(strTitle);
-					return m_tempDataStore.m_Entry.getColumnValues().elementAt(
+					return m_tempDataStore.m_ColValues.elementAt(
 							nPos);
 				}
 			} else {

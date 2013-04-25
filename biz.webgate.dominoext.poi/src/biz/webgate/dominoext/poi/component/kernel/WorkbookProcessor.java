@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -51,6 +52,7 @@ import biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle;
 import biz.webgate.dominoext.poi.component.kernel.workbook.EmbeddedDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.workbook.XPagesDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 import com.ibm.commons.util.StringUtil;
 
@@ -141,14 +143,17 @@ public class WorkbookProcessor {
 			List<Spreadsheet> lstSP, String strFileName,
 			HttpServletResponse httpResponse, FacesContext context,
 			UIWorkbook uiWB) {
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());	
 
 		try {
+			logCurrent.finer("First getting the File");
 			// First getting the File
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
 				Workbook wbCurrent = processWorkbook(itsCurrent, lstSP,
 						context, uiWB);
 
+				logCurrent.finer("Push the Result to the HttpServlet");	
 				// Push the Result to the HttpServlet
 				httpResponse.setContentType("application/octet-stream");
 				httpResponse.addHeader("Content-disposition",
@@ -172,15 +177,20 @@ public class WorkbookProcessor {
 	public Workbook processWorkbook(ITemplateSource itsCurrent,
 			List<Spreadsheet> lstSP, FacesContext context, UIWorkbook uiWB)
 			throws IOException, InvalidFormatException, POIException {
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());	
+
 		InputStream is = itsCurrent.getFileStream();
 		Workbook wbCurrent = WorkbookFactory.create(is);
 		// ;
 		itsCurrent.cleanUP();
 		// Processing all Spreadsheets to the File
+		logCurrent.finer("Push the Result to the HttpServlet");	
+		
 		for (Spreadsheet spCurrent : lstSP) {
 			processSpreadSheet(spCurrent, wbCurrent, context);
 		}
 		if (uiWB != null) {
+			logCurrent.finer("Post Generation Process");	
 			uiWB.postGenerationProcess(context, wbCurrent);
 		}
 		return wbCurrent;
@@ -189,7 +199,9 @@ public class WorkbookProcessor {
 	private void processSpreadSheet(Spreadsheet spCurrent, Workbook wbCurrent,
 			FacesContext context) throws POIException {
 		// Checking for Replacement Values
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());	
 
+		logCurrent.finer("Proccess Spread Sheet");	
 		String strName = spCurrent.getName();
 		Sheet shProcess = wbCurrent.getSheet(strName);
 		if (shProcess == null && !spCurrent.isCreate()) {
@@ -198,6 +210,8 @@ public class WorkbookProcessor {
 		if (shProcess == null) {
 			shProcess = wbCurrent.createSheet(strName);
 		}
+		
+		logCurrent.finer("Proccess Cell Values");	
 		if (spCurrent.getCellValues() != null) {
 			for (ICellValue iCV : spCurrent.getCellValues()) {
 				if (iCV instanceof CellBookmark) {
@@ -214,6 +228,8 @@ public class WorkbookProcessor {
 				}
 			}
 		}
+		
+		logCurrent.finer("Proccess ExportDefinition");	
 		if (spCurrent.getExportDefinitions() != null) {
 			for (IListDataExporter lstExport : spCurrent.getExportDefinitions()) {
 				if (lstExport instanceof Data2ColumnExporter) {
@@ -239,7 +255,7 @@ public class WorkbookProcessor {
 												.getIndex());
 					}
 				}
-				if (lstExport instanceof Data2RowExporter) {
+				else if (lstExport instanceof Data2RowExporter) {
 					if (lstExport.getDataSource() != null) {
 						EmbeddedDataSourceExportProcessor
 								.getInstance()
@@ -269,14 +285,19 @@ public class WorkbookProcessor {
 
 	public static void setCellValue(Sheet shProcess, int nRow, int nCol,
 			Object objValue, boolean isFormula, PoiCellStyle pCellStyle) {
+		//Logger logCurrent = LoggerFactory.getLogger(WorkbookProcessor.class.getCanonicalName());	
+		
+
 		try {
 			Row rw = shProcess.getRow(nRow);
 			if (rw == null) {
-				rw = shProcess.createRow(nRow);
+				//logCurrent.finest("Create Row");	
+				 rw = shProcess.createRow(nRow);
 			}
 			Cell c = rw.getCell(nCol);
 			if (c == null) {
-				c = rw.createCell(nCol);
+				//logCurrent.finest("Create Cell");	
+				 c = rw.createCell(nCol);
 			}
 			if(isFormula){
 				c.setCellFormula((String) objValue);
@@ -295,11 +316,11 @@ public class WorkbookProcessor {
 			}
 			}
 //*** STYLE CONFIG Since V 1.1.7 ***
-			getStyleConstantValues(); 
-			CellStyle style = shProcess.getWorkbook().createCellStyle();
-
 			
 			if(pCellStyle != null){	
+				getStyleConstantValues(); 
+				CellStyle style = shProcess.getWorkbook().createCellStyle();
+
 				if(pCellStyle.getAlignment() != null)
 					style.setAlignment(m_StyleConstantValues.get(pCellStyle.getAlignment()));
 				
@@ -390,9 +411,10 @@ public class WorkbookProcessor {
 				if(pCellStyle.isWrapText())
 				style.setWrapText(pCellStyle.isWrapText());
 				
+				c.setCellStyle(style);
 				
 			}
-			c.setCellStyle(style);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,5 +1,7 @@
 package biz.webgate.dominoext.poi.component.kernel.workbook;
 
+import java.util.logging.Logger;
+
 import javax.faces.context.FacesContext;
 
 import org.apache.poi.ss.usermodel.Sheet;
@@ -11,6 +13,7 @@ import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
 import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
 import biz.webgate.dominoext.poi.component.sources.IExportSource;
 import biz.webgate.dominoext.poi.utils.exceptions.POIException;
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 public class EmbeddedDataSourceExportProcessor implements
 		IDataSourceExportProcessor {
@@ -30,8 +33,14 @@ public class EmbeddedDataSourceExportProcessor implements
 	public void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
 			FacesContext context, String strVar, String strIndex)
 			throws POIException {
+		
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());	
+	
 		try {
+			logCurrent.finer("Proccess Export Row");	
 			IExportSource is = lstExport.getDataSource();
+			
+			logCurrent.finer("Load Access Source");	
 			int nAccess = is.accessSource();
 			if (nAccess < 1) {
 				throw new POIException("Error accessing Source: "
@@ -41,6 +50,8 @@ public class EmbeddedDataSourceExportProcessor implements
 			int nStepSize = lstExport.getStepSize();
 
 			int nCount = 0;
+			
+			logCurrent.finer("Start Processing Cells");	
 			while (is.accessNextRow() == 1) {
 				nCount++;
 				for (ColumnDefinition clDef : lstExport.getColumns()) {
@@ -54,6 +65,7 @@ public class EmbeddedDataSourceExportProcessor implements
 				nRow = nRow + nStepSize;
 			}
 			is.closeSource();
+			logCurrent.finer("Proccess Export Row - DONE");	
 		} catch (Exception e) {
 			throw new POIException("Error in processExportRow", e);
 		}
