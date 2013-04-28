@@ -1,6 +1,5 @@
 package biz.webgate.dominoext.poi.component.data;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
@@ -31,6 +30,8 @@ public class AbstractDefinition extends ValueBindingObjectImpl {
 
 		try {
 			logCurrent.info("ExecuteComputeValue started.");
+			String [] arrVars = new String[2];
+			/*
 			ArrayList<String> lstVars = new ArrayList<String>();
 			lstVars.add(varObject);
 			logCurrent.info("Var Name: " + varObject);
@@ -39,17 +40,25 @@ public class AbstractDefinition extends ValueBindingObjectImpl {
 			ArrayList<Object> lstObject = new ArrayList<Object>();
 			lstObject.add(objAction);
 			lstObject.add(new Integer(count));
+			*/
+			arrVars[0] = varObject;
+			arrVars[1] = varIndex;
+			
+			Object[] arrObject = new Object[2];
+			arrObject[0] = objAction;
+			arrObject[1] = new Integer(count);
+			logCurrent.info("Var Name: " + varObject);
+			logCurrent.info("Index Name:" + varIndex);
 			logCurrent.info("Var Object: " + varObject);
 			logCurrent.info("Index Object: " + count);
 			if (m_ComputeValue != null) {
 				if (m_ComputeValue instanceof MethodBindingEx) {
 					((MethodBindingEx) m_ComputeValue)
 							.setComponent(getComponent());
-					((MethodBindingEx) m_ComputeValue).setParamNames(lstVars
-							.toArray(new String[lstVars.size()]));
+					((MethodBindingEx) m_ComputeValue).setParamNames(arrVars);
 				}
 				Object objRC = m_ComputeValue.invoke(context,
-						lstObject.toArray());
+						arrObject);
 				return objRC;
 			}
 		} catch (Exception e) {

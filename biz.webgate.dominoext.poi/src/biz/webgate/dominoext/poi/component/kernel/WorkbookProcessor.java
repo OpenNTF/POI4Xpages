@@ -155,7 +155,14 @@ public class WorkbookProcessor {
 
 				logCurrent.finer("Push the Result to the HttpServlet");	
 				// Push the Result to the HttpServlet
-				httpResponse.setContentType("application/octet-stream");
+				if (strFileName.toLowerCase().endsWith(".xlsx")) {
+					httpResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				} else if (strFileName.toLowerCase().endsWith("xls")) {
+					httpResponse.setContentType("application/vnd.ms-excel");
+					
+				} else {
+					httpResponse.setContentType("application/octet-stream");
+				}
 				httpResponse.addHeader("Content-disposition",
 						"inline; filename=\"" + strFileName + "\"");
 				OutputStream os = httpResponse.getOutputStream();

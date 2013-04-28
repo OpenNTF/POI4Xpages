@@ -2,7 +2,7 @@
 <feature
       id="biz.webgate.feature.poi.library"
       label="Apache POI Library"
-      version="1.1.9.qualifier">
+      version="1.2.0.qualifier">
 
    <description url="http://my.webgate.biz/poi.documentation">
       A Integration of the Apache POI Project in XPages
