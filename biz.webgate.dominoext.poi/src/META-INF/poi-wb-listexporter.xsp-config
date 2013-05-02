@@ -678,10 +678,17 @@
 			<description>Font Boldweight</description>
 			<display-name>FontBoldweight</display-name>
 			<property-name>fontBoldweight</property-name>
-			<property-class>short</property-class>
+			<property-class>java.lang.String</property-class>
 			<property-extension>
 				<since>1.1.7</since>
 				<method-binding-property>false</method-binding-property>
+					<designer-extension>
+					<editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+					<editor-parameter>
+						BOLDWEIGHT_BOLD
+						BOLDWEIGHT_NORMAL
+					</editor-parameter>
+				 </designer-extension>
 			</property-extension>
 		</property>
 

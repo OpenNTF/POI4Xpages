@@ -68,16 +68,15 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		try {
 			if (m_tempDataStore.m_Entry == null) {
 				m_tempDataStore.m_Entry = m_tempDataStore.m_Col.getFirstEntry();
-				m_tempDataStore.m_ColValues = m_tempDataStore.m_Entry.getColumnValues();
-			} else {
+			}else {
 				ViewEntry ve = m_tempDataStore.m_Entry;
 				m_tempDataStore.m_Entry = m_tempDataStore.m_Col.getNextEntry(ve);
-				m_tempDataStore.m_ColValues = m_tempDataStore.m_Entry.getColumnValues();
 				ve.recycle();
 			}
 			if (m_tempDataStore.m_Entry == null) {
 				return 0;
 			}
+			m_tempDataStore.m_ColValues = m_tempDataStore.m_Entry.getColumnValues();
 			m_tempDataStore.m_rowCount++;
 			if (m_tempDataStore.m_rowCount > m_maxRow) {
 				return 0;

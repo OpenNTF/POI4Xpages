@@ -31,38 +31,19 @@
 
 
 
-								<wgpoi:cellValue value="test"
-									columnNumber="8" rowNumber="8">
+								<wgpoi:cellValue value="NOW()"
+									columnNumber="8" rowNumber="0" cellFormula="true">
 									<wgpoi:this.cellStyle>
 										<wgpoi:cellStyle
-											borderTop="BORDER_NONE" alignment="ALIGN_LEFT"
-											fontName="Georgia">
+											dataFormat="hh:mm:ss">
 										</wgpoi:cellStyle>
 									</wgpoi:this.cellStyle>
 								</wgpoi:cellValue>
 							</wgpoi:this.cellValues>
 							<wgpoi:this.exportDefinitions>
-								<wgpoi:data2columnExport
-									startColumn="8">
-									<wgpoi:this.dataSource>
-										<wgpoi:dominoViewSource
-											key="#{javascript:viewScope.stateSelector}"
-											viewName="AllContactsByState">
-										</wgpoi:dominoViewSource>
-									</wgpoi:this.dataSource>
-									<wgpoi:this.rows>
-										<wgpoi:rowDefinition
-											cellFormula="false" columnTitle="LastName" rowNumber="1">
-											<wgpoi:this.cellStyle>
-												<wgpoi:cellStyle
-													borderTop="BORDER_THIN">
-												</wgpoi:cellStyle>
-											</wgpoi:this.cellStyle>
-										</wgpoi:rowDefinition>
-									</wgpoi:this.rows>
-								</wgpoi:data2columnExport>
+								
 								<wgpoi:data2rowExport startRow="4"
-									stepSize="1">
+									stepSize="1" index="index" var="row">
 									<wgpoi:this.dataSource>
 										<wgpoi:dominoViewSource
 											viewName="AllContactsByState"
@@ -72,36 +53,85 @@
 									</wgpoi:this.dataSource>
 									<wgpoi:this.columns>
 										<wgpoi:columnDefinition
-											columnNumber="0" rowShift="0" cellFormula="true">
+											columnNumber="0" rowShift="0" columnTitle="FirstName">
 											<wgpoi:this.cellStyle>
 												<wgpoi:cellStyle
-													alignment="ALIGN_RIGHT" borderBottom="BORDER_MEDIUM"
-													borderLeft="BORDER_DOTTED" bottomBorderColor="DARK_GREEN"
-													fillForegroundColor="VIOLET" fillPattern="SOLID_FOREGROUND"
-													verticalAlignment="VERTICAL_TOP" leftBorderColor="SKY_BLUE"
-													rotation="45" hidden="true" fontColor="AQUA"
-													fontName="zapfellipt bt " fontTypeOffset="SS_NONE"
-													fontUnderline="U_NONE" fontHeightInPoints="14"
-													fontItalic="true" fontStrikeout="true"
-													fontBoldweight="2">
+													borderBottom="BORDER_THIN"
+													fillForegroundColor="LIGHT_CORNFLOWER_BLUE"
+													fillPattern="SOLID_FOREGROUND" borderRight="BORDER_THIN"
+													borderLeft="BORDER_THIN" borderTop="BORDER_THIN">
 
-													<wgpoi:this.dataFormat><![CDATA[@"TEST"]]></wgpoi:this.dataFormat>
+
+
+
 												</wgpoi:cellStyle>
 											</wgpoi:this.cellStyle>
 
-											<wgpoi:this.computeValue><![CDATA[#{javascript:"TEXT(\"Ein kleiner\",\"\")";}]]></wgpoi:this.computeValue>
+
 										</wgpoi:columnDefinition>
 										<wgpoi:columnDefinition
 											columnNumber="1" columnTitle="LastName" rowShift="0">
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													borderBottom="BORDER_THIN" borderLeft="BORDER_THIN"
+													borderRight="BORDER_MEDIUM" borderTop="BORDER_THIN"
+													fillForegroundColor="LIGHT_CORNFLOWER_BLUE"
+													fillPattern="SOLID_FOREGROUND"
+													fontBoldweight="BOLDWEIGHT_BOLD" rightBorderColor="BLUE">
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
 										</wgpoi:columnDefinition>
 										<wgpoi:columnDefinition
 											columnNumber="2" columnTitle="City" rowShift="0">
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													borderBottom="BORDER_THIN" borderLeft="BORDER_MEDIUM"
+													borderRight="BORDER_THIN" borderTop="BORDER_THIN"
+													leftBorderColor="BLUE">
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
 										</wgpoi:columnDefinition>
 										<wgpoi:columnDefinition
 											columnNumber="3" columnTitle="State" rowShift="0">
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													borderBottom="BORDER_THIN" alignment="ALIGN_RIGHT"
+													borderLeft="BORDER_THIN" borderRight="BORDER_THIN"
+													borderTop="BORDER_THIN">
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
 										</wgpoi:columnDefinition>
+
 										<wgpoi:columnDefinition
 											columnNumber="4" columnTitle="EMail" rowShift="0">
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													borderBottom="BORDER_THIN" borderLeft="BORDER_THIN"
+													borderRight="BORDER_THIN" borderTop="BORDER_THIN"
+													fontColor="GREY_50_PERCENT">
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
+										</wgpoi:columnDefinition>
+										<wgpoi:columnDefinition
+											computeValue="#{javascript:index}" columnNumber="5"
+											rowShift="0">
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													borderBottom="BORDER_THIN" borderLeft="BORDER_THIN"
+													borderRight="BORDER_THIN" borderTop="BORDER_THIN">
+
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
+										</wgpoi:columnDefinition>
+										<wgpoi:columnDefinition
+											computeValue="#{javascript:row.getDocument().getUniversalID()}"
+											columnNumber="6" rowShift="0">
+											<wgpoi:this.cellStyle>
+												<wgpoi:cellStyle
+													borderBottom="BORDER_THIN" borderLeft="BORDER_THIN"
+													borderRight="BORDER_THIN" borderTop="BORDER_THIN">
+												</wgpoi:cellStyle>
+											</wgpoi:this.cellStyle>
 										</wgpoi:columnDefinition>
 									</wgpoi:this.columns>
 								</wgpoi:data2rowExport>

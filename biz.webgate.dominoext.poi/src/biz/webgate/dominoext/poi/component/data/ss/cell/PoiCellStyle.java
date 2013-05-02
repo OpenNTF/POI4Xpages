@@ -17,7 +17,7 @@ public class PoiCellStyle extends ValueBindingObjectImpl{
 	private String m_FillBackgroundColor;
 	private String m_FillForegroundColor;
 	private String m_FillPattern;
-	private Short m_FontBoldweight = 0;
+	private String m_FontBoldweight;
 	private String m_FontColor;
 	private Short m_FontHeightInPoints = 0;
 	private String m_FontName;
@@ -98,10 +98,10 @@ public class PoiCellStyle extends ValueBindingObjectImpl{
 		m_FillPattern = fillPattern;
 	}
 
-	public short getFontBoldweight() {
+	public String getFontBoldweight() {
 		return m_FontBoldweight;
 	}
-	public void setFontBoldweight(short fontBoldweight) {
+	public void setFontBoldweight(String fontBoldweight) {
 		m_FontBoldweight = fontBoldweight;
 	}
 	public String getFontColor() {
@@ -251,7 +251,7 @@ public class PoiCellStyle extends ValueBindingObjectImpl{
 		m_FillBackgroundColor = (String) state[8];
 		m_FillForegroundColor = (String) state[9];
 		m_FillPattern = (String)state[10];
-		m_FontBoldweight = (Short) state[11];
+		m_FontBoldweight = (String) state[11];
 		m_FontColor = (String) state[12] ;
 		m_FontHeightInPoints = (Short) state[13];
 		m_FontItalic = (Boolean) state[14];

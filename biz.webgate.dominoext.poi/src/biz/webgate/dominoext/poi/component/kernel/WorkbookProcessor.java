@@ -128,6 +128,10 @@ public class WorkbookProcessor {
 			m_StyleConstantValues.put("SS_NONE", Font.SS_NONE);
 			m_StyleConstantValues.put("SS_SUPER", Font.SS_SUPER);
 			m_StyleConstantValues.put("SS_SUB", Font.SS_SUB);
+			
+			m_StyleConstantValues.put("BOLDWEIGHT_BOLD", Font.BOLDWEIGHT_BOLD);
+			m_StyleConstantValues.put("BOLDWEIGHT_NORMAL", Font.BOLDWEIGHT_NORMAL);
+			
 		}
 		
 		if(m_StyleByteConstantValues == null){
@@ -301,11 +305,11 @@ public class WorkbookProcessor {
 				//logCurrent.finest("Create Row");	
 				 rw = shProcess.createRow(nRow);
 			}
-			Cell c = rw.getCell(nCol);
-			if (c == null) {
+			//Cell c = rw.getCell(nCol);
+			//if (c == null) {
 				//logCurrent.finest("Create Cell");	
-				 c = rw.createCell(nCol);
-			}
+				Cell c = rw.createCell(nCol);
+			//}
 			if(isFormula){
 				c.setCellFormula((String) objValue);
 			}else{
@@ -363,8 +367,8 @@ public class WorkbookProcessor {
 				 // Create a new font and alter it.
 			    Font font = shProcess.getWorkbook().createFont();
 			    
-			    if(pCellStyle.getFontBoldweight() != 0)
-			    	font.setBoldweight(pCellStyle.getFontBoldweight());
+			    if(pCellStyle.getFontBoldweight() != null)
+			    	font.setBoldweight(m_StyleConstantValues.get(pCellStyle.getFontBoldweight()));
 			    
 			    if(pCellStyle.getFontColor() != null)
 			    	font.setColor(IndexedColors.valueOf(pCellStyle.getFontColor()).getIndex());

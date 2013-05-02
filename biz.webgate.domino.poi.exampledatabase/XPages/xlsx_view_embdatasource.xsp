@@ -44,7 +44,7 @@
 
 											<wgpoi:this.cellStyle>
 												<wgpoi:cellStyle
-													alignment="Align Right">
+													alignment="ALIGN_RIGHT">
 												</wgpoi:cellStyle>
 											</wgpoi:this.cellStyle>
 										</wgpoi:columnDefinition>
