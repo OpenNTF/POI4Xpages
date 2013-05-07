@@ -50,6 +50,6 @@ public class POILibrary extends AbstractXspLibrary {
 
 	@Override
 	public String getTagVersion() {
-		return "1.2.0";
+		return "1.2.1";
 	}
 }

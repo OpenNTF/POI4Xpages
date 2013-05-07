@@ -50,6 +50,15 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 	private String m_DownloadFileName;
 	private ITemplateSource m_TemplateSource;
 	private MethodBinding m_PostGenerationProcess;
+	private boolean m_UseStreamingModel = false;
+
+	public boolean isUseStreamingModel() {
+		return m_UseStreamingModel;
+	}
+
+	public void setUseStreamingModel(boolean useStreamingModel) {
+		m_UseStreamingModel = useStreamingModel;
+	}
 
 	public UIWorkbook() {
 
@@ -194,7 +203,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 	@Override
 	public Object saveState(FacesContext context) {
 		try {
-			Object[] state = new Object[6];
+			Object[] state = new Object[7];
 			state[0] = super.saveState(context);
 			state[1] = m_DownloadFileName;
 			state[2] = m_pathInfo;
@@ -203,6 +212,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 			state[4] = StateHolderUtil.saveList(context, m_Spreadsheets);
 			state[5] = StateHolderUtil.saveMethodBinding(context,
 					m_PostGenerationProcess);
+			state[6] = new Boolean(m_UseStreamingModel);
 			return state;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,6 +231,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		m_Spreadsheets = StateHolderUtil.restoreList(context, this, state[4]);
 		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context,
 				this, state[5]);
+		m_UseStreamingModel = ((Boolean)state[6]).booleanValue();
 	}
 
 	public boolean postGenerationProcess(FacesContext context,

@@ -150,6 +150,21 @@
             	</designer-extension>
 			</property-extension>
 		</property>
+
+  		<property>
+			<description>Using the faster SXXFWorkbook Streaming Model, but can not use cellBookmark Values</description>
+			<display-name>UseStreamingModel</display-name>
+			<property-name>useStreamingModel</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+                <since>1.2.1</since>
+            	<designer-extension>
+            		<category>poi</category>
+            	</designer-extension>
+			</property-extension>
+		</property>
+
   		
   		<component-extension>
   			<tag-name>spreadsheet</tag-name>

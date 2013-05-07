@@ -224,9 +224,9 @@ public class WorkbookProcessor {
 		Workbook wbCurrent1 = WorkbookFactory.create(is);
 		Workbook wbCurrent = wbCurrent1;
 		is.close();
-		if (wbCurrent1 instanceof XSSFWorkbook) {
+		if (wbCurrent1 instanceof XSSFWorkbook && uiWB.isUseStreamingModel()) {
 			logCurrent.info("Generation SXSSFWorkbook");
-			wbCurrent = new SXSSFWorkbook((XSSFWorkbook) wbCurrent1, -1);
+			wbCurrent = new SXSSFWorkbook((XSSFWorkbook) wbCurrent1);
 		}
 		itsCurrent.cleanUP();
 		// Processing all Spreadsheets to the File
