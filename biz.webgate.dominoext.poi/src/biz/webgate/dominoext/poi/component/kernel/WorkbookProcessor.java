@@ -226,7 +226,7 @@ public class WorkbookProcessor {
 		is.close();
 		if (wbCurrent1 instanceof XSSFWorkbook) {
 			logCurrent.info("Generation SXSSFWorkbook");
-			wbCurrent = new SXSSFWorkbook((XSSFWorkbook) wbCurrent1);
+			wbCurrent = new SXSSFWorkbook((XSSFWorkbook) wbCurrent1, -1);
 		}
 		itsCurrent.cleanUP();
 		// Processing all Spreadsheets to the File
