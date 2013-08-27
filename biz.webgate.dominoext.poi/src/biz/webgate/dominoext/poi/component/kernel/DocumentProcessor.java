@@ -38,8 +38,13 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import biz.webgate.dominoext.poi.component.containers.UIDocument;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
+import biz.webgate.dominoext.poi.component.data.document.table.DocumentTable;
+import biz.webgate.dominoext.poi.component.data.document.table.cell.DocCellValue;
+import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
+import biz.webgate.dominoext.poi.component.kernel.document.EmbeddedDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.pdf.IPDFService;
 import biz.webgate.dominoext.poi.pdf.PDFConversionService;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
@@ -70,8 +75,7 @@ public class DocumentProcessor {
 		return null;
 	}
 
-	public int processBookmarks2Document(XWPFDocument dxProcess,
-			List<IDocumentBookmark> arrBookmarks) {
+	public int processBookmarks2Document(XWPFDocument dxProcess, List<IDocumentBookmark> arrBookmarks) {
 		// First Prozessing all paragraphs.
 		for (XWPFParagraph paraCurrent : dxProcess.getParagraphs()) {
 			processBookmarks2Paragraph(arrBookmarks, paraCurrent);
@@ -100,8 +104,7 @@ public class DocumentProcessor {
 		return 1;
 	}
 
-	private void processBookmarks2Table(List<IDocumentBookmark> arrBookmarks,
-			XWPFTable tabCurrent) {
+	private void processBookmarks2Table(List<IDocumentBookmark> arrBookmarks, XWPFTable tabCurrent) {
 		for (XWPFTableRow tabRow : tabCurrent.getRows()) {
 			for (XWPFTableCell tabCell : tabRow.getTableCells()) {
 				for (XWPFParagraph paraCurrent : tabCell.getParagraphs()) {
@@ -111,23 +114,20 @@ public class DocumentProcessor {
 		}
 	}
 
-	private void processBookmarks2Paragraph(
-			List<IDocumentBookmark> arrBookmarks, XWPFParagraph paraCurrent) {
+	private void processBookmarks2Paragraph(List<IDocumentBookmark> arrBookmarks, XWPFParagraph paraCurrent) {
 		for (XWPFRun runCurrent : paraCurrent.getRuns()) {
 			processBookmarks2Run(runCurrent, arrBookmarks);
 		}
 	}
 
-	public int processBookmarks2Run(XWPFRun runCurrent,
-			List<IDocumentBookmark> arrBookmarks) {
+	public int processBookmarks2Run(XWPFRun runCurrent, List<IDocumentBookmark> arrBookmarks) {
 		String strText = runCurrent.getText(0);
 		if (strText != null) {
 			for (IDocumentBookmark bmCurrent : arrBookmarks) {
 				String strValue = bmCurrent.getValue();
 				strValue = strValue == null ? "" : strValue;
 				if (bmCurrent.getName() != null) {
-					strText = strText.replaceAll("<<" + bmCurrent.getName()
-							+ ">>", strValue);
+					strText = strText.replaceAll("<<" + bmCurrent.getName() + ">>", strValue);
 				}
 			}
 		}
@@ -135,18 +135,15 @@ public class DocumentProcessor {
 		return 1;
 	}
 
-	public void generateNewFile(ITemplateSource itsCurrent,
-			List<IDocumentBookmark> bookmarks,
-			HttpServletResponse httpResponse, String strFileName,
-			FacesContext context, UIDocument uiDoc) throws IOException {
-		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());	
+	public void generateNewFile(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, HttpServletResponse httpResponse,
+			String strFileName, FacesContext context, UIDocument uiDoc) throws IOException {
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 		try {
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
-				XWPFDocument dxDocument = processDocument(itsCurrent,
-						bookmarks, context, uiDoc);
+				XWPFDocument dxDocument = processDocument(itsCurrent, bookmarks, tables, context, uiDoc);
 				if (uiDoc.getPdfOutput()) {
-					
+
 					logCurrent.info("Build PDF");
 					ByteArrayOutputStream bosDoc = new ByteArrayOutputStream();
 					dxDocument.write(bosDoc);
@@ -155,14 +152,13 @@ public class DocumentProcessor {
 					ByteArrayInputStream is = new ByteArrayInputStream(bosDoc.toByteArray());
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
 					IPDFService isCurrent = PDFConversionService.getInstance().getPDFService();
-					
+
 					isCurrent.buildPDF(is, bos);
 					is.close();
 					bos.flush();
 					logCurrent.info("Size of pdf ByteArrayOutputStream: " + bos.size());
 					httpResponse.setContentType("application/octet-stream");
-					httpResponse.addHeader("Content-disposition",
-							"inline; filename=\"" + strFileName + "\"");
+					httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
 					OutputStream os = httpResponse.getOutputStream();
 					bos.writeTo(os);
 					bos.close();
@@ -171,8 +167,7 @@ public class DocumentProcessor {
 				} else {
 					logCurrent.info("Build docx");
 					httpResponse.setContentType("application/octet-stream");
-					httpResponse.addHeader("Content-disposition",
-							"inline; filename=\"" + strFileName + "\"");
+					httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
 					OutputStream os = httpResponse.getOutputStream();
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
 					dxDocument.write(bos);
@@ -181,27 +176,93 @@ public class DocumentProcessor {
 					os.close();
 				}
 			} else {
-				ErrorPageBuilder.getInstance().processError(httpResponse,
-						"TemplateAccess Problem NR: " + nTemplateAccess, null);
+				ErrorPageBuilder.getInstance().processError(httpResponse, "TemplateAccess Problem NR: " + nTemplateAccess, null);
 			}
 		} catch (Exception e) {
-			ErrorPageBuilder.getInstance().processError(httpResponse,
-					"Error during Documentgeneration", e);
+			ErrorPageBuilder.getInstance().processError(httpResponse, "Error during Documentgeneration", e);
 		}
 	}
 
-	public XWPFDocument processDocument(ITemplateSource itsCurrent,
-			List<IDocumentBookmark> bookmarks, FacesContext context,
-			UIDocument uiDocument) {
+	public XWPFDocument processDocument(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, FacesContext context,
+			UIDocument uiDocument) throws POIException {
+
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+
 		InputStream is = itsCurrent.getFileStream();
 		XWPFDocument dxDocument = getDocument(is);
 		itsCurrent.cleanUP();
 		if (bookmarks != null && bookmarks.size() > 0) {
 			processBookmarks2Document(dxDocument, bookmarks);
 		}
+		logCurrent.finest("Start export Tables");
+		if (tables != null && tables.size() > 0) {
+			for (DocumentTable tblExport : tables) {
+				logCurrent.finest("Call exportTable" + tblExport.getName());
+				XWPFTable dxTable = EmbeddedDataSourceExportProcessor.getInstance().processExportTable(tblExport, dxDocument, context, tblExport.getVar(),
+						tblExport.getIndex());
+				logCurrent.finest("exportTable created");
+				// logCurrent.finer("Start Processing Cells");
+				if (tblExport.getDocCellValues() != null && tblExport.getDocCellValues().size() > 0) {
+					for (ICellValue iCV : tblExport.getDocCellValues()) {
+						if (iCV instanceof DocCellValue) {
+							DocCellValue cv = (DocCellValue) iCV;
+							if (cv.getRowNumber() <= tblExport.getMaxRow()) {
+								DocumentProcessor.setDocCellValue(dxTable, cv.getRowNumber(), cv.getColumnNumber(), cv.getValue(), tblExport.getMaxRow());
+							} else {
+								logCurrent.finer("MaxValue < CellValue.getRowNumber()");
+							}
+						}
+					}
+
+				}
+				if (dxTable != null) {
+					logCurrent.finest("Set Table Position");
+					if (tblExport.getTableNr() != 0) {
+						dxDocument.setTable(tblExport.getTableNr(), dxTable);
+						dxDocument.removeBodyElement(dxDocument.getPosOfTable(dxTable));
+					}
+				}
+				/*
+				 * if (dxTable != null) { System.out.println("Insert Table");
+				 * dxDocument.insertTable(2, dxTable); }
+				 */
+				// System.out.println(dxDocument.getPosOfParagraph(p));
+
+				// logCurrent.finer("Proccess Export Cells - DONE");
+			}
+
+		}
+
 		if (uiDocument != null) {
 			uiDocument.postGenerationProcess(context, dxDocument);
 		}
 		return dxDocument;
+	}
+
+	public static void setDocCellValue(XWPFTable dxTable, int nRow, int nCol, Object objValue, int maxRow) {
+
+		try {
+			if (dxTable.getRow(nRow) == null) {
+				// DEFINIE MAX VALUE!
+				while (dxTable.getRow(nRow) == null && dxTable.getRows().size() < maxRow) {
+					dxTable.createRow();
+					// rowHasChanged = true;
+				}
+			}
+			if (dxTable.getRow(nRow) != null) {
+				if (dxTable.getRow(nRow).getCell(nCol) == null) {
+					// CHECK MAX COL
+					while (dxTable.getRow(nRow).getCell(nCol) == null && dxTable.getRow(nRow).getTableCells().size() < 50) {
+						dxTable.getRow(nRow).addNewTableCell();
+					}
+				}
+				dxTable.getRow(nRow).getCell(nCol).setText("" + objValue.toString());
+			} else {
+				System.out.println("Still null: " + nRow + " MaxRow = " + maxRow);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -31,6 +31,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
+import biz.webgate.dominoext.poi.component.data.document.table.DocumentTable;
 import biz.webgate.dominoext.poi.component.kernel.DocumentProcessor;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
@@ -49,6 +50,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	public static final String RENDERER_TYPE = "biz.webgate.dominoext.poi.Document"; //$NON-NLS-1$
 
 	private List<IDocumentBookmark> m_Bookmarks;
+	private List<DocumentTable> m_Tables;
 	private String m_pathInfo;
 	private String m_DownloadFileName;
 	private ITemplateSource m_TemplateSource;
@@ -76,6 +78,20 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		m_Bookmarks.add(myBookmark);
 	}
 
+	public List<DocumentTable> getTables() {
+		return m_Tables;
+	}
+
+	public void setTables(List<DocumentTable> tables) {
+		m_Tables = tables;
+	}
+
+	public void addTables(DocumentTable myTable) {
+		if (m_Tables == null) {
+			m_Tables = new ArrayList<DocumentTable>();
+		}
+		m_Tables.add(myTable);
+	}
 	public String getPathInfo() {
 		if (null != m_pathInfo) {
 			return m_pathInfo;
@@ -187,7 +203,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		logCurrent.info("Start processing UIDocument generation");
 		try {
 			DocumentProcessor.getInstance().generateNewFile(itsCurrent,
-					getBookmarks(), httpResponse, getDownloadFileName(),
+ getBookmarks(), getTables(), httpResponse, getDownloadFileName(),
 					getFacesContext(), this);
 		} catch (Exception e) {
 			try {
@@ -210,7 +226,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 	@Override
 	public Object saveState(FacesContext context) {
 		try {
-			Object[] state = new Object[7];
+			Object[] state = new Object[8];
 			state[0] = super.saveState(context);
 			state[1] = m_DownloadFileName;
 			state[2] = m_pathInfo;
@@ -220,6 +236,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 			state[5] = StateHolderUtil.saveMethodBinding(context,
 					m_PostGenerationProcess);
 			state[6] = m_PdfOutput;
+			state[7] = StateHolderUtil.saveList(context, m_Tables);
 			return state;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -239,6 +256,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context,
 				this, state[5]);
 		m_PdfOutput = (Boolean) state[6];
+		m_Tables = StateHolderUtil.restoreList(context, this, state[7]);
 
 	}
 

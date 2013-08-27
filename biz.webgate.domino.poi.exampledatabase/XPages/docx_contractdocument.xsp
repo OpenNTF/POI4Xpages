@@ -5,6 +5,17 @@
 		navigationPath="/docx/generatebyInput">
 		<xp:this.facets>
 			<xp:panel xp:key="facetRight">
+				
+				<xp:button value="download" id="button1">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<wgpoi:generateDocument
+								documentId="docContract">
+							</wgpoi:generateDocument>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
 				<wgpoi:document id="docContract"
 					downloadFileName="contract.docx" pathInfo="download">
 
@@ -25,24 +36,63 @@
 						<wgpoi:docbookmark name="e-mail"
 							value="#{javascript:viewScope.email}">
 						</wgpoi:docbookmark>
+						<wgpoi:docbookmark name="rpt_name"
+							value="#{javascript:viewScope.name}">
+
+						</wgpoi:docbookmark>
 					</wgpoi:this.bookmarks>
 					<wgpoi:this.templateSource>
 						<wgpoi:resourcetemplate
-							fileName="SampleContract.docx">
+							fileName="SampleContract2.docx">
 						</wgpoi:resourcetemplate>
 					</wgpoi:this.templateSource>
-				</wgpoi:document>
-				<xp:button value="download" id="button1">
-					<xp:eventHandler event="onclick" submit="true"
-						refreshMode="complete">
-						<xp:this.action>
-							<wgpoi:generateDocument
-								documentId="docContract">
-							</wgpoi:generateDocument>
-						</xp:this.action>
-					</xp:eventHandler>
-				</xp:button>
-			</xp:panel>
+					<wgpoi:this.tables>
+						<wgpoi:docTable name="myName" maxRow="24"
+							tableNr="2">
+							<wgpoi:this.columnDefinition>
+								<wgpoi:doccolumndefinition
+									columnTitle="LastName" columnNumber="1">
+								</wgpoi:doccolumndefinition>
+								<wgpoi:doccolumndefinition
+									columnTitle="FirstName" columnNumber="0">
+
+								</wgpoi:doccolumndefinition>
+								
+							</wgpoi:this.columnDefinition>
+
+							<wgpoi:this.dataSource>
+								<wgpoi:dominoViewSource
+									viewName="contacts2">
+								</wgpoi:dominoViewSource>
+							</wgpoi:this.dataSource>
+							<wgpoi:this.docCellValues>
+								<wgpoi:doccellvalue columnNumber="1"
+									rowNumber="1" value="test">
+								</wgpoi:doccellvalue>
+							</wgpoi:this.docCellValues>
+						</wgpoi:docTable>
+						<wgpoi:docTable tableNr="3" name="zweiteTabelle"
+							maxRow="10">
+							<wgpoi:this.dataSource>
+								<wgpoi:dominoViewSource
+									viewName="contacts2">
+								</wgpoi:dominoViewSource>
+							</wgpoi:this.dataSource>
+							<wgpoi:this.columnDefinition>
+								<wgpoi:doccolumndefinition
+									columnTitle="City" columnNumber="0">
+								</wgpoi:doccolumndefinition>
+								<wgpoi:doccolumndefinition
+									columnTitle="State" columnNumber="1">
+								</wgpoi:doccolumndefinition>
+							</wgpoi:this.columnDefinition>
+							<wgpoi:this.docCellValues>
+								<wgpoi:doccellvalue columnNumber="9"
+									value="MEIN WERT... OVERWRITE" rowNumber="9">
+								</wgpoi:doccellvalue>
+							</wgpoi:this.docCellValues></wgpoi:docTable>
+					</wgpoi:this.tables>
+				</wgpoi:document></xp:panel>
 			<xp:panel xp:key="facetMiddle">
 			This sample shows how values from a form can be directly inserted into a word document.<xp:br></xp:br><xp:br></xp:br>Fill out this form and click on  &quot;download&quot; button on the right. Choose a viewer  of your choice (like word)&#160; to inspect the result.<xp:br></xp:br><xp:table>
 					<xp:tr>

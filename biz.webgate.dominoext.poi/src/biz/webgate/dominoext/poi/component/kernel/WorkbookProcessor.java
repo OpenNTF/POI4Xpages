@@ -40,7 +40,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.containers.UIWorkbook;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
@@ -53,6 +52,7 @@ import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle;
 import biz.webgate.dominoext.poi.component.kernel.workbook.EmbeddedDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.workbook.XPagesDataSourceExportProcessor;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
@@ -341,11 +341,11 @@ public class WorkbookProcessor {
 				// logCurrent.finest("Create Row");
 				rw = shProcess.createRow(nRow);
 			}
-			// Cell c = rw.getCell(nCol);
-			// if (c == null) {
+			Cell c = rw.getCell(nCol);
+			if (c == null) {
 			// logCurrent.finest("Create Cell");
-			Cell c = rw.createCell(nCol);
-			// }
+				c = rw.createCell(nCol);
+			}
 			if (isFormula) {
 				c.setCellFormula((String) objValue);
 			} else {

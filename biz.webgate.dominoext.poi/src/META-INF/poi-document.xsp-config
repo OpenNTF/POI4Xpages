@@ -61,6 +61,159 @@
   		</complex-extension>
 	</complex-type>
 
+	<complex-type>
+  		<description>A table in the Document</description>
+  		<display-name>Table</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.document.table.DocumentTable</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.document.table.DocumentTable</complex-class>
+  		<property>
+    		<description>The name Table replace [[...]] bookmarks in the document.</description>
+	 	 	<display-name>Table</display-name>
+		    <property-name>name</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+
+		<property>
+    		<description>The table at this position will be replaced with the created table (start at 1).</description>
+	 	 	<display-name>TableNr</display-name>
+		    <property-name>tableNr</property-name>
+    		<property-class>int</property-class>
+    		<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+        	</property-extension>
+  		</property>
+  		
+  		<property>
+    		<description>MaxRow</description>
+	 	 	<display-name>MaxRow</display-name>
+		    <property-name>maxRow</property-name>
+    		<property-class>int</property-class>
+  		</property>
+  		
+		<property>
+    		<description>Export data source</description>
+	 	 	<display-name>Export DataSource</display-name>
+		    <property-name>dataSource</property-name>
+    		<property-class>biz.webgate.dominoext.poi.component.sources.IExportSource</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+        	</property-extension>
+  		</property>
+		<property>
+			<description>Cell values to set</description>
+			<display-name>DocCellValues</display-name>
+			<property-name>docCellValues</property-name>
+            <property-class>java.util.List</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+          		<collection-property>true</collection-property>
+          		<property-item-class>biz.webgate.dominoext.poi.component.data.document.table.cell.DocCellValue</property-item-class>
+            	<property-add-method>addDocCellValue</property-add-method>
+        	</property-extension>
+		</property>
+		
+		<property>
+			<description>Column values to set</description>
+			<display-name>ColumnValues</display-name>
+			<property-name>columnDefinition</property-name>
+            <property-class>java.util.List</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+          		<collection-property>true</collection-property>
+          		<property-item-class>biz.webgate.dominoext.poi.component.data.document.table.cell.DocColumnDefinition</property-item-class>
+            	<property-add-method>addDocColumn</property-add-method>
+        	</property-extension>
+		</property>
+  		<complex-extension>
+    		<tag-name>docTable</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.data.document.table.documentTable</base-complex-id>
+  		</complex-extension>
+	</complex-type>
+		
+	<complex-type>
+  		<description>Defines a value for a cell in a table</description>
+  		<display-name>DocCellValue</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.document.table.cell.doccellvalue</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.document.table.cell.DocCellValue</complex-class>
+  		
+  		<description>Defines a column in a table</description>
+  		<display-name>ColumnDefinition</display-name>
+  		<property>
+    		<description>The row</description>
+	 	 	<display-name>RowNumber</display-name>
+		    <property-name>rowNumber</property-name>
+    		<property-class>int</property-class>
+  		</property>
+  		<property>
+    		<description>The column</description>
+	 	 	<display-name>ColumnNumber</display-name>
+		    <property-name>columnNumber</property-name>
+    		<property-class>int</property-class>
+  		</property>
+  		<property>
+    		<description>Value</description>
+	 	 	<display-name>Value</display-name>
+		    <property-name>value</property-name>
+    		<property-class>java.lang.Object</property-class>
+    	</property>
+    	
+		
+  		<complex-extension>
+    		<tag-name>doccellvalue</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.data.document.table.cell.DocCellValue</base-complex-id>
+  		</complex-extension>
+  		
+	</complex-type>
+	
+	
+	<complex-type>
+  		<description>Defines a column in a table</description>
+  		<display-name>ColumnDefinition</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.document.table.cell.doccolumndefinition</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.document.table.cell.DocColumnDefinition</complex-class>  		
+  		<property>
+    		<description>The column number</description>
+	 	 	<display-name>columnNumber</display-name>
+		    <property-name>columnNumber</property-name>
+    		<property-class>int</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+        	</property-extension>
+  		</property>
+  		<property>
+    		<description>Defines how many rows form the actual the this value is shifted</description>
+	 	 	<display-name>rowShift</display-name>
+		    <property-name>rowShift</property-name>
+    		<property-class>int</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+        	</property-extension>
+  		</property>
+  		<property>
+    		<description>The Column in the data source witch contains the value.</description>
+	 	 	<display-name>columnTitle</display-name>
+		    <property-name>columnTitle</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+			<description>Function will be executed, if there is no columnTitle defined. The current line and the current object are accessible with the defined variables</description>
+			<display-name>computeValue</display-name>
+			<property-name>computeValue</property-name>
+			<property-class>javax.faces.el.MethodBinding</property-class>
+			<property-extension>
+				<since>1.1.5</since>
+				<method-binding-property>true</method-binding-property>
+			</property-extension>
+		</property>
+		
+		
+  		<complex-extension>
+    		<tag-name>doccolumndefinition</tag-name>
+  			<base-complex-id>biz.webgate.dominoext.poi.component.data.document.table.cell.DocColumnDefinition</base-complex-id>
+  		</complex-extension>
+  		
+	</complex-type>
+	
 	
 	<component>
   		<description>Document to produce</description>
@@ -141,6 +294,22 @@
 			</property-extension>
 		</property>
   		
+  		<property>
+			<description>Tables for adding tables to the document</description>
+			<display-name>Tables</display-name>
+			<property-name>tables</property-name>
+            <property-class>java.util.List</property-class>
+        	<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+          		<collection-property>true</collection-property>
+          		<property-item-class>biz.webgate.dominoext.poi.component.data.document.table.DocumentTable</property-item-class>
+            	<property-add-method>addTables</property-add-method>
+            	<designer-extension>
+            		<category>poi</category>
+            	</designer-extension>
+        	</property-extension>
+		</property>
+		
   		<component-extension>
   			<tag-name>document</tag-name>
       		<component-family>biz.webgate.dominoext.poi.Document</component-family>
@@ -161,5 +330,9 @@
 		</icon>
   		
 	</component>
+	
+	
+	
+
 </faces-config>
 
