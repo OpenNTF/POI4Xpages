@@ -15,6 +15,7 @@ import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ResourceTemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.DocumentBookmark;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
+import biz.webgate.dominoext.poi.component.data.document.table.DocumentTable;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
 import biz.webgate.dominoext.poi.component.data.ss.IListDataExporter;
@@ -50,9 +51,10 @@ public class PoiBean {
 	}
 
 	public XWPFDocument processDocument(ITemplateSource itsCurrent,
-			List<IDocumentBookmark> bookmarks) {
+ List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
 		final ITemplateSource itsCurrentFin = itsCurrent;
 		final List<IDocumentBookmark> bookmarksFin = bookmarks;
+		final List<DocumentTable> tablesFin = tables;
 		if (itsCurrent.accessTemplate() == 1) {
 			XWPFDocument doc = AccessController
 					.doPrivileged(new PrivilegedAction<XWPFDocument>() {
@@ -62,6 +64,7 @@ public class PoiBean {
 										.processDocument(
 												itsCurrentFin,
 												bookmarksFin,
+ tablesFin,
 												FacesContext
 														.getCurrentInstance(),
 												null);
@@ -77,8 +80,8 @@ public class PoiBean {
 	}
 
 	public ByteArrayOutputStream processDocument2Stream(
-			ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks) {
-		final XWPFDocument doc = processDocument(itsCurrent, bookmarks);
+ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
+		final XWPFDocument doc = processDocument(itsCurrent, bookmarks, tables);
 		if (doc != null) {
 			try {
 				ByteArrayOutputStream bosRC = AccessController

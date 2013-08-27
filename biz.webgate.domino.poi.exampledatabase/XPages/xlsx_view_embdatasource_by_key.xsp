@@ -13,7 +13,7 @@
 			<xp:panel xp:key="facetRight">
 
 				<wgpoi:spreadsheet id="shContacts"
-					downloadFileName="allContacts.xlsx">
+					downloadFileName="allContacts.xlsx" useStreamingModel="false">
 					<wgpoi:this.templateSource>
 						<wgpoi:resourcetemplate
 							fileName="SampleExcel.xlsx">
@@ -41,7 +41,7 @@
 								</wgpoi:cellValue>
 							</wgpoi:this.cellValues>
 							<wgpoi:this.exportDefinitions>
-								
+
 								<wgpoi:data2rowExport startRow="4"
 									stepSize="1" index="index" var="row">
 									<wgpoi:this.dataSource>
