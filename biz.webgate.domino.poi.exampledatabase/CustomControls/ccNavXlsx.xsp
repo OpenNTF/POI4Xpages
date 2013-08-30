@@ -20,5 +20,8 @@
 			<xe:pageTreeNode label="View with category selection"
 				page="/xlsx_view_embdatasource_by_key.xsp">
 			</xe:pageTreeNode>
+			<xe:pageTreeNode label="View with object list datasource"
+				page="/xlsx_view_objectlistdatasource.xsp">
+			</xe:pageTreeNode>
 		</xe:this.treeNodes>
 	</xe:navigator></xp:view>
