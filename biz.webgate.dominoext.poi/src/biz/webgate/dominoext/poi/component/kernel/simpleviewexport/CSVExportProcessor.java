@@ -1,0 +1,81 @@
+/*
+ * © Copyright WebGate Consulting AG, 2013
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at:
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+ * implied. See the License for the specific language governing 
+ * permissions and limitations under the License.
+ */
+package biz.webgate.dominoext.poi.component.kernel.simpleviewexport;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+
+import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
+import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
+
+public class CSVExportProcessor implements IExportProcessor {
+
+	private static CSVExportProcessor m_Processor;
+
+	private CSVExportProcessor() {
+
+	}
+
+	public static CSVExportProcessor getInstance() {
+		if (m_Processor == null) {
+			m_Processor = new CSVExportProcessor();
+		}
+		return m_Processor;
+	}
+
+	public void process2HTTP(ExportModel expModel, UISimpleViewExport uis, HttpServletResponse hsr) {
+		try {
+			ByteArrayOutputStream csvBAOS = new ByteArrayOutputStream();
+			OutputStreamWriter csvWriter = new OutputStreamWriter(csvBAOS);
+			CSVPrinter csvPrinter = new CSVPrinter(csvWriter, CSVFormat.DEFAULT);
+
+			// BUILDING HEADER
+			if (uis.isIncludeHeader()) {
+				for (ExportColumn expColumn : expModel.getColumns()) {
+					csvPrinter.print(expColumn.getColumnName());
+				}
+				csvPrinter.println();
+			}
+			// Processing Values
+			for (ExportDataRow expRow : expModel.getRows()) {
+				for (ExportColumn expColumn : expModel.getColumns()) {
+					csvPrinter.print(expRow.getValue(expColumn.getPosition()));
+				}				
+			}
+			csvPrinter.flush();
+			
+			hsr.setContentType("text/csv");
+			hsr.setHeader("Cache-Control", "no-cache");
+			hsr.setDateHeader("Expires", -1);
+			hsr.setContentLength(csvBAOS.size());
+			hsr.addHeader("Content-disposition", "inline; filename=\""
+					+ uis.getDownloadFileName() + "\"");
+			OutputStream os = hsr.getOutputStream();
+			csvBAOS.writeTo(os);
+			os.close();
+		} catch (Exception e) {
+			ErrorPageBuilder.getInstance().processError(hsr,
+					"Error during SVE-Generation (CSV Export)", e);
+		}
+	}
+
+}
