@@ -24,7 +24,7 @@ public class DocumentTable extends AbstractDataExporter {
 	private Integer m_MaxRow;
 	private Integer m_TableNr;
 	private List<DocCellValue> m_DocCellValues;
-
+	private Integer m_TableWidth;
 
 	public String getName() {
 		if (m_Name != null) {
@@ -161,11 +161,19 @@ public class DocumentTable extends AbstractDataExporter {
 
 
 
+	public Integer getTableWidth() {
+		return m_TableWidth;
+	}
+
+	public void setTableWidth(Integer tableWidth) {
+		m_TableWidth = tableWidth;
+	}
+
 	@Override
 	public Object saveState(FacesContext context) {
 		try {
 
-			Object[] state = new Object[7];
+			Object[] state = new Object[8];
 			state[0] = super.saveState(context);
 			state[1] = m_Name;
 			state[2] = StateHolderUtil.saveList(context, m_DocCellValues);
@@ -173,6 +181,7 @@ public class DocumentTable extends AbstractDataExporter {
 			state[4] = StateHolderUtil.saveList(context, m_DocColumns);
 			state[5] = m_MaxRow;
 			state[6] = m_TableNr;
+			state[7] = m_TableWidth;
 			/*
 			 * state[5] = m_StepSize; state[6] =
 			 * FacesUtil.objectToSerializable(getFacesContext(), m_DataSource);
@@ -195,6 +204,7 @@ public class DocumentTable extends AbstractDataExporter {
 		m_DocColumns = StateHolderUtil.restoreList(context, getComponent(), state[4]);
 		m_MaxRow = (Integer) state[5];
 		m_TableNr = (Integer) state[6];
+		m_TableWidth = (Integer) state[7];
 	}
 
 

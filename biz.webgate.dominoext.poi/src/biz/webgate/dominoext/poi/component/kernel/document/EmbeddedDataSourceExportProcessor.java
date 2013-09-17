@@ -61,7 +61,7 @@ public class EmbeddedDataSourceExportProcessor implements IDataSourceExportProce
 			int maxRows = 1;// is.getSize();
 
 			XWPFTable dxTable = dxDocument.createTable(maxRows, maxCols);
-
+			dxTable.setWidth(lstExport.getTableWidth());
 			logCurrent.finer("Proccess Create Table - DONE");
 
 			logCurrent.finer("Start Processing Columns");
