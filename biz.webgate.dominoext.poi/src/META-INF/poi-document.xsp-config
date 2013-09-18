@@ -64,15 +64,19 @@
 	<complex-type>
   		<description>A table in the Document</description>
   		<display-name>Table</display-name>
-  		<complex-id>biz.webgate.dominoext.poi.component.data.document.table.DocumentTable</complex-id>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.document.table.documenttable</complex-id>
   		<complex-class>biz.webgate.dominoext.poi.component.data.document.table.DocumentTable</complex-class>
-  		<property>
-    		<description>The name Table replace [[...]] bookmarks in the document.</description>
-	 	 	<display-name>Table</display-name>
-		    <property-name>name</property-name>
-    		<property-class>java.lang.String</property-class>
-  		</property>
 
+		<property>
+    		<description>Include Headers of the ColumnValues</description>
+	 	 	<display-name>IncludeHeader</display-name>
+		    <property-name>includeHeader</property-name>
+    		<property-class>boolean</property-class>
+    		<property-extension>
+                <allow-run-time-binding>false</allow-run-time-binding>
+        	</property-extension>
+  		</property>
+  		
 		<property>
     		<description>The table at this position will be replaced with the created table (start at 1).</description>
 	 	 	<display-name>TableNr</display-name>
@@ -126,8 +130,7 @@
 		</property>
   		<complex-extension>
     		<tag-name>docTable</tag-name>
-    		<base-complex-id>biz.webgate.dominoext.poi.component.data.document.table.documentTable</base-complex-id>
-  		</complex-extension>
+   		</complex-extension>
 	</complex-type>
 		
 	<complex-type>
@@ -160,8 +163,7 @@
 		
   		<complex-extension>
     		<tag-name>doccellvalue</tag-name>
-    		<base-complex-id>biz.webgate.dominoext.poi.component.data.document.table.cell.DocCellValue</base-complex-id>
-  		</complex-extension>
+   		</complex-extension>
   		
 	</complex-type>
 	
@@ -195,6 +197,14 @@
 		    <property-name>columnTitle</property-name>
     		<property-class>java.lang.String</property-class>
   		</property>
+  		
+  		<property>
+    		<description>The Headervalue of the Column</description>
+	 	 	<display-name>columnHeader</display-name>
+		    <property-name>columnHeader</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		
   		<property>
 			<description>Function will be executed, if there is no columnTitle defined. The current line and the current object are accessible with the defined variables</description>
 			<display-name>computeValue</display-name>
@@ -209,7 +219,6 @@
 		
   		<complex-extension>
     		<tag-name>doccolumndefinition</tag-name>
-  			<base-complex-id>biz.webgate.dominoext.poi.component.data.document.table.cell.DocColumnDefinition</base-complex-id>
   		</complex-extension>
   		
 	</complex-type>

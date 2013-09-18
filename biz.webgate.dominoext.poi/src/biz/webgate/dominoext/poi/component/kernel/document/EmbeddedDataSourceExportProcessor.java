@@ -1,11 +1,15 @@
 package biz.webgate.dominoext.poi.component.kernel.document;
 
+import java.math.BigInteger;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 
 import biz.webgate.dominoext.poi.component.data.document.table.DocumentTable;
 import biz.webgate.dominoext.poi.component.data.document.table.cell.DocCellValue;
@@ -61,7 +65,16 @@ public class EmbeddedDataSourceExportProcessor implements IDataSourceExportProce
 			int maxRows = 1;// is.getSize();
 
 			XWPFTable dxTable = dxDocument.createTable(maxRows, maxCols);
-			dxTable.setWidth(lstExport.getTableWidth());
+
+
+			CTTbl ctTbl = dxTable.getCTTbl();
+
+			CTTblPr cpr = ctTbl.getTblPr();
+			//cpr.addNewTblW().setW(new BigInteger("100"));
+			cpr.getTblW().setW(new BigInteger("5000"));
+			cpr.getTblW().setType(STTblWidth.PCT);
+
+
 			logCurrent.finer("Proccess Create Table - DONE");
 
 			logCurrent.finer("Start Processing Columns");
@@ -72,13 +85,12 @@ public class EmbeddedDataSourceExportProcessor implements IDataSourceExportProce
 					int nCol = clDef.getColumnNumber();
 					int nMyRow = clDef.getRowShift() + nRow;
 					Object objCurrent = is.getValue(clDef, strVar, strIndex, nCount, context);
-					if (nCount == 1) {
-						DocumentProcessor.setDocCellValue(dxTable, nMyRow, nCol, clDef.getColumnTitle(), lstExport.getMaxRow());
-						DocumentProcessor.setDocCellValue(dxTable, nMyRow + 1, nCol, objCurrent, lstExport.getMaxRow());
-						nMyRow -= 1;
+					if (nCount == 1 && lstExport.getIncludeHeader()) {
+						DocumentProcessor.setDocCellValue(dxTable, nMyRow, nCol, clDef.getColumnHeader(), lstExport.getMaxRow(), true);
+						DocumentProcessor.setDocCellValue(dxTable, nMyRow + 1, nCol, objCurrent, lstExport.getMaxRow(), false);
 						iHeaderRow = 1;
 					} else {
-						DocumentProcessor.setDocCellValue(dxTable, nMyRow, nCol, objCurrent, lstExport.getMaxRow());
+						DocumentProcessor.setDocCellValue(dxTable, nMyRow, nCol, objCurrent, lstExport.getMaxRow(), false);
 					}
 				}
 				nRow = nRow + nStepSize;

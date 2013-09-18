@@ -20,26 +20,10 @@ public class DocumentTable extends AbstractDataExporter {
 	 */
 	private Integer m_StartRow;
 	private List<DocColumnDefinition> m_DocColumns;
-	private String m_Name;
 	private Integer m_MaxRow;
 	private Integer m_TableNr;
 	private List<DocCellValue> m_DocCellValues;
-	private Integer m_TableWidth;
-
-	public String getName() {
-		if (m_Name != null) {
-			return m_Name;
-		}
-		ValueBinding vb = getValueBinding("name");
-		if (vb != null) {
-			return (String) vb.getValue(getFacesContext());
-		}
-		return null;
-	}
-
-	public void setName(String name) {
-		m_Name = name;
-	}
+	private Boolean m_IncludeHeader;
 
 	public List<DocCellValue> getDocCellValues() {
 		return m_DocCellValues;
@@ -161,27 +145,36 @@ public class DocumentTable extends AbstractDataExporter {
 
 
 
-	public Integer getTableWidth() {
-		return m_TableWidth;
+
+
+	public boolean getIncludeHeader() {
+		if (null != m_IncludeHeader) {
+			return m_IncludeHeader;
+		}
+		ValueBinding _vb = getValueBinding("includeHeader"); //$NON-NLS-1$
+		if (_vb != null) {
+			return (Boolean) _vb.getValue(FacesContext.getCurrentInstance());
+		} else {
+			return false;
+		}
 	}
 
-	public void setTableWidth(Integer tableWidth) {
-		m_TableWidth = tableWidth;
+	public void setIncludeHeader(boolean includeHeader) {
+		m_IncludeHeader = includeHeader;
 	}
 
 	@Override
 	public Object saveState(FacesContext context) {
 		try {
 
-			Object[] state = new Object[8];
+			Object[] state = new Object[7];
 			state[0] = super.saveState(context);
-			state[1] = m_Name;
-			state[2] = StateHolderUtil.saveList(context, m_DocCellValues);
-			state[3] = m_StartRow;
-			state[4] = StateHolderUtil.saveList(context, m_DocColumns);
-			state[5] = m_MaxRow;
-			state[6] = m_TableNr;
-			state[7] = m_TableWidth;
+			state[1] = StateHolderUtil.saveList(context, m_DocCellValues);
+			state[2] = m_StartRow;
+			state[3] = StateHolderUtil.saveList(context, m_DocColumns);
+			state[4] = m_MaxRow;
+			state[5] = m_TableNr;
+			state[6] = m_IncludeHeader;
 			/*
 			 * state[5] = m_StepSize; state[6] =
 			 * FacesUtil.objectToSerializable(getFacesContext(), m_DataSource);
@@ -198,13 +191,12 @@ public class DocumentTable extends AbstractDataExporter {
 	public void restoreState(FacesContext context, Object arg1) {
 		Object[] state = (Object[]) arg1;
 		super.restoreState(context, state[0]);
-		m_Name = (String) state[1];
-		m_DocCellValues = StateHolderUtil.restoreList(context, getComponent(), state[2]);
-		m_StartRow = (Integer) state[3];
-		m_DocColumns = StateHolderUtil.restoreList(context, getComponent(), state[4]);
-		m_MaxRow = (Integer) state[5];
-		m_TableNr = (Integer) state[6];
-		m_TableWidth = (Integer) state[7];
+		m_DocCellValues = StateHolderUtil.restoreList(context, getComponent(), state[1]);
+		m_StartRow = (Integer) state[2];
+		m_DocColumns = StateHolderUtil.restoreList(context, getComponent(), state[3]);
+		m_MaxRow = (Integer) state[4];
+		m_TableNr = (Integer) state[5];
+		m_IncludeHeader = (Boolean) state[6];
 	}
 
 

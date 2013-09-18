@@ -197,7 +197,6 @@ public class DocumentProcessor {
 		logCurrent.finest("Start export Tables");
 		if (tables != null && tables.size() > 0) {
 			for (DocumentTable tblExport : tables) {
-				logCurrent.finest("Call exportTable" + tblExport.getName());
 				XWPFTable dxTable = EmbeddedDataSourceExportProcessor.getInstance().processExportTable(tblExport, dxDocument, context, tblExport.getVar(),
 						tblExport.getIndex());
 				logCurrent.finest("exportTable created");
@@ -207,7 +206,8 @@ public class DocumentProcessor {
 						if (iCV instanceof DocCellValue) {
 							DocCellValue cv = (DocCellValue) iCV;
 							if (cv.getRowNumber() <= tblExport.getMaxRow()) {
-								DocumentProcessor.setDocCellValue(dxTable, cv.getRowNumber(), cv.getColumnNumber(), cv.getValue(), tblExport.getMaxRow());
+								DocumentProcessor
+										.setDocCellValue(dxTable, cv.getRowNumber(), cv.getColumnNumber(), cv.getValue(), tblExport.getMaxRow(), false);
 							} else {
 								logCurrent.finer("MaxValue < CellValue.getRowNumber()");
 							}
@@ -239,7 +239,7 @@ public class DocumentProcessor {
 		return dxDocument;
 	}
 
-	public static void setDocCellValue(XWPFTable dxTable, int nRow, int nCol, Object objValue, int maxRow) {
+	public static void setDocCellValue(XWPFTable dxTable, int nRow, int nCol, Object objValue, int maxRow, boolean isHeader) {
 
 		try {
 			if (dxTable.getRow(nRow) == null) {
@@ -256,11 +256,28 @@ public class DocumentProcessor {
 						dxTable.getRow(nRow).addNewTableCell();
 					}
 				}
-				dxTable.getRow(nRow).getCell(nCol).setText("" + objValue.toString());
+
+				//dxTable.getRow(nRow).getCell(nCol).setText("" + objValue.toString());
+
+				for (XWPFParagraph paraCurrent : dxTable.getRow(nRow).getCell(nCol).getParagraphs()) {
+					if (paraCurrent.getRuns().size() == 0) {
+						XWPFRun runCurrent = paraCurrent.createRun();
+						if (isHeader)
+							runCurrent.setBold(true);
+						runCurrent.setText("" + objValue.toString());
+					} else {
+						for (XWPFRun runCurrent : paraCurrent.getRuns()) {
+							if (isHeader)
+								runCurrent.setBold(true);
+							runCurrent.setText("" + objValue.toString());
+						}
+					}
+				}
+
 			} else {
 				System.out.println("Still null: " + nRow + " MaxRow = " + maxRow);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

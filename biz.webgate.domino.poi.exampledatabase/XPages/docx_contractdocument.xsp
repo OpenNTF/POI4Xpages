@@ -47,8 +47,7 @@
 						</wgpoi:resourcetemplate>
 					</wgpoi:this.templateSource>
 					<wgpoi:this.tables>
-						<wgpoi:docTable name="myName" maxRow="24"
-							tableNr="2">
+						<wgpoi:docTable maxRow="24" tableNr="1">
 							<wgpoi:this.columnDefinition>
 								<wgpoi:doccolumndefinition
 									columnTitle="LastName" columnNumber="1">
@@ -57,7 +56,7 @@
 									columnTitle="FirstName" columnNumber="0">
 
 								</wgpoi:doccolumndefinition>
-								
+
 							</wgpoi:this.columnDefinition>
 
 							<wgpoi:this.dataSource>
@@ -71,8 +70,8 @@
 								</wgpoi:doccellvalue>
 							</wgpoi:this.docCellValues>
 						</wgpoi:docTable>
-						<wgpoi:docTable tableNr="3" name="zweiteTabelle"
-							maxRow="10">
+						<wgpoi:docTable tableNr="2" maxRow="10"
+							includeHeader="true">
 							<wgpoi:this.dataSource>
 								<wgpoi:dominoViewSource
 									viewName="contacts2">
@@ -80,17 +79,18 @@
 							</wgpoi:this.dataSource>
 							<wgpoi:this.columnDefinition>
 								<wgpoi:doccolumndefinition
-									columnTitle="City" columnNumber="0">
+									columnTitle="City" columnNumber="0" columnHeader="Stadt">
 								</wgpoi:doccolumndefinition>
 								<wgpoi:doccolumndefinition
-									columnTitle="State" columnNumber="1">
+									columnTitle="State" columnNumber="1" columnHeader="Staat">
 								</wgpoi:doccolumndefinition>
 							</wgpoi:this.columnDefinition>
 							<wgpoi:this.docCellValues>
 								<wgpoi:doccellvalue columnNumber="9"
 									value="MEIN WERT... OVERWRITE" rowNumber="9">
 								</wgpoi:doccellvalue>
-							</wgpoi:this.docCellValues></wgpoi:docTable>
+							</wgpoi:this.docCellValues>
+						</wgpoi:docTable>
 					</wgpoi:this.tables>
 				</wgpoi:document></xp:panel>
 			<xp:panel xp:key="facetMiddle">
