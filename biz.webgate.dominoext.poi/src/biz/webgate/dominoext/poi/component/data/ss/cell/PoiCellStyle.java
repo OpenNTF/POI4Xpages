@@ -2,6 +2,8 @@ package biz.webgate.dominoext.poi.component.data.ss.cell;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.poi.ss.usermodel.CellStyle;
+
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
 public class PoiCellStyle extends ValueBindingObjectImpl{
@@ -34,8 +36,18 @@ public class PoiCellStyle extends ValueBindingObjectImpl{
 	private String m_TopBorderColor;
 	private String m_VerticalAlignment;
 	private Boolean m_WrapText = false;
+	/*
+	 * A initialized CellStyle object, only to make the generationProcess much faster and do NOT save it via save/restore state
+	 */
+	private CellStyle m_CellStyle;
 	
 
+	public CellStyle getCellStyle() {
+		return m_CellStyle;
+	}
+	public void setCellStyle(CellStyle cellStyle) {
+		m_CellStyle = cellStyle;
+	}
 	public String getAlignment() {
 		return m_Alignment;
 	}
