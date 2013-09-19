@@ -39,8 +39,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 import biz.webgate.dominoext.poi.util.POILibUtil;
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
@@ -122,6 +122,9 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 		}
 		try {
 			Session sesSigner = POILibUtil.getCurrentSessionAsSigner();
+			if (sesSigner == null) {
+				sesSigner = POILibUtil.getCurrentSession();
+			}
 			Database ndbAccess = null;
 			if (strDB == null) {
 				ndbAccess = sesSigner.getCurrentDatabase();
@@ -137,6 +140,8 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 			if (ndbAccess == null) {
 				return -2;
 			}
+
+
 			logCurrent.info("Getting NoteCollection");
 			NoteCollection ncCurrent = ndbAccess.createNoteCollection(false);
 			logCurrent.info("Select only MiscFormaElements");

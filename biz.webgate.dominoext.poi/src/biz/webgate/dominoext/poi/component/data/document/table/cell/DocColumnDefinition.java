@@ -26,6 +26,7 @@ import com.ibm.xsp.util.StateHolderUtil;
 public class DocColumnDefinition extends AbstractDefinition implements IDefinition {
 	private Integer m_ColumnNumber;
 	private String m_ColumnTitle;
+	private String m_ColumnHeader;
 	private Integer m_RowShift = 0;
 
 	// private PoiCellStyle m_PoiCellStyle;
@@ -69,30 +70,6 @@ public class DocColumnDefinition extends AbstractDefinition implements IDefiniti
 	}
 		
 	
-	
-	@Override
-	public Object saveState(FacesContext context) {
-		Object[] state = new Object[5];
-		state[0] = super.saveState(context);
-		state[1] = m_ColumnNumber;
-		state[2] = m_RowShift;
-		state[3] = m_ColumnTitle;
-		state[4] = StateHolderUtil
-				.saveMethodBinding(context, getComputeValue());
-		return state;
-	}
-
-	@Override
-	public void restoreState(FacesContext context, Object arg1) {
-		Object[] state = (Object[]) arg1;
-		super.restoreState(context, state[0]);
-		m_ColumnNumber = (Integer) state[1];
-		m_RowShift = (Integer) state[2];
-		m_ColumnTitle = (String) state[3];
-		setComputeValue(StateHolderUtil.restoreMethodBinding(context,
-				getComponent(), state[4]));
-	}
-
 	public String getColumnTitle() {
 		if (m_ColumnTitle != null) {
 			return m_ColumnTitle;
@@ -110,5 +87,49 @@ public class DocColumnDefinition extends AbstractDefinition implements IDefiniti
 	public void setColumnTitle(String columnTitle) {
 		m_ColumnTitle = columnTitle;
 	}
+
+	public String getColumnHeader() {
+		if (m_ColumnHeader != null) {
+			return m_ColumnHeader;
+		}
+		ValueBinding vb = getValueBinding("columnHeader");
+		if (vb != null) {
+			String strValue = (String) vb.getValue(getFacesContext());
+			if (strValue != null) {
+				return strValue;
+			}
+		}
+		return null;
+	}
+
+	public void setColumnHeader(String columnHeader) {
+		m_ColumnHeader = columnHeader;
+	}
+	
+	@Override
+	public Object saveState(FacesContext context) {
+		Object[] state = new Object[6];
+		state[0] = super.saveState(context);
+		state[1] = m_ColumnNumber;
+		state[2] = m_RowShift;
+		state[3] = m_ColumnTitle;
+		state[4] = StateHolderUtil
+				.saveMethodBinding(context, getComputeValue());
+		state[5] = m_ColumnHeader;
+		return state;
+	}
+
+	@Override
+	public void restoreState(FacesContext context, Object arg1) {
+		Object[] state = (Object[]) arg1;
+		super.restoreState(context, state[0]);
+		m_ColumnNumber = (Integer) state[1];
+		m_RowShift = (Integer) state[2];
+		m_ColumnTitle = (String) state[3];
+		setComputeValue(StateHolderUtil.restoreMethodBinding(context,
+				getComponent(), state[4]));
+		m_ColumnHeader = (String) state[5];
+	}
+
 
 }

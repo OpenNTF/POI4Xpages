@@ -16,6 +16,9 @@
 package biz.webgate.dominoext.poi.component.containers;
 
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -244,13 +247,30 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 				((MethodBindingEx) m_PostGenerationProcess)
 						.setParamNames(s_postGenParamNames);
 			}
-			if (FacesUtil.isCancelled(m_PostGenerationProcess.invoke(context,
-					params))) {
-				return false;
-			}
+
+			doPostGenerationProcessPrivileged(context, params);
+
+			/*
+			 * if (FacesUtil.isCancelled(m_PostGenerationProcess.invoke(context,
+			 * params))) { return false; }
+			 */
 			return true;
 		}
 		return true;
+	}
+
+	public void doPostGenerationProcessPrivileged(final FacesContext context, final Object[] params) {
+		try {
+			AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
+				public Void run() throws Exception {
+					m_PostGenerationProcess.invoke(context, params);
+					return null;
+				}
+			});
+		} catch (PrivilegedActionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private static final String[] s_postGenParamNames = { "workbook" }; // $NON-NLS-1$
