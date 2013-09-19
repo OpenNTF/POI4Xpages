@@ -18,15 +18,18 @@ package biz.webgate.dominoext.poi.component.kernel.simpleviewexport;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletResponse;
 
 import lotus.domino.DateTime;
+import lotus.domino.ViewColumn;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -34,6 +37,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
+import biz.webgate.dominoext.poi.component.kernel.util.DateTimeHelper;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 public class WorkbooklExportProcessor implements IExportProcessor {
@@ -51,7 +55,7 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 		return m_Processor;
 	}
 
-	public void process2HTTP(ExportModel expModel, UISimpleViewExport uis, HttpServletResponse hsr) {
+	public void process2HTTP(ExportModel expModel, UISimpleViewExport uis, HttpServletResponse hsr, DateTimeHelper dth) {
 		try {
 			String strFileName = uis.getDownloadFileName();
 
@@ -61,8 +65,21 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 			} else {
 				wbCurrent = new HSSFWorkbook();
 			}
-			@SuppressWarnings("unused")
+			HashMap<String, CellStyle> hsCS = new HashMap<String, CellStyle>();
 			CreationHelper cr = wbCurrent.getCreationHelper();
+			CellStyle csDate = wbCurrent.createCellStyle();
+			csDate.setDataFormat(cr.createDataFormat().getFormat(dth.getDFDate().toPattern()));
+
+			CellStyle csDateTime = wbCurrent.createCellStyle();
+			csDateTime.setDataFormat(cr.createDataFormat().getFormat(dth.getDFDateTime().toPattern()));
+
+			CellStyle csTime = wbCurrent.createCellStyle();
+			csTime.setDataFormat(cr.createDataFormat().getFormat(dth.getDFTime().toPattern()));
+
+			hsCS.put("DATE", csDate);
+			hsCS.put("TIME", csTime);
+			hsCS.put("DATETIME", csDateTime);
+
 			Sheet sh = wbCurrent.createSheet("SVE Export");
 			int nRowCount = 0;
 
@@ -82,11 +99,14 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 				int nCol = 0;
 				for (ExportColumn expColumn : expModel.getColumns()) {
 					Cell clCurrent = rw.createCell(nCol);
-					setCellValue(expRow.getValue(expColumn.getPosition()), clCurrent);
+					setCellValue(expRow.getValue(expColumn.getPosition()), clCurrent, expColumn, hsCS);
 					nCol++;
 				}
+				nRowCount++;
 			}
-
+			for (int nCol = 0; nCol < expModel.getColumns().size(); nCol++) {
+				sh.autoSizeColumn(nCol);
+			}
 			if (strFileName.toLowerCase().endsWith(".xlsx")) {
 				hsr.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			} else if (strFileName.toLowerCase().endsWith("xls")) {
@@ -106,7 +126,7 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 		}
 	}
 
-	private void setCellValue(Object objValue, Cell cellCurrent) {
+	private void setCellValue(Object objValue, Cell cellCurrent, ExportColumn expCol, HashMap<String, CellStyle> hsStyle) {
 		if (objValue instanceof Double) {
 			cellCurrent.setCellValue((Double) objValue);
 			return;
@@ -117,11 +137,33 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 		}
 		if (objValue instanceof Date) {
 			cellCurrent.setCellValue((Date) objValue);
+			switch (expCol.getTimeDateFormat()) {
+			case ViewColumn.FMT_DATE:
+				cellCurrent.setCellStyle(hsStyle.get("DATE"));
+				break;
+			case ViewColumn.FMT_TIME:
+				cellCurrent.setCellStyle(hsStyle.get("TIME"));
+				break;
+			default:
+				cellCurrent.setCellStyle(hsStyle.get("DATETIME"));
+				break;
+			}
 			return;
 		}
 		if (objValue instanceof DateTime) {
 			try {
 				cellCurrent.setCellValue(((DateTime) objValue).toJavaDate());
+				switch (expCol.getTimeDateFormat()) {
+				case ViewColumn.FMT_DATE:
+					cellCurrent.setCellStyle(hsStyle.get("DATE"));
+					break;
+				case ViewColumn.FMT_TIME:
+					cellCurrent.setCellStyle(hsStyle.get("TIME"));
+					break;
+				default:
+					cellCurrent.setCellStyle(hsStyle.get("DATETIME"));
+					break;
+				}
 			} catch (Exception e) {
 				cellCurrent.setCellValue("" + objValue);
 				e.printStackTrace();

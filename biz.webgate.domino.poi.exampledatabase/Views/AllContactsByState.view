@@ -1,13 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!DOCTYPE note SYSTEM 'xmlschemas/domino_8_5_3.dtd'>
-<note class='view' xmlns='http://www.lotus.com/dxl' version='8.5' maintenanceversion='3.0'
- replicaid='C1257A6A004D4D0A'>
-<noteinfo noteid='1f6' unid='1560FFB7F852F532C1257AD7003326D6' sequence='5'>
-<created><datetime>20121217T101842,78+01</datetime></created>
-<modified><datetime>20121220T003052,31+01</datetime></modified>
-<revised><datetime>20121220T003052,30+01</datetime></revised>
-<lastaccessed><datetime>20121220T003052,31+01</datetime></lastaccessed>
-<addedtofile><datetime>20121217T101842,86+01</datetime></addedtofile></noteinfo>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' replicaid='C1257B5800493454'>
+<noteinfo noteid='1c6' unid='B66F99B4FA85A131C1257B5800493A53' sequence='3'>
+<created><datetime dst='true'>20130425T151950,59+02</datetime></created>
+<modified><datetime dst='true'>20130918T140619,08+02</datetime></modified>
+<revised><datetime dst='true'>20130918T140619,07+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20130918T140619,08+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20130425T151950,94+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
 <wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
 <item name='$FormulaClass' sign='true'><text>1</text></item>
@@ -78,9 +76,9 @@ AAAAAFdDAQEACQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABXQwEBAAkA
 AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAAAAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAA
 AAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEACQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA
 AP//AAAAAAAAAAAAAAAAAABXQwEBAAkAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAD//wAAAAAAAAAA
-AAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEA
+AAAAAAAAV0MBAQAJAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAA//8AAAAAAAAAAAAAAAAAAFdDAQEA
 CQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAP//AAAAAAAAAAAAAAAAAABCAAAAAAABAP///wAFAP//
 /wABAAAAAAAAAAAAAAAAAAEA////AAEA////AAAAAQAAAAAAAQAAAAAAAQAAAAAAAAAIAAAAAAAB
-AA==
+AFhDAEyAAwAAAAAAAQICAgEBAQEHBAMAAAAAAAAAACAuLjo=
 </rawitemdata></item></note>
 

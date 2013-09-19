@@ -142,7 +142,7 @@
         	      <category>POI 4 XPages</category>
         	      <render-markup>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#xd;
 						&lt;xp:view xmlns:xp="http://www.ibm.com/xsp/core"&gt;&#xd;
-						&lt;xp:image url="/icon1s/sve_96.png" id="sve"&gt;&lt;/xp:image&gt;&#xd;
+						&lt;xp:image url="/icons/sve_96.png" id="sve"&gt;&lt;/xp:image&gt;&#xd;
 						&lt;/xp:view&gt;&#xd;
 				</render-markup>
              </designer-extension>

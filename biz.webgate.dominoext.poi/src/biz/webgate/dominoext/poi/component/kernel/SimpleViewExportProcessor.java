@@ -24,6 +24,8 @@ import java.util.Vector;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ibm.commons.util.StringUtil;
+
 import lotus.domino.Database;
 import lotus.domino.NotesException;
 import lotus.domino.Session;
@@ -32,10 +34,13 @@ import lotus.domino.ViewColumn;
 import lotus.domino.ViewEntry;
 import lotus.domino.ViewEntryCollection;
 import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
+import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.CSVExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportColumn;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportDataRow;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportModel;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.IExportProcessor;
+import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.WorkbooklExportProcessor;
+import biz.webgate.dominoext.poi.component.kernel.util.DateTimeHelper;
 import biz.webgate.dominoext.poi.util.POILibUtil;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
@@ -68,6 +73,7 @@ public class SimpleViewExportProcessor {
 					ExportColumn expCurrent = new ExportColumn();
 					expCurrent.setPosition(nCounter);
 					expCurrent.setColumnName(vcCurrent.getTitle());
+					expCurrent.setTimeDateFormat(vcCurrent.getTimeDateFmt());
 					lstRC.add(expCurrent);
 				}
 				nCounter++;
@@ -94,6 +100,7 @@ public class SimpleViewExportProcessor {
 						expDR.addValue(expColumn.getPosition(), nveProcess.getColumnValues().get(expColumn.getPosition()));
 					}
 				}
+				lstRC.add(expDR);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,6 +110,10 @@ public class SimpleViewExportProcessor {
 
 	public void generateNewFile(UISimpleViewExport uiSimpleViewExport, HttpServletResponse httpResponse, FacesContext context) {
 		try {
+			if (StringUtil.isEmpty(uiSimpleViewExport.getDownloadFileName())) {
+				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: no DownloaldFileName specified.", null);
+				return;
+			}
 			String strDB = uiSimpleViewExport.getDatabase();
 			String strView = uiSimpleViewExport.getView();
 			String strKey = uiSimpleViewExport.getKey();
@@ -149,8 +160,8 @@ public class SimpleViewExportProcessor {
 			expModel.setRows(expResult);
 			if (m_ExportProcessors == null) {
 				m_ExportProcessors = new HashMap<String, IExportProcessor>();
-				m_ExportProcessors.put("xlsx", (IExportProcessor) WorkbookProcessor.getInstance());
-				m_ExportProcessors.put("csv", (IExportProcessor) CSVProcessor.getInstance());
+				m_ExportProcessors.put("xlsx", WorkbooklExportProcessor.getInstance());
+				m_ExportProcessors.put("csv", CSVExportProcessor.getInstance());
 			}
 			String strExpFormat = uiSimpleViewExport.getExportFormat();
 			IExportProcessor processor = null;
@@ -162,7 +173,7 @@ public class SimpleViewExportProcessor {
 						"SimpleViewExport failed: No exportFormat defined or not valid (exportFormat = " + strExpFormat + ").", null);
 
 			} else {
-				processor.process2HTTP(expModel, uiSimpleViewExport, httpResponse);
+				processor.process2HTTP(expModel, uiSimpleViewExport, httpResponse, new DateTimeHelper());
 			}
 		} catch (NotesException e) {
 			ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: A general error.", e);

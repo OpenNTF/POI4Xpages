@@ -51,6 +51,9 @@
 					<xe:pageTreeNode label="CSV" selection="/csv/.*"
 						page="/csv_view_embdatasource.xsp">
 					</xe:pageTreeNode>
+					<xe:pageTreeNode label="Simple View Export"
+						page="/sve_view_embdatasource.xsp" selection="/sve/.*">
+					</xe:pageTreeNode>
 				</xe:this.titleBarTabs>
 				<xe:this.bannerApplicationLinks>
 					<xe:basicLeafNode label="OpenNTF"
@@ -70,6 +73,7 @@
 					<xe:pageTreeNode label="Administration"
 						page="/admin_home.xsp">
 					</xe:pageTreeNode>
-				</xe:this.placeBarActions></xe:oneuiApplication>
+				</xe:this.placeBarActions>
+			</xe:oneuiApplication>
 		</xe:this.configuration>
 	</xe:applicationLayout></xp:view>

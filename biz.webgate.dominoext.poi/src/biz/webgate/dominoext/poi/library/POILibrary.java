@@ -28,7 +28,8 @@ public class POILibrary extends AbstractXspLibrary {
 		String[] files = new String[] { "META-INF/poi-beans-faces-config.xml",
 				"META-INF/poi-csv-faces-config.xml",
 				"META-INF/poi-spreadsheet-faces-config.xml",
-				"META-INF/poi-document-faces-config.xml" };
+				"META-INF/poi-document-faces-config.xml",
+				"META-INF/poi-sve-faces-config.xml"};
 		return files;
 	}
 
@@ -45,11 +46,12 @@ public class POILibrary extends AbstractXspLibrary {
 				"META-INF/poi-wb-listexporter.xsp-config",
 				"META-INF/poi-wb.xsp-config",
 				"META-INF/poi-document.xsp-config",
-				"META-INF/poi-csv.xsp-config" };
+				"META-INF/poi-csv.xsp-config",
+				"META-INF/poi-sve.xsp-config"};
 	}
 
 	@Override
 	public String getTagVersion() {
-		return "1.2.1";
+		return "1.2.3";
 	}
 }

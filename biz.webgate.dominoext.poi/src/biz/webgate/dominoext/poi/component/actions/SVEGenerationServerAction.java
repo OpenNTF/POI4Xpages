@@ -21,7 +21,7 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodNotFoundException;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.containers.UICSV;
+import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
 
 import com.ibm.xsp.binding.MethodBindingEx;
 import com.ibm.xsp.util.FacesUtil;
@@ -40,12 +40,12 @@ public class SVEGenerationServerAction extends MethodBindingEx {
 	public Object invoke(FacesContext context, Object[] arg1)
 			throws EvaluationException, MethodNotFoundException {
 		String strID = getSveId();
-		UIComponent uiC = FacesUtil.getComponentFor(context.getViewRoot(),
+		UIComponent uiS = FacesUtil.getComponentFor(context.getViewRoot(),
 				strID);
-		if (uiC instanceof UICSV) {
-			UICSV uiCSV = (UICSV) uiC;
+		if (uiS instanceof UISimpleViewExport) {
+			UISimpleViewExport uiSVE = (UISimpleViewExport) uiS;
 			try {
-				uiCSV.processAjaxRequest(context);
+				uiSVE.processAjaxRequest(context);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

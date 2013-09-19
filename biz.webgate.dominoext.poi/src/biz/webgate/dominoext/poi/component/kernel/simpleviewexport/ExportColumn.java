@@ -25,6 +25,7 @@ public class ExportColumn implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String m_ColumnName;
 	private int m_Position;
+	private int m_TimeDateFormat;
 	
 	public String getColumnName() {
 		return m_ColumnName;
@@ -37,5 +38,11 @@ public class ExportColumn implements Serializable {
 	}
 	public void setPosition(int position) {
 		m_Position = position;
+	}
+	public int getTimeDateFormat() {
+		return m_TimeDateFormat;
+	}
+	public void setTimeDateFormat(int timeDateFormat) {
+		m_TimeDateFormat = timeDateFormat;
 	}
 }
