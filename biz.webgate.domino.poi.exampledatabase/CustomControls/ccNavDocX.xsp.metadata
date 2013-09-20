@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" replicaid="C1257B470024EEF4" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="226" sequence="8" unid="57861340E61EECDAC1257B470024F061">
-<created><datetime dst="true">20130408T084328,33+02</datetime></created>
-<modified><datetime dst="true">20130408T085354,32+02</datetime></modified>
-<revised><datetime dst="true">20130408T085354,31+02</datetime></revised>
-<lastaccessed><datetime dst="true">20130408T085354,32+02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20130408T084328,73+02</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Lena Troxler/O=WGC/C=CH</name></updatedby>
-<wassignedby><name>CN=Lena Troxler/O=WGC/C=CH</name></wassignedby>
+<?xml version="1.0" encoding="UTF-8"?><note class="form" replicaid="C1257B5800493454" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="226" sequence="11" unid="9CB5E1AC92909A32C1257B5800493AEC">
+<created><datetime dst="true">20130425T151952,12+02</datetime></created>
+<modified><datetime dst="true">20130920T132842,59+02</datetime></modified>
+<revised><datetime dst="true">20130920T132842,58+02</datetime></revised>
+<lastaccessed><datetime dst="true">20130920T132842,59+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20130425T151952,24+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
 <item name="$Flags"><text>gC~4;</text></item>
 <item name="$TITLE"><text>ccNavDocX.xsp</text></item>
+<item name="$DesignerVersion"><text>8.5</text></item>
+
 
 
 
 
 <item name="$FileNames" sign="true"><text>ccNavDocX.xsp</text></item>
-<item name="$DesignerVersion"><text>8.5</text></item>
-
 
 
 

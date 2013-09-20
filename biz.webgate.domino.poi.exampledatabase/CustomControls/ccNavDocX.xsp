@@ -18,5 +18,8 @@
 			<xe:pageTreeNode label="direct Input as PDF"
 				page="/docx_contractdocument_pdf.xsp">
 			</xe:pageTreeNode>
+			<xe:pageTreeNode label="direct input and a table"
+				page="/docx_contractdocument_table.xsp">
+			</xe:pageTreeNode>
 		</xe:this.treeNodes>
 	</xe:navigator></xp:view>

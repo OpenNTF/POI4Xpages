@@ -309,6 +309,7 @@
 			<property-name>tables</property-name>
             <property-class>java.util.List</property-class>
         	<property-extension>
+				<since>1.2.3</since>
                 <allow-run-time-binding>false</allow-run-time-binding>
           		<collection-property>true</collection-property>
           		<property-item-class>biz.webgate.dominoext.poi.component.data.document.table.DocumentTable</property-item-class>
@@ -339,9 +340,6 @@
 		</icon>
   		
 	</component>
-	
-	
-	
 
 </faces-config>
 

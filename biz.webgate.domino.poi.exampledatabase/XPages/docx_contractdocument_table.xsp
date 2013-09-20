@@ -17,7 +17,7 @@
 					</xp:eventHandler>
 				</xp:button>
 				<wgpoi:document id="docContract"
-					downloadFileName="contract.docx" pathInfo="download">
+					downloadFileName="contract_with_table.docx" pathInfo="download">
 
 
 					<wgpoi:this.bookmarks>
@@ -43,10 +43,42 @@
 					</wgpoi:this.bookmarks>
 					<wgpoi:this.templateSource>
 						<wgpoi:resourcetemplate
-							fileName="SampleContract.docx">
+							fileName="SampleContract2.docx">
 						</wgpoi:resourcetemplate>
 					</wgpoi:this.templateSource>
-					
+					<wgpoi:this.tables>
+						<wgpoi:docTable maxRow="10" tableNr="1"
+							includeHeader="true">
+							<wgpoi:this.columnDefinition>
+								<wgpoi:doccolumndefinition
+									columnTitle="LastName" columnNumber="1" columnHeader="Name">
+								</wgpoi:doccolumndefinition>
+								<wgpoi:doccolumndefinition
+									columnTitle="FirstName" columnNumber="0"
+									columnHeader="Firstname">
+
+								</wgpoi:doccolumndefinition>
+								<wgpoi:doccolumndefinition
+									columnTitle="City" columnNumber="2" columnHeader="City">
+								</wgpoi:doccolumndefinition>
+								<wgpoi:doccolumndefinition
+									columnTitle="State" columnNumber="3" columnHeader="State">
+								</wgpoi:doccolumndefinition>
+
+							</wgpoi:this.columnDefinition>
+
+							<wgpoi:this.dataSource>
+								<wgpoi:dominoViewSource
+									viewName="contacts2">
+								</wgpoi:dominoViewSource>
+							</wgpoi:this.dataSource>
+							<wgpoi:this.docCellValues>
+								<wgpoi:doccellvalue rowNumber="9"
+									value="A custom Value (OVERWRITE)" columnNumber="9">
+								</wgpoi:doccellvalue>
+							</wgpoi:this.docCellValues>
+						</wgpoi:docTable>
+					</wgpoi:this.tables>
 				</wgpoi:document></xp:panel>
 			<xp:panel xp:key="facetMiddle">
 			This sample shows how values from a form can be directly inserted into a word document.<xp:br></xp:br><xp:br></xp:br>Fill out this form and click on  &quot;download&quot; button on the right. Choose a viewer  of your choice (like word)&#160; to inspect the result.<xp:br></xp:br><xp:table>
