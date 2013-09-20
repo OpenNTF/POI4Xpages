@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI Libraries
 Bundle-SymbolicName: biz.webgate.dominoext.poi.library;singleton:=true
-Bundle-Version: 1.2.1.qualifier
+Bundle-Version: 1.2.3.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.library.Activator
 Bundle-Vendor: WebGate Consulting AG
 Require-Bundle: org.eclipse.core.runtime

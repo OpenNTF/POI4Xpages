@@ -16,6 +16,9 @@
 package biz.webgate.dominoext.poi.component.containers;
 
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -278,14 +281,31 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 				((MethodBindingEx) m_PostGenerationProcess)
 						.setParamNames(s_postGenParamNames);
 			}
+			/*
 			if (FacesUtil.isCancelled(m_PostGenerationProcess.invoke(context,
 					params))) {
 				return false;
 			}
+			*/
+			doPostGenerationProcessPrivileged(context, params);
 			return true;
 		}
 		return true;
 	}
+	
+	public void doPostGenerationProcessPrivileged(final FacesContext context, final Object[] params) {
+		try {
+			AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
+				public Void run() throws Exception {
+					m_PostGenerationProcess.invoke(context, params);
+					return null;
+				}
+			});
+		} catch (PrivilegedActionException e) {
+			e.printStackTrace();
+		}
+	}
 
+	
 	private static final String[] s_postGenParamNames = { "xwpfdocument" }; // $NON-NLS-1$
 }

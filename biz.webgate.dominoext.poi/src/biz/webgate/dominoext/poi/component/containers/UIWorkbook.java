@@ -268,7 +268,6 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 				}
 			});
 		} catch (PrivilegedActionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
