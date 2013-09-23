@@ -25,8 +25,12 @@ import biz.webgate.dominoext.poi.library.Activator;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 public abstract class AbstractPOIPowerAction<T> {
+	private boolean m_Error = false;
+	private Exception m_LastException;
 
 	public T run(final T poiObj, final HashMap<String, String> hsProperties) {
+		m_Error = false;
+		m_LastException = null;
 		final Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 		try {
 			final T wb = AccessController.doPrivileged(new PrivilegedExceptionAction<T>() {
@@ -39,6 +43,8 @@ public abstract class AbstractPOIPowerAction<T> {
 			});
 			return wb;
 		} catch (PrivilegedActionException e) {
+			m_Error = true;
+			m_LastException = e;
 			e.printStackTrace();
 		}
 		return null;
@@ -57,6 +63,8 @@ public abstract class AbstractPOIPowerAction<T> {
 			objRC = doItPriv(objPoi, hsCurrent);
 			logCurrent.info("Exeute done!");
 		} catch (Exception e) {
+			m_Error = true;
+			m_LastException = e;
 			e.printStackTrace();
 		} finally {
 			currentThread.setContextClassLoader(currentCl);
@@ -65,4 +73,20 @@ public abstract class AbstractPOIPowerAction<T> {
 	}
 
 	protected abstract T doItPriv(T objPoi, HashMap<String, String> hsCurrent);
+
+	public boolean hasError() {
+		return m_Error;
+	}
+
+	public void setError(boolean error) {
+		m_Error = error;
+	}
+
+	public Exception getLastException() {
+		return m_LastException;
+	}
+
+	public void setLastException(Exception lastException) {
+		m_LastException = lastException;
+	}
 }
