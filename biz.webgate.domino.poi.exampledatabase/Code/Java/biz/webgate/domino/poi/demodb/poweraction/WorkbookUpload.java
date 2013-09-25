@@ -15,8 +15,11 @@
  */
 package biz.webgate.domino.poi.demodb.poweraction;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +38,6 @@ public class WorkbookUpload implements Serializable {
 	private UploadedFile m_File;
 	private List<String> m_SheetNames;
 	private UploadedFile last_File;
-
 
 	public void setFile(UploadedFile file) {
 		m_File = file;
@@ -56,8 +58,18 @@ public class WorkbookUpload implements Serializable {
 				HashMap<String, String> hsCurrent = new HashMap<String, String>();
 				hsCurrent.put("FILE", inputFile);
 				Workbook wb = ioAction.run(null, hsCurrent);
-				for (int nCount = 0; nCount <wb.getNumberOfSheets(); nCount++) {
-					lstRC.add(wb.getSheetName(nCount));
+				if (ioAction.hasError()) {
+					Exception exLst = ioAction.getLastException();
+					StringWriter swCurrent = new StringWriter();
+					PrintWriter pwCurrent = new PrintWriter(swCurrent);
+					exLst.printStackTrace(pwCurrent);
+					lstRC.add("ERROR !!!!");
+					String[] arrErr = swCurrent.toString().split("\n");
+					lstRC.addAll(Arrays.asList(arrErr));
+				} else {
+					for (int nCount = 0; nCount < wb.getNumberOfSheets(); nCount++) {
+						lstRC.add(wb.getSheetName(nCount));
+					}
 				}
 				m_SheetNames = lstRC;
 			}

@@ -72,7 +72,7 @@ public abstract class AbstractPOIPowerAction<T> {
 		return objRC;
 	}
 
-	protected abstract T doItPriv(T objPoi, HashMap<String, String> hsCurrent);
+	protected abstract T doItPriv(T objPoi, HashMap<String, String> hsCurrent) throws Exception;
 
 	public boolean hasError() {
 		return m_Error;

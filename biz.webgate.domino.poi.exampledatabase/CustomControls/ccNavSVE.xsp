@@ -10,8 +10,7 @@
 				page="/sve_view_embdatasource.xsp">
 			</xe:pageTreeNode>
 			<xe:pageTreeNode label="View with category selection"
-				page="sve_view_embdatasource_by_key"
-				selection="/sve/catdatasource">
+				page="sve_view_embdatasource_by_key">
 			</xe:pageTreeNode>
 
 

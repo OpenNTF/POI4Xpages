@@ -26,16 +26,11 @@ import biz.webgate.dominoext.poi.util.AbstractPOIPowerAction;
 public class ImportAction extends AbstractPOIPowerAction<Workbook> {
 
 	@Override
-	protected Workbook doItPriv(Workbook arg0, HashMap<String, String> hsCurrent) {
-		try {
-			System.out.println("Accessing -> "+hsCurrent.get("FILE"));
-			File excelFile = new java.io.File(hsCurrent.get("FILE"));
-			Workbook wb2 = WorkbookFactory.create(excelFile);
-			System.out.println("###Got the file and first sheetName is -> " + wb2.getSheetName(0));
-			return wb2;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	protected Workbook doItPriv(Workbook arg0, HashMap<String, String> hsCurrent) throws Exception {
+		System.out.println("Accessing -> " + hsCurrent.get("FILE"));
+		File excelFile = new java.io.File(hsCurrent.get("FILE"));
+		Workbook wb2 = WorkbookFactory.create(excelFile);
+		System.out.println("###Got the file and first sheetName is -> " + wb2.getSheetName(0));
+		return wb2;
 	}
 }
