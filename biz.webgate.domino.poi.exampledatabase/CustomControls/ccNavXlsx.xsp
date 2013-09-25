@@ -23,5 +23,9 @@
 			<xe:pageTreeNode label="View with object list datasource"
 				page="/xlsx_view_objectlistdatasource.xsp">
 			</xe:pageTreeNode>
+				<xe:separatorTreeNode></xe:separatorTreeNode>
+			<xe:pageTreeNode label="Excel file upload"
+				page="/file_upload.xsp">
+			</xe:pageTreeNode>
 		</xe:this.treeNodes>
 	</xe:navigator></xp:view>
