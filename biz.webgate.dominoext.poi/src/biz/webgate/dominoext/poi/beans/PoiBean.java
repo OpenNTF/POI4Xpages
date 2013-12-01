@@ -37,8 +37,7 @@ public class PoiBean {
 	public static final String BEAN_NAME = "poiBean"; //$NON-NLS-1$
 
 	public static PoiBean get(FacesContext context) {
-		PoiBean bean = (PoiBean) context.getApplication().getVariableResolver()
-				.resolveVariable(context, BEAN_NAME);
+		PoiBean bean = (PoiBean) context.getApplication().getVariableResolver().resolveVariable(context, BEAN_NAME);
 		return bean;
 	}
 
@@ -50,55 +49,51 @@ public class PoiBean {
 		return POILibUtil.getPOILibUtilVersion();
 	}
 
-	public XWPFDocument processDocument(ITemplateSource itsCurrent,
- List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
+	public XWPFDocument processDocument(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks) {
+		return processDocument(itsCurrent, bookmarks, null);
+	}
+
+	public XWPFDocument processDocument(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
 		final ITemplateSource itsCurrentFin = itsCurrent;
 		final List<IDocumentBookmark> bookmarksFin = bookmarks;
 		final List<DocumentTable> tablesFin = tables;
 		if (itsCurrent.accessTemplate() == 1) {
-			XWPFDocument doc = AccessController
-					.doPrivileged(new PrivilegedAction<XWPFDocument>() {
-						public XWPFDocument run() {
-							try {
-								return DocumentProcessor.getInstance()
-										.processDocument(
-												itsCurrentFin,
-												bookmarksFin,
- tablesFin,
-												FacesContext
-														.getCurrentInstance(),
-												null);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							return null;
-						}
-					});
+			XWPFDocument doc = AccessController.doPrivileged(new PrivilegedAction<XWPFDocument>() {
+				public XWPFDocument run() {
+					try {
+						return DocumentProcessor.getInstance().processDocument(itsCurrentFin, bookmarksFin, tablesFin, FacesContext.getCurrentInstance(), null);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return null;
+				}
+			});
 			return doc;
 		}
 		return null;
 	}
+	public ByteArrayOutputStream processDocument2Stream(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks) {
+		return processDocument2Stream(itsCurrent, bookmarks, null);
+	}
 
-	public ByteArrayOutputStream processDocument2Stream(
-ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
+	public ByteArrayOutputStream processDocument2Stream(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
 		final XWPFDocument doc = processDocument(itsCurrent, bookmarks, tables);
 		if (doc != null) {
 			try {
-				ByteArrayOutputStream bosRC = AccessController
-						.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
+				ByteArrayOutputStream bosRC = AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
 
-							public ByteArrayOutputStream run() {
-								try {
-									ByteArrayOutputStream bos = new ByteArrayOutputStream();
-									doc.write(bos);
-									return bos;
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-								return null;
-							}
+					public ByteArrayOutputStream run() {
+						try {
+							ByteArrayOutputStream bos = new ByteArrayOutputStream();
+							doc.write(bos);
+							return bos;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						return null;
+					}
 
-						});
+				});
 				return bosRC;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -107,16 +102,14 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return null;
 	}
 
-	public IDocumentBookmark buildDocumentBookmark(String strName,
-			String strValue) {
+	public IDocumentBookmark buildDocumentBookmark(String strName, String strValue) {
 		DocumentBookmark bmRC = new DocumentBookmark();
 		bmRC.setName(strName);
 		bmRC.setValue(strValue);
 		return bmRC;
 	}
 
-	public AttachmentTemplateSource buildAttachmentTemplateSource(String strDB,
-			String strView, String strKey, String strField) {
+	public AttachmentTemplateSource buildAttachmentTemplateSource(String strDB, String strView, String strKey, String strField) {
 		AttachmentTemplateSource attRC = new AttachmentTemplateSource();
 		attRC.setDatabaseName(strDB);
 		attRC.setViewName(strView);
@@ -125,39 +118,29 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return attRC;
 	}
 
-	public ResourceTemplateSource buildResourceTemplateSource(String strDB,
-			String strFileName) {
+	public ResourceTemplateSource buildResourceTemplateSource(String strDB, String strFileName) {
 		ResourceTemplateSource rtsRC = new ResourceTemplateSource();
 		rtsRC.setDatabaseName(strDB);
 		rtsRC.setFileName(strFileName);
 		return rtsRC;
 	}
 
-	public Workbook processWorkbook(ITemplateSource itsCurrent,
-			List<Spreadsheet> lstSP) {
+	public Workbook processWorkbook(ITemplateSource itsCurrent, List<Spreadsheet> lstSP) {
 		if (itsCurrent.accessTemplate() == 1) {
 			try {
 				final ITemplateSource itsCurrentFIN = itsCurrent;
 				final List<Spreadsheet> lstSPFIN = lstSP;
-				Workbook wbRC = AccessController
-						.doPrivileged(new PrivilegedAction<Workbook>() {
+				Workbook wbRC = AccessController.doPrivileged(new PrivilegedAction<Workbook>() {
 
-							public Workbook run() {
-								try {
-									return WorkbookProcessor
-											.getInstance()
-											.processWorkbook(
-													itsCurrentFIN,
-													lstSPFIN,
-													FacesContext
-															.getCurrentInstance(),
-													null);
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-								return null;
-							}
-						});
+					public Workbook run() {
+						try {
+							return WorkbookProcessor.getInstance().processWorkbook(itsCurrentFIN, lstSPFIN, FacesContext.getCurrentInstance(), null);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						return null;
+					}
+				});
 				return wbRC;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -166,27 +149,24 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return null;
 	}
 
-	public ByteArrayOutputStream processWorkbook2Stream(
-			ITemplateSource itsCurrent, List<Spreadsheet> lstSP,
-			FacesContext context) {
+	public ByteArrayOutputStream processWorkbook2Stream(ITemplateSource itsCurrent, List<Spreadsheet> lstSP, FacesContext context) {
 		final Workbook wb = processWorkbook(itsCurrent, lstSP);
 		if (wb != null) {
 			try {
-				ByteArrayOutputStream bosRC = AccessController
-						.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
+				ByteArrayOutputStream bosRC = AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
 
-							public ByteArrayOutputStream run() {
-								try {
-									ByteArrayOutputStream bos = new ByteArrayOutputStream();
-									wb.write(bos);
-									return bos;
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-								return null;
-							}
+					public ByteArrayOutputStream run() {
+						try {
+							ByteArrayOutputStream bos = new ByteArrayOutputStream();
+							wb.write(bos);
+							return bos;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						return null;
+					}
 
-						});
+				});
 				return bosRC;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -210,8 +190,7 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return cbRC;
 	}
 
-	public DominoView buildDominoViewSource(String strDB, String strView,
-			String strKey, String strSearch) {
+	public DominoView buildDominoViewSource(String strDB, String strView, String strKey, String strSearch) {
 		DominoView dvRC = new DominoView();
 		dvRC.setDatabase(strDB);
 		dvRC.setViewName(strView);
@@ -226,8 +205,7 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return lodsRC;
 	}
 
-	public ColumnDefinition buildColumnDefinition(int nCol, int nShift,
-			String strColumnTitle) {
+	public ColumnDefinition buildColumnDefinition(int nCol, int nShift, String strColumnTitle) {
 		ColumnDefinition cdRC = new ColumnDefinition();
 		cdRC.setColumnNumber(nCol);
 		cdRC.setRowShift(nShift);
@@ -235,8 +213,7 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return cdRC;
 	}
 
-	public RowDefinition buildRowDefinition(int nRow, int nShift,
-			String strColumnTitle) {
+	public RowDefinition buildRowDefinition(int nRow, int nShift, String strColumnTitle) {
 		RowDefinition cdRC = new RowDefinition();
 		cdRC.setRowNumber(nRow);
 		cdRC.setColumnShift(nShift);
@@ -244,9 +221,7 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return cdRC;
 	}
 
-	public Data2ColumnExporter buildData2ColumnExporter(
-			IExportSource dataSource, String dataSourceVar,
-			List<RowDefinition> rows, int startColumn, int stepSize) {
+	public Data2ColumnExporter buildData2ColumnExporter(IExportSource dataSource, String dataSourceVar, List<RowDefinition> rows, int startColumn, int stepSize) {
 		Data2ColumnExporter d2cRC = new Data2ColumnExporter();
 		d2cRC.setDataSource(dataSource);
 		d2cRC.setDataSourceVar(dataSourceVar);
@@ -256,9 +231,7 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return d2cRC;
 	}
 
-	public Data2RowExporter buildData2RowExporter(IExportSource dataSource,
-			String dataSourceVar, List<ColumnDefinition> cols, int startRow,
-			int stepSize) {
+	public Data2RowExporter buildData2RowExporter(IExportSource dataSource, String dataSourceVar, List<ColumnDefinition> cols, int startRow, int stepSize) {
 		Data2RowExporter d2cRC = new Data2RowExporter();
 		d2cRC.setDataSource(dataSource);
 		d2cRC.setDataSourceVar(dataSourceVar);
@@ -268,9 +241,7 @@ ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTabl
 		return d2cRC;
 	}
 
-	public Spreadsheet buildSpreadSheet(String strName, boolean blCreate,
-			List<ICellValue> cellValues,
-			List<IListDataExporter> exportDefinition) {
+	public Spreadsheet buildSpreadSheet(String strName, boolean blCreate, List<ICellValue> cellValues, List<IListDataExporter> exportDefinition) {
 		Spreadsheet spRC = new Spreadsheet();
 		spRC.setName(strName);
 		spRC.setCreate(blCreate);

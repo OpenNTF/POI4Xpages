@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CSV Processor
 Bundle-SymbolicName: biz.webgate.dominoext.poi.csvprocessor
-Bundle-Version: 1.2.4.qualifier
+Bundle-Version: 1.2.5.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.csvprocessor.Activator
 Bundle-Vendor: WebGate Consulting AG
 Require-Bundle: org.eclipse.core.runtime
