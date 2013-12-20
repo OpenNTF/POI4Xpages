@@ -90,8 +90,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		}
 		ValueBinding _vb = getValueBinding("pathInfo"); //$NON-NLS-1$
 		if (_vb != null) {
-			return (java.lang.String) _vb.getValue(FacesContext
-					.getCurrentInstance());
+			return (java.lang.String) _vb.getValue(FacesContext.getCurrentInstance());
 		} else {
 			return null;
 		}
@@ -107,8 +106,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		}
 		ValueBinding _vb = getValueBinding("downloadFileName"); //$NON-NLS-1$
 		if (_vb != null) {
-			return (java.lang.String) _vb.getValue(FacesContext
-					.getCurrentInstance());
+			return (java.lang.String) _vb.getValue(FacesContext.getCurrentInstance());
 		} else {
 			return null;
 		}
@@ -158,8 +156,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 	}
 
 	public void processAjaxRequest(FacesContext context) throws IOException {
-		HttpServletResponse httpResponse = (HttpServletResponse) context
-				.getExternalContext().getResponse();
+		HttpServletResponse httpResponse = (HttpServletResponse) context.getExternalContext().getResponse();
 
 		// Disable the XPages response buffer as this will collide with the
 		// engine one
@@ -173,14 +170,11 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 
 		ITemplateSource itsCurrent = getTemplateSource();
 		if (itsCurrent == null) {
-			ErrorPageBuilder.getInstance().processError(httpResponse,
-					"No Templatesource found!", null);
+			ErrorPageBuilder.getInstance().processError(httpResponse, "No Templatesource found!", null);
 			return;
 		}
 		try {
-			WorkbookProcessor.getInstance().generateNewFile(
-					getTemplateSource(), getSpreadsheets(),
-					getDownloadFileName(), httpResponse, context, this);
+			WorkbookProcessor.INSTANCE.generateNewFile(getTemplateSource(), getSpreadsheets(), getDownloadFileName(), httpResponse, context, this);
 		} catch (Exception e) {
 			try {
 				e.printStackTrace();
@@ -210,11 +204,9 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 			state[0] = super.saveState(context);
 			state[1] = m_DownloadFileName;
 			state[2] = m_pathInfo;
-			state[3] = FacesUtil
-					.objectToSerializable(context, m_TemplateSource);
+			state[3] = FacesUtil.objectToSerializable(context, m_TemplateSource);
 			state[4] = StateHolderUtil.saveList(context, m_Spreadsheets);
-			state[5] = StateHolderUtil.saveMethodBinding(context,
-					m_PostGenerationProcess);
+			state[5] = StateHolderUtil.saveMethodBinding(context, m_PostGenerationProcess);
 			state[6] = new Boolean(m_UseStreamingModel);
 			return state;
 		} catch (Exception e) {
@@ -229,23 +221,19 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		super.restoreState(context, state[0]);
 		m_DownloadFileName = (String) state[1];
 		m_pathInfo = (String) state[2];
-		m_TemplateSource = (ITemplateSource) FacesUtil.objectFromSerializable(
-				context, this, state[3]);
+		m_TemplateSource = (ITemplateSource) FacesUtil.objectFromSerializable(context, this, state[3]);
 		m_Spreadsheets = StateHolderUtil.restoreList(context, this, state[4]);
-		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context,
-				this, state[5]);
-		m_UseStreamingModel = ((Boolean)state[6]).booleanValue();
+		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context, this, state[5]);
+		m_UseStreamingModel = ((Boolean) state[6]).booleanValue();
 	}
 
-	public boolean postGenerationProcess(FacesContext context,
-			Workbook wbCurrent) {
+	public boolean postGenerationProcess(FacesContext context, Workbook wbCurrent) {
 		if (m_PostGenerationProcess != null) {
 			Object[] params = null;
 			if (m_PostGenerationProcess instanceof MethodBindingEx) {
 				params = new Object[] { wbCurrent };
 				((MethodBindingEx) m_PostGenerationProcess).setComponent(this);
-				((MethodBindingEx) m_PostGenerationProcess)
-						.setParamNames(s_postGenParamNames);
+				((MethodBindingEx) m_PostGenerationProcess).setParamNames(s_postGenParamNames);
 			}
 
 			doPostGenerationProcessPrivileged(context, params);

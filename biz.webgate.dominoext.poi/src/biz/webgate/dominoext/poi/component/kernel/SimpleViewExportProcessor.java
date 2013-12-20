@@ -24,11 +24,8 @@ import java.util.Vector;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ibm.commons.util.StringUtil;
-
 import lotus.domino.Database;
 import lotus.domino.NotesException;
-import lotus.domino.Session;
 import lotus.domino.View;
 import lotus.domino.ViewColumn;
 import lotus.domino.ViewEntry;
@@ -41,8 +38,10 @@ import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportModel;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.IExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.WorkbooklExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.util.DateTimeHelper;
-import biz.webgate.dominoext.poi.util.POILibUtil;
+import biz.webgate.dominoext.poi.util.DatabaseProvider;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
+
+import com.ibm.commons.util.StringUtil;
 
 public class SimpleViewExportProcessor {
 
@@ -122,18 +121,7 @@ public class SimpleViewExportProcessor {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: no view specified.", null);
 				return;
 			}
-			Session sesCurrent = POILibUtil.getCurrentSession();
-			Database ndbAccess = null;
-			if (strDB == null) {
-				ndbAccess = sesCurrent.getCurrentDatabase();
-			} else {
-				if (strDB.contains("!!")) {
-					String[] arrDB = strDB.split("!!");
-					ndbAccess = sesCurrent.getDatabase(arrDB[0], arrDB[2]);
-				} else {
-					ndbAccess = sesCurrent.getDatabase(sesCurrent.getCurrentDatabase().getServer(), strDB);
-				}
-			}
+			Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB);
 			if (ndbAccess == null) {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: Database not accessable.", null);
 				return;
@@ -169,8 +157,7 @@ public class SimpleViewExportProcessor {
 				processor = m_ExportProcessors.get(uiSimpleViewExport.getExportFormat().toLowerCase());
 			}
 			if (processor == null) {
-				ErrorPageBuilder.getInstance().processError(httpResponse,
-						"SimpleViewExport failed: No exportFormat defined or not valid (exportFormat = " + strExpFormat + ").", null);
+				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: No exportFormat defined or not valid (exportFormat = " + strExpFormat + ").", null);
 
 			} else {
 				processor.process2HTTP(expModel, uiSimpleViewExport, httpResponse, new DateTimeHelper());

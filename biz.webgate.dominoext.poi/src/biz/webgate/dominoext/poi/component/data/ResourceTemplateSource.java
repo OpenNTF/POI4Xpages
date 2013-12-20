@@ -42,33 +42,14 @@ import org.xml.sax.InputSource;
 import biz.webgate.dominoext.poi.util.POILibUtil;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
-import com.ibm.xsp.complex.ValueBindingObjectImpl;
+public class ResourceTemplateSource extends AbstractTemplateSource implements ITemplateSource {
 
-public class ResourceTemplateSource extends ValueBindingObjectImpl implements
-		ITemplateSource {
-
-	private String m_DatabaseName;
 	private String m_FileName;
 
 	private TemplateData m_Data;
 
 	private class TemplateData {
 		public String m_Base64data;
-	}
-
-	public String getDatabaseName() {
-		if (m_DatabaseName != null) {
-			return m_DatabaseName;
-		}
-		ValueBinding vb = getValueBinding("databaseName");
-		if (vb != null) {
-			return (String) vb.getValue(getFacesContext());
-		}
-		return null;
-	}
-
-	public void setDatabaseName(String databaseName) {
-		m_DatabaseName = databaseName;
 	}
 
 	public String getFileName() {
@@ -103,8 +84,7 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 			streamOut.getContents(bos);
 			docTMP.recycle();
 			mime.recycle();
-			ByteArrayInputStream bis = new ByteArrayInputStream(
-					bos.toByteArray());
+			ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
 			return bis;
 
 		} catch (Exception e) {
@@ -115,37 +95,23 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 
 	public int accessTemplate() {
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
-		String strDB = getDatabaseName();
 		String strFileName = getFileName();
 		if (strFileName == null) {
 			return -1;
 		}
 		try {
+			Database ndbAccess = getSourceDatabase();
+			if (ndbAccess == null) {
+				return -2;
+			}
 			Session sesSigner = POILibUtil.getCurrentSessionAsSigner();
 			if (sesSigner == null) {
 				sesSigner = POILibUtil.getCurrentSession();
 			}
-			Database ndbAccess = null;
-			if (strDB == null) {
-				ndbAccess = sesSigner.getCurrentDatabase();
-			} else {
-				if (strDB.contains("!!")) {
-					String[] arrDB = strDB.split("!!");
-					ndbAccess = sesSigner.getDatabase(arrDB[0], arrDB[2]);
-				} else {
-					ndbAccess = sesSigner.getDatabase(sesSigner
-							.getCurrentDatabase().getServer(), strDB);
-				}
-			}
-			if (ndbAccess == null) {
-				return -2;
-			}
-
-
 			logCurrent.info("Getting NoteCollection");
 			NoteCollection ncCurrent = ndbAccess.createNoteCollection(false);
 			logCurrent.info("Select only MiscFormaElements");
-			//ncCurrent.selectAllDesignElements(true);
+			// ncCurrent.selectAllDesignElements(true);
 			ncCurrent.setSelectMiscFormatElements(true);
 			logCurrent.info("buildColleciton");
 			// ncCurrent.selectAllCodeElements(true);
@@ -158,8 +124,7 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 				if (docNode.hasItem("$Title") && docNode.hasItem("$FileData")) {
 					Item itmTitle = docNode.getFirstItem("$Title");
 					if (itmTitle.containsValue(strFileName)) {
-						String str64 = getBASE64StringFormFileResource(docNode,
-								sesSigner);
+						String str64 = getBASE64StringFormFileResource(docNode, sesSigner);
 						if (str64 != null) {
 							m_Data = new TemplateData();
 							m_Data.m_Base64data = str64;
@@ -190,36 +155,17 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 		return -4;
 	}
 
-	@Override
-	public void restoreState(FacesContext context, Object value) {
-		Object[] state = (Object[]) value;
-		super.restoreState(context, state[0]);
-		m_DatabaseName = (String) state[1];
-		m_FileName = (String) state[2];
-	}
-
-	@Override
-	public Object saveState(FacesContext context) {
-		Object[] state = new Object[3];
-		state[0] = super.saveState(context);
-		state[1] = m_DatabaseName;
-		state[2] = m_FileName;
-		return state;
-	}
-
 	public void cleanUP() {
 		m_Data = null;
 	}
 
-	private String getBASE64StringFormFileResource(Document docCurrent,
-			Session sesCurrent) {
+	private String getBASE64StringFormFileResource(Document docCurrent, Session sesCurrent) {
 		try {
 			DxlExporter dxle = sesCurrent.createDxlExporter();
 			dxle.setOutputDOCTYPE(false);
 			String strDOM = dxle.exportDxl(docCurrent);
 
-			DocumentBuilder build = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder();
+			DocumentBuilder build = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			InputSource is = new InputSource();
 			is.setCharacterStream(new StringReader(strDOM));
 			org.w3c.dom.Document domDoc = build.parse(is);
@@ -228,12 +174,28 @@ public class ResourceTemplateSource extends ValueBindingObjectImpl implements
 				return null;
 			} else {
 				Node nCheck = nlCurrent.item(0);
-				return ((org.w3c.dom.Text) nCheck.getFirstChild())
-						.getTextContent();
+				return ((org.w3c.dom.Text) nCheck.getFirstChild()).getTextContent();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void restoreState(FacesContext context, Object value) {
+		Object[] state = (Object[]) value;
+		super.restoreState(context, state[0]);
+		m_FileName = (String) state[1];
+
+	}
+
+	@Override
+	public Object saveState(FacesContext context) {
+		Object[] state = new Object[2];
+		state[0] = super.saveState(context);
+		state[1] = m_FileName;
+		return state;
+
 	}
 }

@@ -58,25 +58,14 @@ import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 import com.ibm.commons.util.StringUtil;
 
-public class WorkbookProcessor {
+public enum WorkbookProcessor {
+	INSTANCE;
+	
+	private HashMap<String, Short> m_StyleConstantValues;
+	private HashMap<String, Byte> m_StyleByteConstantValues;
 
-	private static HashMap<String, Short> m_StyleConstantValues;
-	private static HashMap<String, Byte> m_StyleByteConstantValues;
 
-	private static WorkbookProcessor m_Processor;
-
-	private WorkbookProcessor() {
-
-	}
-
-	public static WorkbookProcessor getInstance() {
-		if (m_Processor == null) {
-			m_Processor = new WorkbookProcessor();
-		}
-		return m_Processor;
-	}
-
-	public static void getStyleConstantValues() {
+	public synchronized void checkStyleConstantValues() {
 		if (m_StyleConstantValues == null) {
 			m_StyleConstantValues = new HashMap<String, Short>();
 			m_StyleConstantValues.put("ALIGN_CENTER", CellStyle.ALIGN_CENTER);
@@ -265,7 +254,7 @@ public class WorkbookProcessor {
 		}
 	}
 
-	public static void setCellValue(Sheet shProcess, int nRow, int nCol, Object objValue, boolean isFormula, PoiCellStyle pCellStyle) {
+	public void setCellValue(Sheet shProcess, int nRow, int nCol, Object objValue, boolean isFormula, PoiCellStyle pCellStyle) {
 		// Logger logCurrent =
 		// LoggerFactory.getLogger(WorkbookProcessor.class.getCanonicalName());
 
@@ -298,7 +287,7 @@ public class WorkbookProcessor {
 			// *** STYLE CONFIG Since V 1.1.7 ***
 
 			if (pCellStyle != null) {
-				getStyleConstantValues();
+				checkStyleConstantValues();
 				if (pCellStyle.getCellStyle() != null) {
 					c.setCellStyle(pCellStyle.getCellStyle());
 				} else {

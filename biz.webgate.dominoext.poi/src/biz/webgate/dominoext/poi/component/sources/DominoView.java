@@ -23,12 +23,11 @@ import java.util.Vector;
 import javax.faces.context.FacesContext;
 
 import lotus.domino.Database;
-import lotus.domino.Session;
 import lotus.domino.View;
 import lotus.domino.ViewEntry;
 import lotus.domino.ViewEntryCollection;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
-import biz.webgate.dominoext.poi.util.POILibUtil;
+import biz.webgate.dominoext.poi.util.DatabaseProvider;
 import biz.webgate.dominoext.poi.utils.xsp.ValueBindingSupport;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
@@ -68,7 +67,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		try {
 			if (m_tempDataStore.m_Entry == null) {
 				m_tempDataStore.m_Entry = m_tempDataStore.m_Col.getFirstEntry();
-			}else {
+			} else {
 				ViewEntry ve = m_tempDataStore.m_Entry;
 				m_tempDataStore.m_Entry = m_tempDataStore.m_Col.getNextEntry(ve);
 				ve.recycle();
@@ -100,19 +99,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				return -1;
 			}
 			try {
-				Session sesCurrent = POILibUtil.getCurrentSession();
-				Database ndbAccess = null;
-				if (strDB == null) {
-					ndbAccess = sesCurrent.getCurrentDatabase();
-				} else {
-					if (strDB.contains("!!")) {
-						String[] arrDB = strDB.split("!!");
-						ndbAccess = sesCurrent.getDatabase(arrDB[0], arrDB[2]);
-					} else {
-						ndbAccess = sesCurrent.getDatabase(sesCurrent
-								.getCurrentDatabase().getServer(), strDB);
-					}
-				}
+				Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB);
 				if (ndbAccess == null) {
 					return -2;
 				}
@@ -125,8 +112,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				ViewEntryCollection nvcCurrent = viwLUP.getAllEntries();
 				if (strKey != null) {
 					nvcCurrent = viwLUP.getAllEntriesByKey(strKey, true);
-					System.out.println("Build collection with Key: " + strKey
-							+ "(" + nvcCurrent.getCount() + ")");
+					System.out.println("Build collection with Key: " + strKey + "(" + nvcCurrent.getCount() + ")");
 				} else {
 					if (strSearch != null) {
 						nvcCurrent.FTSearch(strSearch);
@@ -138,8 +124,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				m_tempDataStore.m_Col = nvcCurrent;
 				m_tempDataStore.m_ColTitle = new ArrayList<String>();
 				m_tempDataStore.m_rowCount = 0;
-				for (Iterator<?> itNames = viwLUP.getColumnNames().iterator(); itNames
-						.hasNext();) {
+				for (Iterator<?> itNames = viwLUP.getColumnNames().iterator(); itNames.hasNext();) {
 					String strCLNAME = (String) itNames.next();
 					m_tempDataStore.m_ColTitle.add(strCLNAME);
 				}
@@ -175,25 +160,19 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		return 1;
 	}
 
-	public Object getValue(IDefinition idCurrent, String strVarName,
-			String strIndName, int nIndex, FacesContext context) {
-		String strVarNameUse = (strVarName == null || "".equals(strVarName)) ? "exportRow"
-				: strVarName;
-		String strIndNameUse = (strIndName == null || "".equals(strIndName)) ? "indexRow"
-				: strIndName;
+	public Object getValue(IDefinition idCurrent, String strVarName, String strIndName, int nIndex, FacesContext context) {
+		String strVarNameUse = (strVarName == null || "".equals(strVarName)) ? "exportRow" : strVarName;
+		String strIndNameUse = (strIndName == null || "".equals(strIndName)) ? "indexRow" : strIndName;
 		try {
 			String strTitle = idCurrent.getColumnTitle();
 			if (strTitle != null && !"".equals(strTitle)) {
 				if (m_tempDataStore.m_ColTitle.contains(strTitle)) {
 					int nPos = m_tempDataStore.m_ColTitle.indexOf(strTitle);
-					return m_tempDataStore.m_ColValues.elementAt(
-							nPos);
+					return m_tempDataStore.m_ColValues.elementAt(nPos);
 				}
 			} else {
-				
-				return idCurrent.executeComputeValue(context,
-						m_tempDataStore.m_Entry, nIndex, strVarNameUse,
-						strIndNameUse);
+
+				return idCurrent.executeComputeValue(context, m_tempDataStore.m_Entry, nIndex, strVarNameUse, strIndNameUse);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -205,8 +184,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		if (m_ViewName != null) {
 			return m_ViewName;
 		}
-		return ValueBindingSupport.getVBString("viewName", this,
-				getFacesContext());
+		return ValueBindingSupport.getVBString("viewName", this, getFacesContext());
 
 	}
 
@@ -218,8 +196,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		if (m_Database != null) {
 			return m_Database;
 		}
-		return ValueBindingSupport.getVBString("database", this,
-				getFacesContext());
+		return ValueBindingSupport.getVBString("database", this, getFacesContext());
 
 	}
 
@@ -243,8 +220,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		if (m_Search != null) {
 			return m_Search;
 		}
-		return ValueBindingSupport.getVBString("search", this,
-				getFacesContext());
+		return ValueBindingSupport.getVBString("search", this, getFacesContext());
 
 	}
 

@@ -25,19 +25,13 @@ import lotus.domino.Document;
 import lotus.domino.EmbeddedObject;
 import lotus.domino.Item;
 import lotus.domino.RichTextItem;
-import lotus.domino.Session;
 import lotus.domino.View;
-import biz.webgate.dominoext.poi.util.POILibUtil;
 
-import com.ibm.xsp.complex.ValueBindingObjectImpl;
+public class AttachmentTemplateSource extends AbstractTemplateSource implements ITemplateSource {
 
-public class AttachmentTemplateSource extends ValueBindingObjectImpl implements
-		ITemplateSource {
-
-	private String m_databaseName;
-	private String m_viewName;
-	private String m_keyName;
-	private String m_fieldName;
+	String m_viewName;
+	String m_keyName;
+	String m_fieldName;
 
 	private DataTempStore m_tempDataStore;
 
@@ -47,21 +41,6 @@ public class AttachmentTemplateSource extends ValueBindingObjectImpl implements
 		public Document m_Document;
 		public RichTextItem m_Item;
 		public EmbeddedObject m_EmbObject;
-	}
-
-	public String getDatabaseName() {
-		if (m_databaseName != null) {
-			return m_databaseName;
-		}
-		ValueBinding vb = getValueBinding("databaseName");
-		if (vb != null) {
-			return (String) vb.getValue(getFacesContext());
-		}
-		return null;
-	}
-
-	public void setDatabaseName(String databaseName) {
-		m_databaseName = databaseName;
 	}
 
 	public String getViewName() {
@@ -123,7 +102,6 @@ public class AttachmentTemplateSource extends ValueBindingObjectImpl implements
 
 	public int accessTemplate() {
 		m_tempDataStore = null;
-		String strDB = getDatabaseName();
 		String strView = getViewName();
 		String strKey = getKeyName();
 		String strFieldName = getFieldName();
@@ -131,19 +109,7 @@ public class AttachmentTemplateSource extends ValueBindingObjectImpl implements
 			return -1;
 		}
 		try {
-			Session sesSigner = POILibUtil.getCurrentSessionAsSigner();
-			Database ndbAccess = null;
-			if (strDB == null) {
-				ndbAccess = sesSigner.getCurrentDatabase();
-			} else {
-				if (strDB.contains("!!")) {
-					String[] arrDB = strDB.split("!!");
-					ndbAccess = sesSigner.getDatabase(arrDB[0], arrDB[2]);
-				} else {
-					ndbAccess = sesSigner.getDatabase(sesSigner
-							.getCurrentDatabase().getServer(), strDB);
-				}
-			}
+			Database ndbAccess = getSourceDatabase();
 			if (ndbAccess == null) {
 				return -2;
 			}
@@ -168,8 +134,7 @@ public class AttachmentTemplateSource extends ValueBindingObjectImpl implements
 			if (itmBody instanceof RichTextItem) {
 				RichTextItem rtiBody = (RichTextItem) itmBody;
 				if (rtiBody.getEmbeddedObjects().size() > 0) {
-					EmbeddedObject eoCurrent = (EmbeddedObject) rtiBody
-							.getEmbeddedObjects().elementAt(0);
+					EmbeddedObject eoCurrent = (EmbeddedObject) rtiBody.getEmbeddedObjects().elementAt(0);
 					m_tempDataStore = new DataTempStore();
 					m_tempDataStore.m_Database = ndbAccess;
 					m_tempDataStore.m_Document = docCurrent;
@@ -198,29 +163,6 @@ public class AttachmentTemplateSource extends ValueBindingObjectImpl implements
 		}
 	}
 
-	@Override
-	public void restoreState(FacesContext context, Object value) {
-		Object[] state = (Object[]) value;
-		super.restoreState(context, state[0]);
-		m_databaseName = (String) state[1];
-		m_fieldName = (String) state[2];
-		m_keyName = (String) state[3];
-		m_viewName = (String) state[4];
-
-	}
-
-	@Override
-	public Object saveState(FacesContext context) {
-		Object[] state = new Object[5];
-		state[0] = super.saveState(context);
-		state[1] = m_databaseName;
-		state[2] = m_fieldName;
-		state[3] = m_keyName;
-		state[4] = m_viewName;
-		return state;
-
-	}
-
 	public void cleanUP() {
 		try {
 			if (m_tempDataStore != null) {
@@ -235,6 +177,27 @@ public class AttachmentTemplateSource extends ValueBindingObjectImpl implements
 			e.printStackTrace();
 		}
 		m_tempDataStore = null;
+
+	}
+
+	@Override
+	public void restoreState(FacesContext context, Object value) {
+		Object[] state = (Object[]) value;
+		super.restoreState(context, state[0]);
+		m_fieldName = (String) state[1];
+		m_keyName = (String) state[2];
+		m_viewName = (String) state[3];
+
+	}
+
+	@Override
+	public Object saveState(FacesContext context) {
+		Object[] state = new Object[4];
+		state[0] = super.saveState(context);
+		state[1] = m_fieldName;
+		state[2] = m_keyName;
+		state[3] = m_viewName;
+		return state;
 
 	}
 

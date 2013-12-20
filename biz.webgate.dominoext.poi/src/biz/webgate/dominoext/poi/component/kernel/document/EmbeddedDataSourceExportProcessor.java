@@ -79,7 +79,7 @@ public class EmbeddedDataSourceExportProcessor implements IDataSourceExportProce
 
 			logCurrent.finer("Start Processing Columns");
 			int iHeaderRow = 0;
-			while (is.accessNextRow() == 1 & nRow < lstExport.getMaxRow() + iHeaderRow) {
+			while (is.accessNextRow() == 1 && nRow < lstExport.getMaxRow() + iHeaderRow) {
 				nCount++;
 				for (DocColumnDefinition clDef : lstExport.getDocColumns()) {
 					int nCol = clDef.getColumnNumber();

@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
+import biz.webgate.dominoext.poi.component.data.AbstractTemplateSource;
 import biz.webgate.dominoext.poi.component.data.AttachmentTemplateSource;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ResourceTemplateSource;
@@ -109,7 +110,7 @@ public class PoiBean {
 		return bmRC;
 	}
 
-	public AttachmentTemplateSource buildAttachmentTemplateSource(String strDB, String strView, String strKey, String strField) {
+	public AbstractTemplateSource buildAttachmentTemplateSource(String strDB, String strView, String strKey, String strField) {
 		AttachmentTemplateSource attRC = new AttachmentTemplateSource();
 		attRC.setDatabaseName(strDB);
 		attRC.setViewName(strView);
@@ -134,7 +135,7 @@ public class PoiBean {
 
 					public Workbook run() {
 						try {
-							return WorkbookProcessor.getInstance().processWorkbook(itsCurrentFIN, lstSPFIN, FacesContext.getCurrentInstance(), null);
+							return WorkbookProcessor.INSTANCE.processWorkbook(itsCurrentFIN, lstSPFIN, FacesContext.getCurrentInstance(), null);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

@@ -66,7 +66,7 @@ public class XPagesDataSourceExportProcessor implements
 								objCurrent = clDef.executeComputeValue(context, tdm.getRowData(), nCount,
 										strVarName, strIndexName);
 							}
-							WorkbookProcessor.setCellValue(shProcess, nMyRow,
+							WorkbookProcessor.INSTANCE.setCellValue(shProcess, nMyRow,
 									nCol, objCurrent, clDef.isCellFormula(), clDef.getPoiCellStyle());
 						}
 
@@ -109,7 +109,7 @@ public class XPagesDataSourceExportProcessor implements
 								objCurrent = rdDef.executeComputeValue(context, tdm.getRowData(), nCount,
 										strVarName, strIndexName);
 							}
-							WorkbookProcessor.setCellValue(shProcess, nRow,
+							WorkbookProcessor.INSTANCE.setCellValue(shProcess, nRow,
 									nMyCol, objCurrent, rdDef.isCellFormula(), rdDef.getPoiCellStyle());
 						}
 					}

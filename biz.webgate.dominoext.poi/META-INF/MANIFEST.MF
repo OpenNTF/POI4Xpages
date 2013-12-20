@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
  biz.webgate.dominoext.poi.utils,
  com.ibm.xsp.designer
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",
  biz.webgate.dominoext.poi.component.actions;uses:="javax.faces.context,com.ibm.xsp.binding",
  biz.webgate.dominoext.poi.component.containers;
