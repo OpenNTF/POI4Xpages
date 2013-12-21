@@ -129,7 +129,7 @@ public class SimpleViewExportProcessor {
 			View viwLUP = ndbAccess.getView(strView);
 
 			if (viwLUP == null) {
-				ndbAccess.recycle();
+				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: View " + strView + " not found.", null);
 				return;
 			}
@@ -162,6 +162,7 @@ public class SimpleViewExportProcessor {
 			} else {
 				processor.process2HTTP(expModel, uiSimpleViewExport, httpResponse, new DateTimeHelper());
 			}
+			DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 		} catch (NotesException e) {
 			ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: A general error.", e);
 			return;

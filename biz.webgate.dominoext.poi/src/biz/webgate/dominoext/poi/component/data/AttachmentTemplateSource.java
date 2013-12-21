@@ -20,6 +20,8 @@ import java.io.InputStream;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import biz.webgate.dominoext.poi.util.DatabaseProvider;
+
 import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.EmbeddedObject;
@@ -35,7 +37,7 @@ public class AttachmentTemplateSource extends AbstractTemplateSource implements 
 
 	private DataTempStore m_tempDataStore;
 
-	protected class DataTempStore {
+	protected static class DataTempStore {
 		public Database m_Database;
 		public View m_View;
 		public Document m_Document;
@@ -115,19 +117,19 @@ public class AttachmentTemplateSource extends AbstractTemplateSource implements 
 			}
 			View viwLUP = ndbAccess.getView(strView);
 			if (viwLUP == null) {
-				ndbAccess.recycle();
+				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 				return -3;
 			}
 			Document docCurrent = viwLUP.getDocumentByKey(getKeyName());
 			if (docCurrent == null) {
 				viwLUP.recycle();
-				ndbAccess.recycle();
+				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 				return -4;
 			}
 			if (!docCurrent.hasItem(strFieldName)) {
 				docCurrent.recycle();
 				viwLUP.recycle();
-				ndbAccess.recycle();
+				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 				return -5;
 			}
 			Item itmBody = docCurrent.getFirstItem(strFieldName);
@@ -146,7 +148,7 @@ public class AttachmentTemplateSource extends AbstractTemplateSource implements 
 					itmBody.recycle();
 					docCurrent.recycle();
 					viwLUP.recycle();
-					ndbAccess.recycle();
+					DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 
 					return -6;
 				}
@@ -154,7 +156,7 @@ public class AttachmentTemplateSource extends AbstractTemplateSource implements 
 				itmBody.recycle();
 				docCurrent.recycle();
 				viwLUP.recycle();
-				ndbAccess.recycle();
+				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 
 				return -7;
 			}
@@ -170,7 +172,7 @@ public class AttachmentTemplateSource extends AbstractTemplateSource implements 
 				m_tempDataStore.m_Item.recycle();
 				m_tempDataStore.m_Document.recycle();
 				m_tempDataStore.m_View.recycle();
-				m_tempDataStore.m_Database.recycle();
+				DatabaseProvider.INSTANCE.handleRecylce(m_tempDataStore.m_Database);
 
 			}
 		} catch (Exception e) {

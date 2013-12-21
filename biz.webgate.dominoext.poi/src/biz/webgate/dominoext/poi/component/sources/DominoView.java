@@ -42,7 +42,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 
 	private DataTempStore m_tempDataStore;
 
-	protected class DataTempStore {
+	protected static class DataTempStore {
 		public Database m_Database;
 		public View m_View;
 		public ViewEntry m_Entry;
@@ -105,7 +105,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				View viwLUP = ndbAccess.getView(strView);
 
 				if (viwLUP == null) {
-					ndbAccess.recycle();
+					DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 					return -3;
 				}
 				ViewEntryCollection nvcCurrent = viwLUP.getAllEntries();
@@ -127,6 +127,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 					String strCLNAME = (String) itNames.next();
 					m_tempDataStore.m_ColTitle.add(strCLNAME);
 				}
+				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return -10;
@@ -148,7 +149,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 					m_tempDataStore.m_View.recycle();
 				}
 				if (m_tempDataStore.m_Database != null) {
-					m_tempDataStore.m_Database.recycle();
+					DatabaseProvider.INSTANCE.handleRecylce(m_tempDataStore.m_Database);
 				}
 			}
 			m_tempDataStore = null;

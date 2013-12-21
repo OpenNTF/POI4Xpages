@@ -15,8 +15,14 @@
  */
 package biz.webgate.dominoext.poi.util;
 
+import java.util.logging.Logger;
+
 import lotus.domino.Database;
 import lotus.domino.Session;
+
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
+
+import com.ibm.commons.util.StringUtil;
 
 public enum DatabaseProvider {
 	INSTANCE;
@@ -28,8 +34,12 @@ public enum DatabaseProvider {
 		}
 		Database ndbAccess = null;
 		try {
-			if (strDB == null) {
+			if (StringUtil.isEmpty(strDB)) {
 				ndbAccess = sesSigner.getCurrentDatabase();
+				if (ndbAccess == null) {
+					System.out.println("sesSigner DB war nix?");
+					ndbAccess = POILibUtil.getCurrentDatabase();
+				}
 			} else {
 				if (strDB.contains("!!")) {
 					String[] arrDB = strDB.split("!!");
@@ -43,5 +53,26 @@ public enum DatabaseProvider {
 		}
 		return ndbAccess;
 
+	}
+
+	public void handleRecylce(Database ndbRecylce) {
+		try {
+			Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+			//Database accessed with sesSigner.getCurrentDB() should not be recycled.
+			if (POILibUtil.getCurrentSessionAsSigner() != null && ndbRecylce.equals(POILibUtil.getCurrentSessionAsSigner().getCurrentDatabase())) {
+				logCurrent.info("No recycle -> sesSigner.currentDB");
+				return;
+			}
+			//Dabases accsesd with ses.getCurrnentDB() should not be reccled.
+			if (ndbRecylce.equals(POILibUtil.getCurrentDatabase())) {
+				logCurrent.info("No recycle -> ses.currentDB");
+				return;
+			}
+			
+			logCurrent.info("Recycle -> DB is not currentDB");
+			ndbRecylce.recycle();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -39,6 +39,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import biz.webgate.dominoext.poi.util.DatabaseProvider;
 import biz.webgate.dominoext.poi.util.POILibUtil;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
@@ -48,7 +49,7 @@ public class ResourceTemplateSource extends AbstractTemplateSource implements IT
 
 	private TemplateData m_Data;
 
-	private class TemplateData {
+	private static class TemplateData {
 		public String m_Base64data;
 	}
 
@@ -143,7 +144,7 @@ public class ResourceTemplateSource extends AbstractTemplateSource implements IT
 			logCurrent.info("DONE");
 
 			ncCurrent.recycle();
-			ndbAccess.recycle();
+			DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 			if (m_Data != null) {
 				return 1;
 			}
