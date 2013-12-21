@@ -47,13 +47,13 @@ public class ExportDataRow implements Serializable {
 		if (m_Values == null) {
 			m_Values = new HashMap<Integer, Object>();
 		}
-		m_Values.put(new Integer(nPosition), obj==null?"":obj);
+		m_Values.put(Integer.valueOf(nPosition), obj==null?"":obj);
 	}
 
 	public Object getValue(int nPosition) {
 		if (m_Values == null) {
 			return null;
 		}
-		return m_Values.get(new Integer(nPosition));
+		return m_Values.get(Integer.valueOf(nPosition));
 	}
 }

@@ -207,7 +207,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 			state[3] = FacesUtil.objectToSerializable(context, m_TemplateSource);
 			state[4] = StateHolderUtil.saveList(context, m_Spreadsheets);
 			state[5] = StateHolderUtil.saveMethodBinding(context, m_PostGenerationProcess);
-			state[6] = new Boolean(m_UseStreamingModel);
+			state[6] = Boolean.valueOf(m_UseStreamingModel);
 			return state;
 		} catch (Exception e) {
 			e.printStackTrace();

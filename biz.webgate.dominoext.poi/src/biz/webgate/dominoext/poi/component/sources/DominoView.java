@@ -95,7 +95,6 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 			String strKey = getKey();
 			String strSearch = getSearch();
 			if (strView == null) {
-				System.out.println("???" + strView);
 				return -1;
 			}
 			try {
@@ -236,7 +235,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		state[2] = m_ViewName;
 		state[3] = m_Key;
 		state[4] = m_Search;
-		state[5] = new Integer(m_maxRow);
+		state[5] = Integer.valueOf(m_maxRow);
 		return state;
 	}
 

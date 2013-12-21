@@ -85,8 +85,8 @@ public class CSVProcessor {
 		Collections.sort(lstColumns, new Comparator<CSVColumn>() {
 
 			public int compare(CSVColumn o1, CSVColumn o2) {
-				Integer p1 = new Integer(o1.getPosition());
-				Integer p2 = new Integer(o2.getPosition());
+				Integer p1 = Integer.valueOf(o1.getPosition());
+				Integer p2 = Integer.valueOf(o2.getPosition());
 				return p1.compareTo(p2);
 			}
 

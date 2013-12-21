@@ -61,7 +61,7 @@ public class AbstractDefinition extends ValueBindingObjectImpl {
 			
 			Object[] arrObject = new Object[2];
 			arrObject[0] = objAction;
-			arrObject[1] = new Integer(count);
+			arrObject[1] = Integer.valueOf(count);
 			logCurrent.info("Var Name: " + varObject);
 			logCurrent.info("Index Name:" + varIndex);
 			logCurrent.info("Var Object: " + varObject);

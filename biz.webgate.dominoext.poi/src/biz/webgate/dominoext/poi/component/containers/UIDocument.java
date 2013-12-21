@@ -205,7 +205,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		}
 		logCurrent.info("Start processing UIDocument generation");
 		try {
-			DocumentProcessor.getInstance().generateNewFile(itsCurrent,
+			DocumentProcessor.INSTANCE.generateNewFile(itsCurrent,
  getBookmarks(), getTables(), httpResponse, getDownloadFileName(),
 					getFacesContext(), this);
 		} catch (Exception e) {

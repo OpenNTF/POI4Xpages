@@ -64,6 +64,9 @@ public enum WorkbookProcessor {
 	private HashMap<String, Short> m_StyleConstantValues;
 	private HashMap<String, Byte> m_StyleByteConstantValues;
 
+	public static WorkbookProcessor getInstance() {
+		return WorkbookProcessor.INSTANCE;
+	}
 
 	public synchronized void checkStyleConstantValues() {
 		if (m_StyleConstantValues == null) {

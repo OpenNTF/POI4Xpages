@@ -62,7 +62,7 @@ public class PoiBean {
 			XWPFDocument doc = AccessController.doPrivileged(new PrivilegedAction<XWPFDocument>() {
 				public XWPFDocument run() {
 					try {
-						return DocumentProcessor.getInstance().processDocument(itsCurrentFin, bookmarksFin, tablesFin, FacesContext.getCurrentInstance(), null);
+						return DocumentProcessor.INSTANCE.processDocument(itsCurrentFin, bookmarksFin, tablesFin, FacesContext.getCurrentInstance(), null);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

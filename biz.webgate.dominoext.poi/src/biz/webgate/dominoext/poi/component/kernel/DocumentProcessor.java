@@ -48,20 +48,19 @@ import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
-public class DocumentProcessor {
+public enum DocumentProcessor {
+	INSTANCE;
 
-	private static DocumentProcessor m_Processor;
-
-	private DocumentProcessor() {
-
-	}
-
+	/**
+	 * gets the Instance of the DocumentProcessor. 
+	 * 
+	 * @deprecated -> Use DocumentProcessor.INSTANCE instead
+	 * 
+	 * @return Instance of the DocumentProcessor
+	 */
+	@Deprecated
 	public static DocumentProcessor getInstance() {
-		if (m_Processor == null) {
-			m_Processor = new DocumentProcessor();
-		}
-		return m_Processor;
-
+		return DocumentProcessor.INSTANCE;
 	}
 
 	public XWPFDocument getDocument(InputStream inDocument) {
@@ -135,8 +134,8 @@ public class DocumentProcessor {
 		return 1;
 	}
 
-	public void generateNewFile(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, HttpServletResponse httpResponse,
-			String strFileName, FacesContext context, UIDocument uiDoc) throws IOException {
+	public void generateNewFile(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, HttpServletResponse httpResponse, String strFileName, FacesContext context,
+			UIDocument uiDoc) throws IOException {
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 		try {
 			int nTemplateAccess = itsCurrent.accessTemplate();
@@ -183,8 +182,7 @@ public class DocumentProcessor {
 		}
 	}
 
-	public XWPFDocument processDocument(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, FacesContext context,
-			UIDocument uiDocument) throws POIException {
+	public XWPFDocument processDocument(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, FacesContext context, UIDocument uiDocument) throws POIException {
 
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
@@ -197,8 +195,7 @@ public class DocumentProcessor {
 		logCurrent.finest("Start export Tables");
 		if (tables != null && tables.size() > 0) {
 			for (DocumentTable tblExport : tables) {
-				XWPFTable dxTable = EmbeddedDataSourceExportProcessor.getInstance().processExportTable(tblExport, dxDocument, context, tblExport.getVar(),
-						tblExport.getIndex());
+				XWPFTable dxTable = EmbeddedDataSourceExportProcessor.getInstance().processExportTable(tblExport, dxDocument, context, tblExport.getVar(), tblExport.getIndex());
 				logCurrent.finest("exportTable created");
 				// logCurrent.finer("Start Processing Cells");
 				if (tblExport.getDocCellValues() != null && tblExport.getDocCellValues().size() > 0) {
@@ -206,8 +203,7 @@ public class DocumentProcessor {
 						if (iCV instanceof DocCellValue) {
 							DocCellValue cv = (DocCellValue) iCV;
 							if (cv.getRowNumber() <= tblExport.getMaxRow()) {
-								DocumentProcessor
-										.setDocCellValue(dxTable, cv.getRowNumber(), cv.getColumnNumber(), cv.getValue(), tblExport.getMaxRow(), false);
+								DocumentProcessor.setDocCellValue(dxTable, cv.getRowNumber(), cv.getColumnNumber(), cv.getValue(), tblExport.getMaxRow(), false);
 							} else {
 								logCurrent.finer("MaxValue < CellValue.getRowNumber()");
 							}
@@ -257,7 +253,8 @@ public class DocumentProcessor {
 					}
 				}
 
-				//dxTable.getRow(nRow).getCell(nCol).setText("" + objValue.toString());
+				// dxTable.getRow(nRow).getCell(nCol).setText("" +
+				// objValue.toString());
 
 				for (XWPFParagraph paraCurrent : dxTable.getRow(nRow).getCell(nCol).getParagraphs()) {
 					if (paraCurrent.getRuns().size() == 0) {
