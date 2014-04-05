@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/biz.webgate.feature.poi_1.2.6.201312211419.jar" id="biz.webgate.feature.poi" version="1.2.6.201312211419">
+      <category name="Apache POI Integration"/>
+   </feature>
+   <feature url="features/biz.webgate.feature.poi.library_1.2.6.201312211419.jar" id="biz.webgate.feature.poi.library" version="1.2.6.201312211419">
+      <category name="Apache POI Integration"/>
+   </feature>
+   <category-def name="Apache POI Integration" label="Apache POI Integration"/>
+</site>

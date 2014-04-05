@@ -14,9 +14,7 @@
 		<module>biz.webgate.dominoext.poi.utils</module>
 		<module>biz.webgate.feature.poi</module>
 		<module>biz.webgate.feature.poi.library</module>
-		<module>
-  		../../Workspace/Kepler-XPAGES/biz.webgate.updatesite.poi
-  	</module>
+		<module>biz.webgate.updatesite.poi</module>
 	</modules>
 	<properties>
 		<tycho-version>0.19.0</tycho-version>
