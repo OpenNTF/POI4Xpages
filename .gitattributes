@@ -1,0 +1,47 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+.gitignore text
+
+# Java
+*.java text
+*.MF text
+*.properties text
+*.jsp text
+
+# XML
+*.xml text
+*.XML text
+*.xmi text
+
+# Web
+*.js text
+*.json text
+*.html text
+*.css text
+
+# Eclipse
+*.prefs text
+
+# Windows scripts
+*.cmd text
+
+# Images
+*.png binary
+*.jpg binary
+*.gif binary
+
+#XPages
+*.xsp
+
+# Standard to msysgit
+*.doc diff=astextplain
+*.DOC diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot diff=astextplain
+*.DOT diff=astextplain
+*.pdf diff=astextplain
+*.PDF diff=astextplain
+*.rtf diff=astextplain
+*.RTF diff=astextplain
