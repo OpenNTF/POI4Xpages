@@ -6,12 +6,12 @@
 	<version>1.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<module>biz.webgate.dominoext.poi</module>
-		<module>biz.webgate.dominoext.poi.csvprocessor</module>
 		<module>biz.webgate.dominoext.poi.library</module>
+		<module>biz.webgate.dominoext.poi.utils</module>
+		<module>biz.webgate.dominoext.poi.csvprocessor</module>
 		<module>biz.webgate.dominoext.poi.pdf</module>
 		<module>biz.webgate.dominoext.poi.pdf.fopdox4j</module>
-		<module>biz.webgate.dominoext.poi.utils</module>
+		<module>biz.webgate.dominoext.poi</module>
 		<module>biz.webgate.feature.poi</module>
 		<module>biz.webgate.feature.poi.library</module>
 		<module>biz.webgate.updatesite.poi</module>
