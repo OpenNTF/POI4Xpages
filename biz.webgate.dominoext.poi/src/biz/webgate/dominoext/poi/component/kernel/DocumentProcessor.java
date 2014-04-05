@@ -126,7 +126,7 @@ public enum DocumentProcessor {
 				String strValue = bmCurrent.getValue();
 				strValue = strValue == null ? "" : strValue;
 				if (bmCurrent.getName() != null) {
-					strText = strText.replaceAll("<<" + bmCurrent.getName() + ">>", strValue);
+					strText = strText.replace("<<" + bmCurrent.getName() + ">>", strValue);
 				}
 			}
 		}
