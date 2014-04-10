@@ -98,7 +98,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				return -1;
 			}
 			try {
-				Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB);
+				Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB, false);
 				if (ndbAccess == null) {
 					return -2;
 				}

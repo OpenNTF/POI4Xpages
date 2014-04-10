@@ -1,44 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/batik-all-1.7.jar"/>
-	<classpathentry kind="lib" path="lib/jaxb-api.jar"/>
-	<classpathentry kind="lib" path="lib/jaxb-impl.jar"/>
-	<classpathentry kind="lib" path="lib/docx4j-clean-2.8.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
-		<attributes>
-			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="lib/antlr-2.7.7.jar"/>
-	<classpathentry kind="lib" path="lib/antlr-runtime-3.3.jar"/>
-	<classpathentry kind="lib" path="lib/avalon-framework-api-4.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/avalon-framework-impl-4.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-1.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.4.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/fop-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/jaxb-svg11-1.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/jaxb-xmldsig-core-1.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/jaxb-xslfo-1.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="lib/serializer-2.7.1.jar"/>
-	<classpathentry kind="lib" path="lib/stringtemplate-3.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/wmf2svg-0.9.0.jar"/>
-	<classpathentry kind="lib" path="lib/xalan-2.7.1.jar"/>
-	<classpathentry kind="lib" path="lib/xml-apis-1.3.04.jar"/>
-	<classpathentry kind="lib" path="lib/xmlgraphics-commons-1.4.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/antlr-2.7.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/antlr-runtime-3.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/avalon-framework-api-4.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/avalon-framework-impl-4.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-all-1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-io-1.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/docx4j-clean-2.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fop-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-svg11-1.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-xmldsig-core-1.0.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-xslfo-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/serializer-2.7.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/stringtemplate-3.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/wmf2svg-0.9.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xalan-2.7.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xml-apis-1.3.04.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xmlgraphics-commons-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl.jar"/>
+	<classpathentry kind="src" path="src/"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

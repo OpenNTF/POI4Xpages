@@ -27,8 +27,11 @@ import com.ibm.commons.util.StringUtil;
 public enum DatabaseProvider {
 	INSTANCE;
 
-	public Database getDatabase(String strDB) {
-		Session sesSigner = POILibUtil.getCurrentSessionAsSigner();
+	public Database getDatabase(String strDB, boolean asSigner) {
+		Session sesSigner = null;
+		if (asSigner) {
+			POILibUtil.getCurrentSessionAsSigner();
+		}
 		if (sesSigner == null) {
 			sesSigner = POILibUtil.getCurrentSession();
 		}
@@ -58,17 +61,18 @@ public enum DatabaseProvider {
 	public void handleRecylce(Database ndbRecylce) {
 		try {
 			Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
-			//Database accessed with sesSigner.getCurrentDB() should not be recycled.
+			// Database accessed with sesSigner.getCurrentDB() should not be
+			// recycled.
 			if (POILibUtil.getCurrentSessionAsSigner() != null && ndbRecylce.equals(POILibUtil.getCurrentSessionAsSigner().getCurrentDatabase())) {
 				logCurrent.info("No recycle -> sesSigner.currentDB");
 				return;
 			}
-			//Dabases accsesd with ses.getCurrnentDB() should not be reccled.
+			// Dabases accsesd with ses.getCurrnentDB() should not be reccled.
 			if (ndbRecylce.equals(POILibUtil.getCurrentDatabase())) {
 				logCurrent.info("No recycle -> ses.currentDB");
 				return;
 			}
-			
+
 			logCurrent.info("Recycle -> DB is not currentDB");
 			ndbRecylce.recycle();
 		} catch (Exception e) {

@@ -101,7 +101,7 @@ public class ResourceTemplateSource extends AbstractTemplateSource implements IT
 			return -1;
 		}
 		try {
-			Database ndbAccess = getSourceDatabase();
+			Database ndbAccess = getSourceDatabase(true);
 			if (ndbAccess == null) {
 				return -2;
 			}

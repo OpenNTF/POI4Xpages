@@ -121,7 +121,7 @@ public class SimpleViewExportProcessor {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: no view specified.", null);
 				return;
 			}
-			Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB);
+			Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB, false);
 			if (ndbAccess == null) {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: Database not accessable.", null);
 				return;
