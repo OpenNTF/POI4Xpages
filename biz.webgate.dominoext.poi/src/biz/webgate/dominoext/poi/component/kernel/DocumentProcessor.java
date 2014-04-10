@@ -52,7 +52,7 @@ public enum DocumentProcessor {
 	INSTANCE;
 
 	/**
-	 * gets the Instance of the DocumentProcessor. 
+	 * gets the Instance of the DocumentProcessor.
 	 * 
 	 * @deprecated -> Use DocumentProcessor.INSTANCE instead
 	 * 
@@ -66,12 +66,14 @@ public enum DocumentProcessor {
 	public XWPFDocument getDocument(InputStream inDocument) {
 
 		try {
+			Logger log = LoggerFactory.getLogger(getClass().getCanonicalName());
+			log.info("inDocument -> " + inDocument);
 			XWPFDocument dxReturn = new XWPFDocument(inDocument);
 			return dxReturn;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 
 	public int processBookmarks2Document(XWPFDocument dxProcess, List<IDocumentBookmark> arrBookmarks) {
@@ -126,7 +128,7 @@ public enum DocumentProcessor {
 				String strValue = bmCurrent.getValue();
 				strValue = strValue == null ? "" : strValue;
 				if (bmCurrent.getName() != null) {
-					strText = strText.replaceAll("<<" + bmCurrent.getName() + ">>", strValue);
+					strText = strText.replace("<<" + bmCurrent.getName() + ">>", strValue);
 				}
 			}
 		}

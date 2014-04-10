@@ -16,12 +16,13 @@
 package biz.webgate.dominoext.poi.component.data;
 
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.util.DatabaseProvider;
-
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.EmbeddedObject;
@@ -91,8 +92,10 @@ public class AttachmentTemplateSource extends AbstractTemplateSource implements 
 	}
 
 	public InputStream getFileStream() {
+		Logger log = LoggerFactory.getLogger(getClass().getCanonicalName());
 		try {
 			if (m_tempDataStore != null) {
+				log.info("EmbeddedObject: " + m_tempDataStore.m_EmbObject);
 				return m_tempDataStore.m_EmbObject.getInputStream();
 			}
 			return null;
@@ -103,15 +106,20 @@ public class AttachmentTemplateSource extends AbstractTemplateSource implements 
 	}
 
 	public int accessTemplate() {
+		Logger log = LoggerFactory.getLogger(getClass().getCanonicalName());
 		m_tempDataStore = null;
 		String strView = getViewName();
 		String strKey = getKeyName();
 		String strFieldName = getFieldName();
+
+		log.info("View: " + strView);
+		log.info("Key: " + strKey);
+		log.info("FieldName: " + strFieldName);
 		if (strView == null || strKey == null || strFieldName == null) {
 			return -1;
 		}
 		try {
-			Database ndbAccess = getSourceDatabase();
+			Database ndbAccess = getSourceDatabase(false);
 			if (ndbAccess == null) {
 				return -2;
 			}
@@ -120,7 +128,7 @@ public class AttachmentTemplateSource extends AbstractTemplateSource implements 
 				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 				return -3;
 			}
-			Document docCurrent = viwLUP.getDocumentByKey(getKeyName());
+			Document docCurrent = viwLUP.getDocumentByKey(getKeyName(), true);
 			if (docCurrent == null) {
 				viwLUP.recycle();
 				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);

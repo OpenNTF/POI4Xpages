@@ -46,8 +46,8 @@ public abstract class AbstractTemplateSource extends ValueBindingObjectImpl {
 		m_databaseName = databaseName;
 	}
 
-	public Database getSourceDatabase() {
-		return DatabaseProvider.INSTANCE.getDatabase(getDatabaseName());
+	public Database getSourceDatabase(boolean asSigner) {
+		return DatabaseProvider.INSTANCE.getDatabase(getDatabaseName(), asSigner);
 	}
 
 	@Override
