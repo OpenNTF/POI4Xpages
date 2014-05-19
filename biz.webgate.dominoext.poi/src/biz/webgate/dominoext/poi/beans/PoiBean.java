@@ -1,6 +1,8 @@
 package biz.webgate.dominoext.poi.beans;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.List;
@@ -32,9 +34,11 @@ import biz.webgate.dominoext.poi.component.sources.DominoView;
 import biz.webgate.dominoext.poi.component.sources.IExportSource;
 import biz.webgate.dominoext.poi.component.sources.ListObjectDataSource;
 import biz.webgate.dominoext.poi.util.POILibUtil;
+import biz.webgate.dominoext.poi.util.action.DocX2HTMLAction;
 
 public class PoiBean {
 
+	private static final DocX2HTMLAction DOC_X2HTML_ACTION = new DocX2HTMLAction();
 	public static final String BEAN_NAME = "poiBean"; //$NON-NLS-1$
 
 	public static PoiBean get(FacesContext context) {
@@ -73,6 +77,7 @@ public class PoiBean {
 		}
 		return null;
 	}
+
 	public ByteArrayOutputStream processDocument2Stream(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks) {
 		return processDocument2Stream(itsCurrent, bookmarks, null);
 	}
@@ -249,6 +254,10 @@ public class PoiBean {
 		spRC.setCellValues(cellValues);
 		spRC.setExportDefinitions(exportDefinition);
 		return spRC;
+	}
+
+	public OutputStream buildHTMLFromDocX(InputStream is) {
+		return DOC_X2HTML_ACTION.run(is, null, null);
 	}
 
 }

@@ -17,6 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",
+ biz.webgate.dominoext.poi.beans,
  biz.webgate.dominoext.poi.component.actions;uses:="javax.faces.context,com.ibm.xsp.binding",
  biz.webgate.dominoext.poi.component.containers;
   uses:="javax.faces.component,
@@ -25,13 +26,23 @@ Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",
    com.ibm.xsp.component,
    biz.webgate.dominoext.poi.component.data",
  biz.webgate.dominoext.poi.component.data;uses:="javax.faces.context,com.ibm.xsp.complex,lotus.domino",
+ biz.webgate.dominoext.poi.component.data.csv,
  biz.webgate.dominoext.poi.component.data.document,
+ biz.webgate.dominoext.poi.component.data.document.table,
+ biz.webgate.dominoext.poi.component.data.document.table.cell,
  biz.webgate.dominoext.poi.component.data.ss,
  biz.webgate.dominoext.poi.component.data.ss.cell,
  biz.webgate.dominoext.poi.component.kernel;uses:="biz.webgate.dominoext.poi.component.data,org.apache.poi.xwpf.usermodel,javax.servlet.http",
+ biz.webgate.dominoext.poi.component.kernel.csv,
+ biz.webgate.dominoext.poi.component.kernel.document,
+ biz.webgate.dominoext.poi.component.kernel.simpleviewexport,
+ biz.webgate.dominoext.poi.component.kernel.util,
+ biz.webgate.dominoext.poi.component.kernel.workbook,
+ biz.webgate.dominoext.poi.component.sources,
  biz.webgate.dominoext.poi.library;uses:="com.ibm.xsp.library",
  biz.webgate.dominoext.poi.renderkit.html_extended;uses:="javax.faces.component,javax.faces.context,com.ibm.xsp.renderkit",
- biz.webgate.dominoext.poi.util;uses:="org.apache.poi.ss.usermodel,org.apache.poi.xwpf.usermodel,lotus.domino"
+ biz.webgate.dominoext.poi.util;uses:="org.apache.poi.ss.usermodel,org.apache.poi.xwpf.usermodel,lotus.domino",
+ biz.webgate.dominoext.poi.util.action
 Bundle-ClassPath: .
 Import-Package: com.ibm.xsp.component
 Bundle-Vendor: WebGate Consulting AG
