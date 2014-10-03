@@ -70,7 +70,7 @@
 
 								<path id="source_folder_name">
 									<dirset dir="${project.build.directory}/sources/POI">
-										<include name="XPages*" />
+										<include name="POI4XPages*" />
 									</dirset>
 								</path>
 								<property name="psource_folder_name" refid="source_folder_name" />
