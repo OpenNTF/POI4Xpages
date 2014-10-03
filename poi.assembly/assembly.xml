@@ -16,7 +16,7 @@
 		<fileSet>
 			<directory>${project.build.directory}/sources</directory>
 			<includes>
-				<include>org.openntf.xpt*</include>
+				<include>biz.webgate.dominoext.poi*</include>
 			</includes>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
@@ -30,10 +30,10 @@
 		</fileSet>
 
 		<fileSet>
-			<directory>../org.openntf.xpt.updatesite/target</directory>
+			<directory>../biz.webgate.updatesite.poi/target</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>org.openntf.xpt.updatesite*</include>
+				<include>biz.webgate.updatesite.poi*</include>
 			</includes>
 		</fileSet>
 	</fileSets>
