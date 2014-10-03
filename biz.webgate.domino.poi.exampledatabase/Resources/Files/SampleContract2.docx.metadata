@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" replicaid="C1257B5800493454" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="286" sequence="7" unid="C20F3D7548EB2829C1257BD70018BC40">
-<created><datetime dst="true">20130830T063010,56+02</datetime></created>
-<modified><datetime dst="true">20130920T133610,83+02</datetime></modified>
-<revised><datetime dst="true">20130920T133610,82+02</datetime></revised>
-<lastaccessed><datetime dst="true">20130920T133610,83+02</datetime></lastaccessed>
-<addedtofile><datetime dst="true">20130830T063010,59+02</datetime></addedtofile></noteinfo>
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.0" replicaid="C1257BEF003F8C4E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="212" sequence="9" unid="A46267CD993BA4F6C1257BEF003F8F52">
+<created><datetime dst="true">20130923T133414,58+02</datetime></created>
+<modified><datetime dst="true">20141003T074945,37+02</datetime></modified>
+<revised><datetime dst="true">20141003T074945,36+02</datetime></revised>
+<lastaccessed><datetime dst="true">20141003T074945,37+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20130923T133416,04+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
 <wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
 <item name="$TITLE"><text>SampleContract2.docx</text></item>
 <item name="$FlagsExt"><text>D</text></item>
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
-<item name="$FileModDT" sign="true"><datetime dst="true">20130920T133342,00+02</datetime></item>
+<item name="$FileModDT" sign="true"><datetime dst="true">20141003T074918,00+02</datetime></item>
 
 <item name="$Flags"><text>345CgQ</text></item>
 <item name="$FileNames" sign="true"><text>SampleContract2.docx</text></item></note>

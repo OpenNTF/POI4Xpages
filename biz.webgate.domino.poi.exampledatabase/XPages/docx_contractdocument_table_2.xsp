@@ -47,7 +47,7 @@
 						</wgpoi:resourcetemplate>
 					</wgpoi:this.templateSource>
 					<wgpoi:this.tables>
-						<wgpoi:docTable maxRow="10" tableNr="1"
+						<wgpoi:docTable maxRow="10" tableNr="2"
 							includeHeader="true">
 							<wgpoi:this.columnDefinition>
 								<wgpoi:doccolumndefinition
