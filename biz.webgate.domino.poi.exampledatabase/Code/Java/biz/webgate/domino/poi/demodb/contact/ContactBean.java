@@ -40,4 +40,12 @@ public class ContactBean implements Serializable {
 		return lstRC;
 	}
 
+	public List<Contact> get3AddressEntries() {
+		List<Contact> contacts = new ArrayList<Contact>();
+		contacts.add(Contact.buildContact("Martin", "Meier", "martin.meier@acme.com", "Zürich", "ZH"));
+		contacts.add(Contact.buildContact("Peter", "Müller", "peter.müller@acme.com", "Rorschach", "SG"));
+		contacts.add(Contact.buildContact("René", "Dupont", "rené.dupont@acme.com", "Genève", "GE"));
+		return contacts;
+	}
+
 }

@@ -53,4 +53,14 @@ public class Contact implements Serializable {
 	public void setEMail(String mail) {
 		m_EMail = mail;
 	}
+	
+	public static Contact buildContact(String firstName, String lastName, String email, String city, String state) {
+		Contact contact = new Contact();
+		contact.setFirstName(firstName);
+		contact.setLastName(lastName);
+		contact.setCity(city);
+		contact.setEMail(email);
+		contact.setState(state);
+		return contact;
+	}
 }
