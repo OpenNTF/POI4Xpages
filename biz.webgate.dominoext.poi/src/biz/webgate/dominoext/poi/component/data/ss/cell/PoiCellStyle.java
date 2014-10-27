@@ -6,9 +6,8 @@ import org.apache.poi.ss.usermodel.CellStyle;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
-public class PoiCellStyle extends ValueBindingObjectImpl{
-	
-	
+public class PoiCellStyle extends ValueBindingObjectImpl {
+
 	private String m_Alignment;
 	private String m_BorderBottom;
 	private String m_BorderTop;
@@ -37,184 +36,235 @@ public class PoiCellStyle extends ValueBindingObjectImpl{
 	private String m_VerticalAlignment;
 	private Boolean m_WrapText = false;
 	/*
-	 * A initialized CellStyle object, only to make the generationProcess much faster and do NOT save it via save/restore state
+	 * A initialized CellStyle object, only to make the generationProcess much
+	 * faster and do NOT save it via save/restore state
 	 */
 	private CellStyle m_CellStyle;
-	
 
 	public CellStyle getCellStyle() {
 		return m_CellStyle;
 	}
+
 	public void setCellStyle(CellStyle cellStyle) {
 		m_CellStyle = cellStyle;
 	}
+
 	public String getAlignment() {
-		return m_Alignment;
+		return getStringValue(m_Alignment, "aligment", this, null, getFacesContext());
 	}
+
 	public void setAlignment(String alignment) {
 		m_Alignment = alignment;
 	}
-		
+
 	public String getBorderBottom() {
-		return m_BorderBottom;
+		return getStringValue(m_BorderBottom, "borderBottom", this, null, getFacesContext());
 	}
+
 	public void setBorderBottom(String borderBottom) {
 		m_BorderBottom = borderBottom;
 	}
+
 	public String getBorderTop() {
-		return m_BorderTop;
+		return getStringValue(m_BorderTop, "borderTop", this, null, getFacesContext());
 	}
+
 	public void setBorderTop(String borderTop) {
 		m_BorderTop = borderTop;
 	}
+
 	public String getBorderRight() {
-		return m_BorderRight;
+		return getStringValue(m_BorderRight, "borderRight", this, null, getFacesContext());
 	}
+
 	public void setBorderRight(String borderRight) {
 		m_BorderRight = borderRight;
 	}
+
 	public String getBorderLeft() {
-		return m_BorderLeft;
+		return getStringValue(m_BorderLeft, "borderLeft", this, null, getFacesContext());
 	}
+
 	public void setBorderLeft(String borderLeft) {
 		m_BorderLeft = borderLeft;
 	}
+
 	public String getBottomBorderColor() {
-		return m_BottomBorderColor;
+		return getStringValue(m_BottomBorderColor, "bottomBorderColor", this, null, getFacesContext());
 	}
+
 	public void setBottomBorderColor(String bottomBorderColor) {
 		m_BottomBorderColor = bottomBorderColor;
 	}
+
 	public String getDataFormat() {
-		return m_DataFormat;
+		return getStringValue(m_DataFormat, "dataFormat", this, null, getFacesContext());
 	}
+
 	public void setDataFormat(String dataFormat) {
 		m_DataFormat = dataFormat;
 	}
+
 	public String getFillBackgroundColor() {
-		return m_FillBackgroundColor;
+		return getStringValue(m_FillBackgroundColor, "fillBackgroundColor", this, null, getFacesContext());
 	}
+
 	public void setFillBackgroundColor(String fillBackgroundColor) {
 		m_FillBackgroundColor = fillBackgroundColor;
 	}
+
 	public String getFillForegroundColor() {
-		return m_FillForegroundColor;
+		return getStringValue(m_FillForegroundColor, "fillForegroundColor", this, null, getFacesContext());
 	}
+
 	public void setFillForegroundColor(String fillForegroundColor) {
 		m_FillForegroundColor = fillForegroundColor;
 	}
+
 	public String getFillPattern() {
-		return m_FillPattern;
+		return getStringValue(m_FillPattern, "fillPattern", this, null, getFacesContext());
 	}
+
 	public void setFillPattern(String fillPattern) {
 		m_FillPattern = fillPattern;
 	}
 
 	public String getFontBoldweight() {
-		return m_FontBoldweight;
+		return getStringValue(m_FontBoldweight, "fontBoldweight", this, null, getFacesContext());
 	}
+
 	public void setFontBoldweight(String fontBoldweight) {
 		m_FontBoldweight = fontBoldweight;
 	}
+
 	public String getFontColor() {
-		return m_FontColor;
+		return getStringValue(m_FontColor, "fontColor", this, null, getFacesContext());
 	}
+
 	public void setFontColor(String fontColor) {
 		m_FontColor = fontColor;
 	}
+
 	public short getFontHeightInPoints() {
-		return m_FontHeightInPoints;
+		return getShortValue(m_FontHeightInPoints, "fontHeightInPoints", this, null, getFacesContext());
 	}
+
 	public void setFontHeightInPoints(short fontHeightInPoints) {
 		m_FontHeightInPoints = fontHeightInPoints;
 	}
+
 	public String getFontName() {
-		return m_FontName;
+		return getStringValue(m_FontName, "fontName", this, null, getFacesContext());
 	}
+
 	public void setFontName(String fontName) {
 		m_FontName = fontName;
 	}
+
 	public boolean isFontItalic() {
-		return m_FontItalic;
+		return getBooleanValue(m_FontItalic, "fontItalic", this, null, getFacesContext());
 	}
+
 	public void setFontItalic(boolean fontItalic) {
 		this.m_FontItalic = fontItalic;
 	}
+
 	public boolean isFontStrikeout() {
-		return m_FontStrikeout;
+		return getBooleanValue(m_FontStrikeout, "fontStrikeout", this, null, getFacesContext());
 	}
+
 	public void setFontStrikeout(boolean fontStrikeout) {
 		this.m_FontStrikeout = fontStrikeout;
 	}
+
 	public String getFontUnderline() {
-		return m_FontUnderline;
+		return getStringValue(m_FontUnderline, "fontUnderline", this, null, getFacesContext());
 	}
+
 	public void setFontUnderline(String fontUnderline) {
 		this.m_FontUnderline = fontUnderline;
 	}
-	
+
 	public String getFontTypeOffset() {
-		return m_FontTypeOffset;
+		return getStringValue(m_FontTypeOffset, "fontTypeOffset", this, null, getFacesContext());
 	}
+
 	public void setFontTypeOffset(String fontTypeOffset) {
 		m_FontTypeOffset = fontTypeOffset;
 	}
 
 	public boolean isHidden() {
-		return m_Hidden;
+		return getBooleanValue(m_Hidden, "hidden", this, null, getFacesContext());
 	}
+
 	public void setHidden(boolean hidden) {
 		m_Hidden = hidden;
 	}
+
 	public String getIndention() {
-		return m_Indention;
+		return getStringValue(m_Indention, "indention", this, null, getFacesContext());
 	}
+
 	public void setIndention(String indention) {
 		m_Indention = indention;
 	}
+
 	public String getLeftBorderColor() {
-		return m_LeftBorderColor;
+		return getStringValue(m_LeftBorderColor, "leftBorderColor", this, null, getFacesContext());
 	}
+
 	public void setLeftBorderColor(String leftBorderColor) {
 		m_LeftBorderColor = leftBorderColor;
 	}
+
 	public boolean isLocked() {
-		return m_Locked;
+		return getBooleanValue(m_Locked, "locked", this, null, getFacesContext());
 	}
+
 	public void setLocked(boolean locked) {
 		m_Locked = locked;
 	}
+
 	public String getRightBorderColor() {
-		return m_RightBorderColor;
+		return getStringValue(m_RightBorderColor, "rightBorderColor", this, null, getFacesContext());
 	}
+
 	public void setRightBorderColor(String rightBorderColor) {
 		m_RightBorderColor = rightBorderColor;
 	}
+
 	public short getRotation() {
-		return m_Rotation;
+		return getShortValue(m_Rotation, "rotation", this, null, getFacesContext());
 	}
+
 	public void setRotation(short rotation) {
 		m_Rotation = rotation;
 	}
+
 	public String getTopBorderColor() {
-		return m_TopBorderColor;
+		return getStringValue(m_TopBorderColor, "topBorderColor", this, null, getFacesContext());
 	}
+
 	public void setTopBorderColor(String topBorderColor) {
 		m_TopBorderColor = topBorderColor;
 	}
+
 	public String getVerticalAlignment() {
-		return m_VerticalAlignment;
+		return getStringValue(m_VerticalAlignment, "verticalAlignment", this, null, getFacesContext());
 	}
+
 	public void setVerticalAlignment(String verticalAlignment) {
 		m_VerticalAlignment = verticalAlignment;
 	}
+
 	public boolean isWrapText() {
-		return m_WrapText;
+		return getBooleanValue(m_WrapText, "wrapText", this, null, getFacesContext());
 	}
+
 	public void setWrapText(boolean wrapText) {
 		m_WrapText = wrapText;
 	}
-	
+
 	@Override
 	public Object saveState(FacesContext context) {
 		Object[] state = new Object[28];
@@ -259,12 +309,12 @@ public class PoiCellStyle extends ValueBindingObjectImpl{
 		m_BorderRight = (String) state[4];
 		m_BorderLeft = (String) state[5];
 		m_BottomBorderColor = (String) state[6];
-		m_DataFormat = (String) state[7]; 
+		m_DataFormat = (String) state[7];
 		m_FillBackgroundColor = (String) state[8];
 		m_FillForegroundColor = (String) state[9];
-		m_FillPattern = (String)state[10];
+		m_FillPattern = (String) state[10];
 		m_FontBoldweight = (String) state[11];
-		m_FontColor = (String) state[12] ;
+		m_FontColor = (String) state[12];
 		m_FontHeightInPoints = (Short) state[13];
 		m_FontItalic = (Boolean) state[14];
 		m_FontName = (String) state[15];
@@ -281,6 +331,5 @@ public class PoiCellStyle extends ValueBindingObjectImpl{
 		m_VerticalAlignment = (String) state[26];
 		m_WrapText = (Boolean) state[27];
 	}
-
 
 }
