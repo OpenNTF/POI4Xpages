@@ -1,5 +1,9 @@
 package biz.webgate.dominoext.poi.component.data.ss.cell;
 
+import static biz.webgate.dominoext.poi.utils.xsp.ValueBindingSupport.getBooleanValue;
+import static biz.webgate.dominoext.poi.utils.xsp.ValueBindingSupport.getShortValue;
+import static biz.webgate.dominoext.poi.utils.xsp.ValueBindingSupport.getStringValue;
+
 import javax.faces.context.FacesContext;
 
 import org.apache.poi.ss.usermodel.CellStyle;
