@@ -43,7 +43,8 @@ Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",
  biz.webgate.dominoext.poi.renderkit.html_extended;uses:="javax.faces.component,javax.faces.context,com.ibm.xsp.renderkit",
  biz.webgate.dominoext.poi.util;uses:="org.apache.poi.ss.usermodel,org.apache.poi.xwpf.usermodel,lotus.domino",
  biz.webgate.dominoext.poi.util.action
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/jaxp-api-1.4.5.jar
 Import-Package: com.ibm.xsp.component
 Bundle-Vendor: WebGate Consulting AG
 

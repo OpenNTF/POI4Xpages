@@ -68,8 +68,17 @@ public enum DocumentProcessor {
 		try {
 			Logger log = LoggerFactory.getLogger(getClass().getCanonicalName());
 			log.info("inDocument -> " + inDocument);
-			XWPFDocument dxReturn = new XWPFDocument(inDocument);
-			return dxReturn;
+			ClassLoader clOriginal = Thread.currentThread().getContextClassLoader();
+			try {
+				Thread.currentThread().setContextClassLoader(biz.webgate.dominoext.poi.library.Activator.class.getClassLoader());
+				XWPFDocument dxReturn = new XWPFDocument(inDocument);
+				return dxReturn;
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				throw new RuntimeException(e2);
+			} finally {
+				Thread.currentThread().setContextClassLoader(clOriginal);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
