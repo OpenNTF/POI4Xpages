@@ -1,7 +1,11 @@
 package biz.webgate.dominoext.poi.component.kernel.workbook;
 
+import java.awt.Color;
 import java.util.HashMap;
 
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
@@ -9,6 +13,8 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle;
@@ -101,48 +107,120 @@ public enum POICellStyleProcessor {
 
 	private void processHSFFColor(CellStyle style, Sheet sheet, PoiCellStyle pCellStyle, Font font) {
 		if (pCellStyle.getBottomBorderColor() != null)
-			style.setBottomBorderColor(IndexedColors.valueOf(pCellStyle.getBottomBorderColor()).getIndex());
+			style.setBottomBorderColor(getHSFFColor(pCellStyle.getBottomBorderColor(), sheet));
 
 		if (pCellStyle.getFillBackgroundColor() != null)
-			style.setFillBackgroundColor(IndexedColors.valueOf(pCellStyle.getFillBackgroundColor()).getIndex());
+			style.setFillBackgroundColor(getHSFFColor(pCellStyle.getFillBackgroundColor(), sheet));
 
 		if (pCellStyle.getFillForegroundColor() != null)
-			style.setFillForegroundColor(IndexedColors.valueOf(pCellStyle.getFillForegroundColor()).getIndex());
+			style.setFillForegroundColor(getHSFFColor(pCellStyle.getFillForegroundColor(), sheet));
+
 		if (pCellStyle.getFontColor() != null)
-			font.setColor(IndexedColors.valueOf(pCellStyle.getFontColor()).getIndex());
+			font.setColor(getHSFFColor(pCellStyle.getFontColor(), sheet));
 
 		if (pCellStyle.getTopBorderColor() != null)
-			style.setTopBorderColor(IndexedColors.valueOf(pCellStyle.getTopBorderColor()).getIndex());
+			style.setTopBorderColor(getHSFFColor(pCellStyle.getTopBorderColor(), sheet));
 
 		if (pCellStyle.getRightBorderColor() != null)
-			style.setRightBorderColor(IndexedColors.valueOf(pCellStyle.getRightBorderColor()).getIndex());
+			style.setRightBorderColor(getHSFFColor(pCellStyle.getRightBorderColor(), sheet));
 
 		if (pCellStyle.getLeftBorderColor() != null)
-			style.setLeftBorderColor(IndexedColors.valueOf(pCellStyle.getLeftBorderColor()).getIndex());
+			style.setLeftBorderColor(getHSFFColor(pCellStyle.getLeftBorderColor(), sheet));
 
 	}
 
+	private short getHSFFColor(String color, Sheet sheet) {
+		if (isIndexColor(color)) {
+			return IndexedColors.valueOf(color).getIndex();
+		}
+		HSSFPalette palette = ((HSSFWorkbook) sheet.getWorkbook()).getCustomPalette();
+		Color clr = Color.decode(color);
+		HSSFColor myColor = palette.findSimilarColor(clr.getRed(), clr.getGreen(), clr.getBlue());
+		if (myColor == null) {
+			myColor = palette.addColor((byte) clr.getRed(), (byte) clr.getGreen(), (byte) clr.getBlue());
+		}
+		return myColor.getIndex();
+	}
+
+	private boolean isIndexColor(String colorName) {
+		for (IndexedColors color : IndexedColors.values()) {
+			if (color.name().equals(colorName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void processXSSColor(XSSFCellStyle style, Sheet sheet, PoiCellStyle pCellStyle, Font font) {
-		if (pCellStyle.getBottomBorderColor() != null)
-			style.setBottomBorderColor(IndexedColors.valueOf(pCellStyle.getBottomBorderColor()).getIndex());
 
-		if (pCellStyle.getFillBackgroundColor() != null)
-			style.setFillBackgroundColor(IndexedColors.valueOf(pCellStyle.getFillBackgroundColor()).getIndex());
+		if (pCellStyle.getBottomBorderColor() != null) {
+			String color = pCellStyle.getBottomBorderColor();
+			if (isIndexColor(color)) {
+				style.setBottomBorderColor(IndexedColors.valueOf(color).getIndex());
+			} else {
+				style.setBottomBorderColor(getXSSFColor(color));
+			}
+		}
+		if (pCellStyle.getFillBackgroundColor() != null) {
+			String color = pCellStyle.getFillBackgroundColor();
+			if (isIndexColor(color)) {
+				style.setFillBackgroundColor(IndexedColors.valueOf(color).getIndex());
+			} else {
+				style.setFillBackgroundColor(getXSSFColor(color));
+			}
+		}
 
-		if (pCellStyle.getFillForegroundColor() != null)
-			style.setFillForegroundColor(IndexedColors.valueOf(pCellStyle.getFillForegroundColor()).getIndex());
-		if (pCellStyle.getFontColor() != null)
-			font.setColor(IndexedColors.valueOf(pCellStyle.getFontColor()).getIndex());
+		if (pCellStyle.getFillForegroundColor() != null) {
+			String color = pCellStyle.getFillForegroundColor();
+			if (isIndexColor(color)) {
+				style.setFillForegroundColor(IndexedColors.valueOf(color).getIndex());
+			} else {
+				style.setFillForegroundColor(getXSSFColor(color));
+			}
+		}
 
-		if (pCellStyle.getTopBorderColor() != null)
-			style.setTopBorderColor(IndexedColors.valueOf(pCellStyle.getTopBorderColor()).getIndex());
+		if (pCellStyle.getFontColor() != null) {
+			String color = pCellStyle.getFontColor();
+			if (isIndexColor(color)) {
+				font.setColor(IndexedColors.valueOf(color).getIndex());
+			} else {
+				((XSSFFont) font).setColor(getXSSFColor(color));
+			}
+		}
 
-		if (pCellStyle.getRightBorderColor() != null)
-			style.setRightBorderColor(IndexedColors.valueOf(pCellStyle.getRightBorderColor()).getIndex());
+		if (pCellStyle.getTopBorderColor() != null) {
+			String color = pCellStyle.getTopBorderColor();
+			if (isIndexColor(color)) {
+				style.setTopBorderColor(IndexedColors.valueOf(color).getIndex());
+			} else {
+				style.setTopBorderColor(getXSSFColor(color));
+			}
+		}
 
-		if (pCellStyle.getLeftBorderColor() != null)
-			style.setLeftBorderColor(IndexedColors.valueOf(pCellStyle.getLeftBorderColor()).getIndex());
+		if (pCellStyle.getRightBorderColor() != null) {
+			String color = pCellStyle.getRightBorderColor();
+			if (isIndexColor(color)) {
+				style.setRightBorderColor(IndexedColors.valueOf(color).getIndex());
+			} else {
+				style.setRightBorderColor(getXSSFColor(color));
+			}
+		}
 
+		if (pCellStyle.getLeftBorderColor() != null) {
+			String color = pCellStyle.getLeftBorderColor();
+			if (isIndexColor(color)) {
+				style.setLeftBorderColor(IndexedColors.valueOf(color).getIndex());
+			} else {
+				style.setLeftBorderColor(getXSSFColor(color));
+			}
+		}
+
+	}
+
+	private XSSFColor getXSSFColor(String color) {
+		Color clr = Color.decode(color);
+		XSSFColor myColor = new XSSFColor(clr);
+		return myColor;
 	}
 
 	private synchronized void checkStyleConstantValues() {
