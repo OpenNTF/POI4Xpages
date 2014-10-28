@@ -108,7 +108,12 @@
 												<wgpoi:cellStyle
 													borderBottom="BORDER_THIN" borderLeft="BORDER_THIN"
 													borderRight="BORDER_THIN" borderTop="BORDER_THIN"
-													fontColor="GREY_50_PERCENT">
+													fontColor="GREY_50_PERCENT"
+													fillPattern="SOLID_FOREGROUND">
+													<wgpoi:this.fillForegroundColor><![CDATA[#{javascript:if (index % 2 == 0) {
+	return "#DDAABB";
+}
+return "#DDDDEE";}]]></wgpoi:this.fillForegroundColor>
 												</wgpoi:cellStyle>
 											</wgpoi:this.cellStyle>
 										</wgpoi:columnDefinition>
