@@ -167,7 +167,7 @@ public enum DocumentProcessor {
 
 				} else {
 					logCurrent.info("Build docx");
-					httpResponse.setContentType("application/octet-stream");
+					httpResponse.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 					httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
 					OutputStream os = httpResponse.getOutputStream();
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
