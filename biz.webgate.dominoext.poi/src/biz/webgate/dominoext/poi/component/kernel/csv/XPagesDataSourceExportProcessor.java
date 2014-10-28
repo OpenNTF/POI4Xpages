@@ -23,9 +23,10 @@ import javax.faces.model.DataModel;
 
 import org.apache.commons.csv.CSVPrinter;
 
-import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.containers.UICSV;
 import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
+import biz.webgate.dominoext.poi.util.RequestVarsHandler;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.component.UIDataEx;
@@ -35,6 +36,7 @@ import com.ibm.xsp.model.ModelDataSource;
 import com.ibm.xsp.model.TabularDataModel;
 import com.ibm.xsp.model.ViewRowData;
 import com.ibm.xsp.model.domino.DominoViewDataModel;
+import com.ibm.xsp.util.DataPublisher.ShadowedObject;
 
 public class XPagesDataSourceExportProcessor implements IDataSourceProcessor {
 	private static XPagesDataSourceExportProcessor m_Processor;
@@ -50,29 +52,33 @@ public class XPagesDataSourceExportProcessor implements IDataSourceProcessor {
 		return m_Processor;
 	}
 
-	public void process(List<CSVColumn> lstColumns, UICSV csvDef,
-			CSVPrinter csvPrinter, FacesContext context) throws POIException {
+	public void process(List<CSVColumn> lstColumns, UICSV csvDef, CSVPrinter csvPrinter, FacesContext context) throws POIException {
 		DataSource ds = csvDef.getPageDataSource();
 
 		if (ds != null) {
 			try {
 				TabularDataModel tdm = getTDM(ds, context);
+				List<ShadowedObject> controlData = RequestVarsHandler.INSTANCE.publishControlData(context, csvDef.getVar(), csvDef.getIndex());
+
 				for (int nCount = 0; nCount < tdm.getRowCount(); nCount++) {
 					nCount++;
+					RequestVarsHandler.INSTANCE.pushVars(context, csvDef.getVar(), csvDef.getIndex(), tdm.getRowData(), nCount);
 					for (CSVColumn cl : lstColumns) {
 						String strTitle = cl.getColumnTitle();
 						Object objCurrent = null;
 						if (strTitle != null && !"".equals(strTitle)) {
-							objCurrent = getColumnValue(
-									cl.getColumnTitle(), tdm, context);
+							objCurrent = getColumnValue(cl.getColumnTitle(), tdm, context);
 						} else {
-							objCurrent = cl.executeComputeValue(context, tdm.getRowData(), nCount,
-									csvDef.getVar(), csvDef.getIndex());
+							objCurrent = cl.executeComputeValue(context);
 						}
 						csvPrinter.print(objCurrent);
 					}
 					csvPrinter.println();
+					RequestVarsHandler.INSTANCE.removeVars(context, csvDef.getVar(), csvDef.getIndex());
+
 				}
+				RequestVarsHandler.INSTANCE.revokeControlData(controlData, context);
+
 			} catch (Exception e) {
 				throw new POIException("Error in process", e);
 			}
@@ -98,9 +104,7 @@ public class XPagesDataSourceExportProcessor implements IDataSourceProcessor {
 					tdmv.setDataControl(new UIDataEx());
 					tdmv.getRowCount();
 					System.out.println(tdmv.getRowCount());
-					((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx) tdmv
-							.getDominoViewDataContainer().getNavigator())
-							.calculateExactCount(tdmv.getView());
+					((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx) tdmv.getDominoViewDataContainer().getNavigator()).calculateExactCount(tdmv.getView());
 					System.out.println(tdmv.getRowCount());
 					return tdmv;
 				}
@@ -116,8 +120,7 @@ public class XPagesDataSourceExportProcessor implements IDataSourceProcessor {
 		return null;
 	}
 
-	private Object getColumnValue(String strColName, TabularDataModel tdm,
-			FacesContext context) {
+	private Object getColumnValue(String strColName, TabularDataModel tdm, FacesContext context) {
 		System.out.println("Check Value 4 " + strColName);
 		if (StringUtil.isNotEmpty(strColName)) {
 			// Read from a rowData object
@@ -130,8 +133,7 @@ public class XPagesDataSourceExportProcessor implements IDataSourceProcessor {
 			}
 			System.out.println(rowData.getClass().getCanonicalName());
 			// Use the JSF property resolver
-			PropertyResolver pr = context.getApplication()
-					.getPropertyResolver();
+			PropertyResolver pr = context.getApplication().getPropertyResolver();
 			return pr.getValue(rowData, strColName);
 		}
 

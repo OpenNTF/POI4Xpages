@@ -21,10 +21,13 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.csv.CSVPrinter;
 
-import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.containers.UICSV;
 import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
 import biz.webgate.dominoext.poi.component.sources.IExportSource;
+import biz.webgate.dominoext.poi.util.RequestVarsHandler;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
+
+import com.ibm.xsp.util.DataPublisher.ShadowedObject;
 
 public class EmbeddedDataSourceExportProcessor implements IDataSourceProcessor {
 
@@ -41,26 +44,28 @@ public class EmbeddedDataSourceExportProcessor implements IDataSourceProcessor {
 		return m_Processor;
 	}
 
-	public void process(List<CSVColumn> lstColumns, UICSV csvDef,
-			CSVPrinter csvPrinter, FacesContext context) throws POIException {
+	public void process(List<CSVColumn> lstColumns, UICSV csvDef, CSVPrinter csvPrinter, FacesContext context) throws POIException {
 		try {
 			IExportSource is = csvDef.getDataSource();
 			int nAccess = is.accessSource();
 			if (nAccess < 1) {
-				throw new POIException("Error accessing Source: "
-						+ is.getClass() + " Error: " + nAccess);
+				throw new POIException("Error accessing Source: " + is.getClass() + " Error: " + nAccess);
 			}
 			int nCount = 0;
+			List<ShadowedObject> controlData = RequestVarsHandler.INSTANCE.publishControlData(context, csvDef.getVar(), csvDef.getIndex());
 			while (is.accessNextRow() == 1) {
 				nCount++;
+				RequestVarsHandler.INSTANCE.pushVars(context, csvDef.getVar(), csvDef.getIndex(), is.getDataRow(), nCount);
+
 				for (CSVColumn cl : lstColumns) {
-					Object objCurrent = is.getValue(cl,
-							csvDef.getVar(), csvDef.getIndex(),
-							nCount, context);
+					Object objCurrent = is.getValue(cl, context);
 					csvPrinter.print(objCurrent);
 				}
 				csvPrinter.println();
+				RequestVarsHandler.INSTANCE.removeVars(context, csvDef.getVar(), csvDef.getIndex());
+
 			}
+			RequestVarsHandler.INSTANCE.revokeControlData(controlData, context);
 			is.closeSource();
 		} catch (Exception e) {
 			throw new POIException("Error in processExportRow", e);

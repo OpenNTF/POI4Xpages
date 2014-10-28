@@ -17,16 +17,18 @@ package biz.webgate.dominoext.poi.component.sources;
 
 import javax.faces.context.FacesContext;
 
-import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 
 public interface IExportSource {
 
-	public Object getValue(IDefinition idCurrent, String strVarName, String strIndName,  int nIndex, FacesContext context);
+	public Object getValue(IDefinition idCurrent, FacesContext context);
 
 	public int accessNextRow();
 
 	public int accessSource() throws POIException;
 
 	public int closeSource();
+
+	public Object getDataRow();
 }

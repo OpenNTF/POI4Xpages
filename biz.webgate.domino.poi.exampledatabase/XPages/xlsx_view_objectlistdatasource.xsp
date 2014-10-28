@@ -65,7 +65,7 @@
 										</wgpoi:columnDefinition>
 										<wgpoi:columnDefinition
 											columnNumber="6"
-											computeValue="#{javascript:row.getDocument().getUniversalID()}">
+											computeValue="#{javascript:row.getLastName() + ' ' + index}">
 										</wgpoi:columnDefinition>
 									</wgpoi:this.columns>
 								</wgpoi:data2rowExport>

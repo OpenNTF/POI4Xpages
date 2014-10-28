@@ -1,18 +1,20 @@
 package biz.webgate.dominoext.poi.component.kernel.workbook;
 
+import java.util.List;
+
 import javax.faces.context.FacesContext;
 import javax.faces.el.PropertyResolver;
 import javax.faces.model.DataModel;
 
 import org.apache.poi.ss.usermodel.Sheet;
 
-import biz.webgate.dominoext.poi.util.POILibUtil;
-import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
 import biz.webgate.dominoext.poi.component.data.ss.cell.RowDefinition;
 import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
+import biz.webgate.dominoext.poi.util.RequestVarsHandler;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.component.UIDataEx;
@@ -22,9 +24,11 @@ import com.ibm.xsp.model.ModelDataSource;
 import com.ibm.xsp.model.TabularDataModel;
 import com.ibm.xsp.model.ViewRowData;
 import com.ibm.xsp.model.domino.DominoViewDataModel;
+import com.ibm.xsp.model.domino.ViewNavigatorEx;
+import com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx9;
+import com.ibm.xsp.util.DataPublisher.ShadowedObject;
 
-public class XPagesDataSourceExportProcessor implements
-		IDataSourceExportProcessor {
+public class XPagesDataSourceExportProcessor implements IDataSourceExportProcessor {
 
 	private static XPagesDataSourceExportProcessor m_Processor;
 
@@ -39,9 +43,7 @@ public class XPagesDataSourceExportProcessor implements
 		return m_Processor;
 	}
 
-	public void processExportRow(Data2RowExporter lstExport, Sheet shProcess,
-			FacesContext context, String strVarName, String strIndexName)
-			throws POIException {
+	public void processExportRow(Data2RowExporter lstExport, Sheet shProcess, FacesContext context, String strVar, String strIndex) throws POIException {
 
 		DataSource ds = lstExport.getPageDataSource();
 
@@ -51,30 +53,31 @@ public class XPagesDataSourceExportProcessor implements
 				int nRow = lstExport.getStartRow();
 				int nStepSize = lstExport.getStepSize();
 				int nDSRCount = tdm.getRowCount();
+				List<ShadowedObject> controlData = RequestVarsHandler.INSTANCE.publishControlData(context, strVar, strIndex);
 				for (int nCount = 0; nCount < nDSRCount; nCount++) {
 					tdm.setRowIndex(nCount);
 					if (tdm.isRowAvailable()) {
+						RequestVarsHandler.INSTANCE.pushVars(context, strVar, strIndex, tdm.getRowData(), nCount);
 						for (ColumnDefinition clDef : lstExport.getColumns()) {
 							int nCol = clDef.getColumnNumber();
 							int nMyRow = clDef.getRowShift() + nRow;
 							String strTitle = clDef.getColumnTitle();
 							Object objCurrent = null;
 							if (strTitle != null && !"".equals(strTitle)) {
-								objCurrent = getColumnValue(
-										clDef.getColumnTitle(), tdm, context);
+								objCurrent = getColumnValue(clDef.getColumnTitle(), tdm, context);
 							} else {
-								objCurrent = clDef.executeComputeValue(context, tdm.getRowData(), nCount,
-										strVarName, strIndexName);
+								objCurrent = clDef.executeComputeValue(context);
 							}
-							WorkbookProcessor.INSTANCE.setCellValue(shProcess, nMyRow,
-									nCol, objCurrent, clDef.isCellFormula(), clDef.getPoiCellStyle());
+							WorkbookProcessor.INSTANCE.setCellValue(shProcess, nMyRow, nCol, objCurrent, clDef.isCellFormula(), clDef.getPoiCellStyle());
 						}
-
+						RequestVarsHandler.INSTANCE.removeVars(context, strVar, strIndex);
 						nRow = nRow + nStepSize;
 					} else {
 						System.out.println("no Row available at " + nCount);
 					}
 				}
+				RequestVarsHandler.INSTANCE.revokeControlData(controlData, context);
+
 			} catch (Exception e) {
 				throw new POIException("Error in processExportRow", e);
 			}
@@ -83,9 +86,7 @@ public class XPagesDataSourceExportProcessor implements
 		}
 	}
 
-	public void processExportCol(Data2ColumnExporter lstExport,
-			Sheet shProcess, FacesContext context, String strVarName,
-			String strIndexName) throws POIException {
+	public void processExportCol(Data2ColumnExporter lstExport, Sheet shProcess, FacesContext context, String strVar, String strIndex) throws POIException {
 		DataSource ds = lstExport.getPageDataSource();
 
 		if (ds != null) {
@@ -94,27 +95,28 @@ public class XPagesDataSourceExportProcessor implements
 				int nCol = lstExport.getStartColumn();
 				int nStepSize = lstExport.getStepSize();
 				int nDSMRRowCount = tdm.getRowCount();
+				List<ShadowedObject> controlData = RequestVarsHandler.INSTANCE.publishControlData(context, strVar, strIndex);
 				for (int nCount = 0; nCount < nDSMRRowCount; nCount++) {
 					tdm.setRowIndex(nCount);
 					if (tdm.isRowAvailable()) {
+						RequestVarsHandler.INSTANCE.pushVars(context, strVar, strIndex, tdm.getRowData(), nCount);
 						for (RowDefinition rdDef : lstExport.getRows()) {
 							int nMyCol = rdDef.getColumnShift() + nCol;
 							int nRow = rdDef.getRowNumber();
 							String strTitle = rdDef.getColumnTitle();
 							Object objCurrent = null;
 							if (strTitle != null && !"".equals(strTitle)) {
-								objCurrent = getColumnValue(
-										rdDef.getColumnTitle(), tdm, context);
+								objCurrent = getColumnValue(rdDef.getColumnTitle(), tdm, context);
 							} else {
-								objCurrent = rdDef.executeComputeValue(context, tdm.getRowData(), nCount,
-										strVarName, strIndexName);
+								objCurrent = rdDef.executeComputeValue(context);
 							}
-							WorkbookProcessor.INSTANCE.setCellValue(shProcess, nRow,
-									nMyCol, objCurrent, rdDef.isCellFormula(), rdDef.getPoiCellStyle());
+							WorkbookProcessor.INSTANCE.setCellValue(shProcess, nRow, nMyCol, objCurrent, rdDef.isCellFormula(), rdDef.getPoiCellStyle());
 						}
+						RequestVarsHandler.INSTANCE.removeVars(context, strVar, strIndex);
+						nCol = nCol + nStepSize;
 					}
-					nCol = nCol + nStepSize;
 				}
+				RequestVarsHandler.INSTANCE.revokeControlData(controlData, context);
 			} catch (Exception e) {
 				throw new POIException("Error in processExportCol", e);
 			}
@@ -139,14 +141,11 @@ public class XPagesDataSourceExportProcessor implements
 					UIDataEx uidEX = new UIDataEx();
 					tdmv.setDataControl(uidEX);
 					tdmv.getRowCount();
-					if(POILibUtil.isXPages9()){
-					((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx9) tdmv
-							.getDominoViewDataContainer().getNavigator())
-							.calculateExactCount(tdmv.getView());
-					}else{
-						((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx) tdmv
-								.getDominoViewDataContainer().getNavigator())
-								.calculateExactCount(tdmv.getView());
+					ViewNavigatorEx nav = tdmv.getDominoViewDataContainer().getNavigator();
+					if (nav instanceof NOIViewNavigatorEx9) {
+						((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx9) nav).calculateExactCount(tdmv.getView());
+					} else {
+						((com.ibm.xsp.model.domino.viewnavigator.NOIViewNavigatorEx) nav).calculateExactCount(tdmv.getView());
 					}
 					uidEX.setRows(tdmv.getRowCount());
 					return tdmv;
@@ -164,8 +163,7 @@ public class XPagesDataSourceExportProcessor implements
 		return null;
 	}
 
-	private Object getColumnValue(String strColName, TabularDataModel tdm,
-			FacesContext context) {
+	private Object getColumnValue(String strColName, TabularDataModel tdm, FacesContext context) {
 		if (StringUtil.isNotEmpty(strColName)) {
 			// Read from a rowData object
 			Object rowData = tdm.getRowData();
@@ -174,8 +172,7 @@ public class XPagesDataSourceExportProcessor implements
 				return vr.getColumnValue(strColName);
 			}
 			// Use the JSF property resolver
-			PropertyResolver pr = context.getApplication()
-					.getPropertyResolver();
+			PropertyResolver pr = context.getApplication().getPropertyResolver();
 			return pr.getValue(rowData, strColName);
 		}
 

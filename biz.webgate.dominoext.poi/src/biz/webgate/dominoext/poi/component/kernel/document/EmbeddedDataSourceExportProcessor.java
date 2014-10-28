@@ -1,5 +1,6 @@
 package biz.webgate.dominoext.poi.component.kernel.document;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
@@ -12,8 +13,11 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import biz.webgate.dominoext.poi.component.data.document.table.DocumentTable;
 import biz.webgate.dominoext.poi.component.data.document.table.cell.DocColumnDefinition;
 import biz.webgate.dominoext.poi.component.sources.IExportSource;
+import biz.webgate.dominoext.poi.util.RequestVarsHandler;
 import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
+
+import com.ibm.xsp.util.DataPublisher.ShadowedObject;
 
 public enum EmbeddedDataSourceExportProcessor implements IDataSourceExportProcessor {
 	INSTANCE;
@@ -44,11 +48,19 @@ public enum EmbeddedDataSourceExportProcessor implements IDataSourceExportProces
 
 			logCurrent.finer("Start Processing Columns");
 			currentOutputRow = buildHeaderIfNeeded(lstExport, currentOutputRow, dxTable);
+			List<ShadowedObject> controlData = RequestVarsHandler.INSTANCE.publishControlData(context, strVar, strIndex);
+
 			while (is.accessNextRow() == 1 && currentOutputRow < lstExport.getMaxRow() + (lstExport.getIncludeHeader() ? 1 : 0)) {
 				dataRowCount++;
-				processRow(lstExport, context, strVar, strIndex, is, currentOutputRow, dataRowCount, dxTable);
+				RequestVarsHandler.INSTANCE.pushVars(context, strVar, strIndex, is.getDataRow(), dataRowCount);
+
+				processRow(lstExport, context, is, currentOutputRow, dxTable);
 				currentOutputRow = currentOutputRow + nStepSize;
+				RequestVarsHandler.INSTANCE.removeVars(context, strVar, strIndex);
+
 			}
+			RequestVarsHandler.INSTANCE.revokeControlData(controlData, context);
+
 			is.closeSource();
 			logCurrent.finer("Proccess Export Cells - DONE");
 			return dxTable;
@@ -57,11 +69,11 @@ public enum EmbeddedDataSourceExportProcessor implements IDataSourceExportProces
 		}
 	}
 
-	private void processRow(DocumentTable lstExport, FacesContext context, String strVar, String strIndex, IExportSource is, int currentOutputRow, int dataRowCount, XWPFTable dxTable) {
+	private void processRow(DocumentTable lstExport, FacesContext context, IExportSource is, int currentOutputRow, XWPFTable dxTable) {
 		for (DocColumnDefinition clDef : lstExport.getDocColumns()) {
 			int nCol = clDef.getColumnNumber();
 			int nMyRow = clDef.getRowShift() + currentOutputRow;
-			Object objCurrent = is.getValue(clDef, strVar, strIndex, dataRowCount, context);
+			Object objCurrent = is.getValue(clDef, context);
 			setDocCellValue(dxTable, nMyRow, nCol, objCurrent, lstExport.getMaxRow(), false);
 		}
 	}

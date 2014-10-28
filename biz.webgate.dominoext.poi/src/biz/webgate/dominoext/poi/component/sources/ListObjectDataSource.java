@@ -26,15 +26,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 import com.ibm.xsp.util.StateHolderUtil;
 
-public class ListObjectDataSource extends ValueBindingObjectImpl implements
-		IExportSource {
+public class ListObjectDataSource extends ValueBindingObjectImpl implements IExportSource {
 
 	private MethodBinding m_BuildValues;
 
@@ -52,8 +51,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 	private Object m_tempObj;
 
 	public List<?> getValues() throws POIException {
-		Logger logCurrent = LoggerFactory.getLogger(this.getClass()
-				.getCanonicalName());
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 		if (m_BuildValues != null) {
 			logCurrent.info("Exectue BuildValues");
 			Object objCurrent = m_BuildValues.invoke(getFacesContext(), null);
@@ -61,8 +59,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 			if (objCurrent instanceof List<?>) {
 				return (List<?>) objCurrent;
 			} else {
-				throw new POIException(
-						"buildValues must return a java.util.List Object");
+				throw new POIException("buildValues must return a java.util.List Object");
 			}
 		}
 		if (m_Values != null) {
@@ -79,21 +76,14 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 		m_Values = values;
 	}
 
-	public Object getValue(IDefinition idCurrent, String strVarName,
-			String strIndName, int nIndex, FacesContext context) {
-		String strVarNameUse = strVarName == null || "".equals(strVarName) ? "exportRow"
-				: strVarName;
-		String strIndNameUse = strIndName == null || "".equals(strIndName) ? "indexRow"
-				: strIndName;
+	public Object getValue(IDefinition idCurrent, FacesContext context) {
 
-		Logger logCurrent = LoggerFactory.getLogger(this.getClass()
-				.getCanonicalName());
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 		String strCT = idCurrent.getColumnTitle();
 
 		if (strCT != null && !"".equals(strCT)) {
 			try {
-				Method mt = m_tempObj.getClass().getMethod(
-						"get" + idCurrent.getColumnTitle());
+				Method mt = m_tempObj.getClass().getMethod("get" + idCurrent.getColumnTitle());
 				logCurrent.info("ColumnTitle = " + idCurrent.getColumnTitle());
 				logCurrent.info("MT =" + mt);
 				Object objRC = mt.invoke(m_tempObj);
@@ -104,8 +94,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 			}
 		} else {
 			try {
-				return idCurrent.executeComputeValue(context, m_tempObj,
-						nIndex, strVarNameUse, strIndNameUse);
+				return idCurrent.executeComputeValue(context);
 			} catch (Exception e) {
 				logCurrent.log(Level.SEVERE, "Error on getValue()", e);
 			}
@@ -148,10 +137,13 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements
 	public void restoreState(FacesContext context, Object arg1) {
 		Object[] state = (Object[]) arg1;
 		super.restoreState(context, state[0]);
-		m_Values = StateHolderUtil.restoreList(context, getComponent(),
-				state[1]);
-		m_BuildValues = StateHolderUtil.restoreMethodBinding(context,
-				getComponent(), state[2]);
+		m_Values = StateHolderUtil.restoreList(context, getComponent(), state[1]);
+		m_BuildValues = StateHolderUtil.restoreMethodBinding(context, getComponent(), state[2]);
+	}
+
+	@Override
+	public Object getDataRow() {
+		return m_tempObj;
 	}
 
 }
