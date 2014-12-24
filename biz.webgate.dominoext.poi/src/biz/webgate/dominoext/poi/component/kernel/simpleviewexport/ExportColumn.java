@@ -26,23 +26,39 @@ public class ExportColumn implements Serializable {
 	private String m_ColumnName;
 	private int m_Position;
 	private int m_TimeDateFormat;
-	
+
+	private ExportColumn(String title, int timeDateFmt, int counter) {
+		m_ColumnName = title;
+		m_TimeDateFormat = timeDateFmt;
+		m_Position = counter;
+	}
+
 	public String getColumnName() {
 		return m_ColumnName;
 	}
+
 	public void setColumnName(String columnName) {
 		m_ColumnName = columnName;
 	}
+
 	public int getPosition() {
 		return m_Position;
 	}
+
 	public void setPosition(int position) {
 		m_Position = position;
 	}
+
 	public int getTimeDateFormat() {
 		return m_TimeDateFormat;
 	}
+
 	public void setTimeDateFormat(int timeDateFormat) {
 		m_TimeDateFormat = timeDateFormat;
+	}
+
+	public static ExportColumn buildWithName(String title, int timeDateFmt, int counter) {
+		// TODO Auto-generated method stub
+		return new ExportColumn(title, timeDateFmt, counter);
 	}
 }

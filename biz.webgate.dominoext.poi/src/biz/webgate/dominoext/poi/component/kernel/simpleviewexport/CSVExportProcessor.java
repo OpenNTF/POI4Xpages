@@ -15,9 +15,8 @@
  */
 package biz.webgate.dominoext.poi.component.kernel.simpleviewexport;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
@@ -51,9 +50,8 @@ public class CSVExportProcessor implements IExportProcessor {
 
 	public void process2HTTP(ExportModel expModel, UISimpleViewExport uis, HttpServletResponse hsr, DateTimeHelper dth) {
 		try {
-			ByteArrayOutputStream csvBAOS = new ByteArrayOutputStream();
-			OutputStreamWriter csvWriter = new OutputStreamWriter(csvBAOS);
-			CSVPrinter csvPrinter = new CSVPrinter(csvWriter, CSVFormat.DEFAULT);
+			StringWriter sw = new StringWriter();
+			CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.DEFAULT);
 
 			// BUILDING HEADER
 			if (uis.isIncludeHeader()) {
@@ -69,16 +67,16 @@ public class CSVExportProcessor implements IExportProcessor {
 				}
 				csvPrinter.println();
 			}
-			csvPrinter.flush();
-
-			hsr.setContentType("text/csv");
+			//csvPrinter.flush();
+			csvPrinter.close();
+			hsr.setContentType("text/csv; charset=UTF-8");
 			hsr.setHeader("Cache-Control", "no-cache");
 			hsr.setDateHeader("Expires", -1);
-			hsr.setContentLength(csvBAOS.size());
+//			hsr.setContentLength(csvBAOS.size());
 			hsr.addHeader("Content-disposition", "inline; filename=\"" + uis.getDownloadFileName() + "\"");
-			OutputStream os = hsr.getOutputStream();
-			csvBAOS.writeTo(os);
-			os.close();
+			PrintWriter pw = hsr.getWriter();
+			pw.write(sw.toString());
+			pw.close();
 		} catch (Exception e) {
 			ErrorPageBuilder.getInstance().processError(hsr, "Error during SVE-Generation (CSV Export)", e);
 		}
