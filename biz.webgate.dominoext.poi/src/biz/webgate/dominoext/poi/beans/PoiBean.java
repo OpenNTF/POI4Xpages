@@ -7,6 +7,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.List;
 
+import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 
 import org.apache.poi.ss.usermodel.Workbook;
@@ -42,8 +43,7 @@ public class PoiBean {
 	public static final String BEAN_NAME = "poiBean"; //$NON-NLS-1$
 
 	public static PoiBean get(FacesContext context) {
-		PoiBean bean = (PoiBean) context.getApplication().getVariableResolver().resolveVariable(context, BEAN_NAME);
-		return bean;
+		return (PoiBean) context.getApplication().getVariableResolver().resolveVariable(context, BEAN_NAME);
 	}
 
 	public static PoiBean get() {
@@ -63,17 +63,15 @@ public class PoiBean {
 		final List<IDocumentBookmark> bookmarksFin = bookmarks;
 		final List<DocumentTable> tablesFin = tables;
 		if (itsCurrent.accessTemplate() == 1) {
-			XWPFDocument doc = AccessController.doPrivileged(new PrivilegedAction<XWPFDocument>() {
+			return AccessController.doPrivileged(new PrivilegedAction<XWPFDocument>() {
 				public XWPFDocument run() {
 					try {
 						return DocumentProcessor.INSTANCE.processDocument(itsCurrentFin, bookmarksFin, tablesFin, FacesContext.getCurrentInstance(), null);
 					} catch (Exception e) {
-						e.printStackTrace();
+						throw new FacesException("poiBean. processDocument", e);
 					}
-					return null;
 				}
 			});
-			return doc;
 		}
 		return null;
 	}
@@ -84,28 +82,22 @@ public class PoiBean {
 
 	public ByteArrayOutputStream processDocument2Stream(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
 		final XWPFDocument doc = processDocument(itsCurrent, bookmarks, tables);
-		if (doc != null) {
-			try {
-				ByteArrayOutputStream bosRC = AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
-
-					public ByteArrayOutputStream run() {
-						try {
-							ByteArrayOutputStream bos = new ByteArrayOutputStream();
-							doc.write(bos);
-							return bos;
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						return null;
-					}
-
-				});
-				return bosRC;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if (doc == null) {
+			throw new NullPointerException("The result of processDocument is null");
 		}
-		return null;
+		return AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
+
+			public ByteArrayOutputStream run() {
+				try {
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					doc.write(bos);
+					return bos;
+				} catch (Exception e) {
+					throw new FacesException("poiBean:processDocument2Stream", e);
+				}
+			}
+
+		});
 	}
 
 	public IDocumentBookmark buildDocumentBookmark(String strName, String strValue) {
@@ -133,52 +125,40 @@ public class PoiBean {
 
 	public Workbook processWorkbook(ITemplateSource itsCurrent, List<Spreadsheet> lstSP) {
 		if (itsCurrent.accessTemplate() == 1) {
-			try {
-				final ITemplateSource itsCurrentFIN = itsCurrent;
-				final List<Spreadsheet> lstSPFIN = lstSP;
-				Workbook wbRC = AccessController.doPrivileged(new PrivilegedAction<Workbook>() {
+			final ITemplateSource itsCurrentFIN = itsCurrent;
+			final List<Spreadsheet> lstSPFIN = lstSP;
+			return AccessController.doPrivileged(new PrivilegedAction<Workbook>() {
 
-					public Workbook run() {
-						try {
-							return WorkbookProcessor.INSTANCE.processWorkbook(itsCurrentFIN, lstSPFIN, FacesContext.getCurrentInstance(), null);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						return null;
+				public Workbook run() {
+					try {
+						return WorkbookProcessor.INSTANCE.processWorkbook(itsCurrentFIN, lstSPFIN, FacesContext.getCurrentInstance(), null);
+					} catch (Exception e) {
+						throw new FacesException("poiBean:processWorkbook", e);
 					}
-				});
-				return wbRC;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+				}
+			});
 		}
 		return null;
 	}
 
 	public ByteArrayOutputStream processWorkbook2Stream(ITemplateSource itsCurrent, List<Spreadsheet> lstSP, FacesContext context) {
 		final Workbook wb = processWorkbook(itsCurrent, lstSP);
-		if (wb != null) {
-			try {
-				ByteArrayOutputStream bosRC = AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
-
-					public ByteArrayOutputStream run() {
-						try {
-							ByteArrayOutputStream bos = new ByteArrayOutputStream();
-							wb.write(bos);
-							return bos;
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						return null;
-					}
-
-				});
-				return bosRC;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if (wb == null) {
+			throw new NullPointerException("the result of processWorkbook is null");
 		}
-		return null;
+		return AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
+
+			public ByteArrayOutputStream run() {
+				try {
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					wb.write(bos);
+					return bos;
+				} catch (Exception e) {
+					throw new FacesException("poiBean:processWorkbook2Stream", e);
+				}
+			}
+
+		});
 	}
 
 	public CellBookmark buildCellBookmark(String strName, Object strValue) {
@@ -259,5 +239,4 @@ public class PoiBean {
 	public OutputStream buildHTMLFromDocX(InputStream is) {
 		return DOC_X2HTML_ACTION.run(is, null, null);
 	}
-
 }

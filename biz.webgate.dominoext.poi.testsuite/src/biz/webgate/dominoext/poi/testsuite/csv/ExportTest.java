@@ -49,19 +49,6 @@ public class ExportTest {
 	}
 
 	@Test
-	public void testUmlauteWithByteArrayOutputStream() throws IOException {
-		ByteArrayOutputStream csvBAOS = new ByteArrayOutputStream();
-		OutputStreamWriter csvWriter = new OutputStreamWriter(csvBAOS);
-		CSVPrinter csvPrinter = new CSVPrinter(csvWriter, CSVFormat.DEFAULT);
-
-		printValues(csvPrinter);
-
-		String result = csvBAOS.toString();
-		assertTrue(result.contains("René"));
-
-	}
-
-	@Test
 	public void testUmlautWithExportModelandCSVExportProcessor() throws IOException {
 		ExportModel model = buildModel();
 		DateTimeHelper dth = EasyMock.createNiceMock(DateTimeHelper.class);
