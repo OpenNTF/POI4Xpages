@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.data>
+		<xp:dominoView var="view1" viewName="AdditionalTextBySubject" />
+	</xp:this.data>
+	<xc:ccApplication navigationPath="/docx/addText"
+		pageTitle="Textelements">
+		<xp:this.facets>
+		<xp:panel xp:key="facetMiddle">
+		<xp:button value="Create new Textelement" id="btNew"><xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+	<xp:this.action>
+		<xp:openPage name="/additionaltext.xsp" target="newDocument"></xp:openPage>
+	</xp:this.action></xp:eventHandler></xp:button>
+		<xe:dynamicViewPanel id="dynamicViewPanel1"
+				 pageName="/additionaltext.xsp">
+				<xe:this.data>
+					<xp:dominoView var="viewAddText"
+						viewName="AdditionalTextBySubject">
+					</xp:dominoView>
+				</xe:this.data>
+			</xe:dynamicViewPanel>
+			</xp:panel>
+			<xc:ccNavDocX xp:key="facetLeft"></xc:ccNavDocX>
+		</xp:this.facets>
+	</xc:ccApplication></xp:view>

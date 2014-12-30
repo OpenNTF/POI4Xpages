@@ -16,6 +16,7 @@
 package biz.webgate.dominoext.poi.component.kernel.simpleviewexport;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ExportModel implements Serializable {
@@ -24,23 +25,26 @@ public class ExportModel implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ExportColumn> m_Columns;
-	private List<ExportDataRow> m_Rows;
+	private final List<ExportColumn> m_Columns = new LinkedList<ExportColumn>();
+	private final List<ExportDataRow> m_Rows = new LinkedList<ExportDataRow>(); {
+	};
 
 	public List<ExportColumn> getColumns() {
 		return m_Columns;
-	}
-
-	public void setColumns(List<ExportColumn> columns) {
-		m_Columns = columns;
 	}
 
 	public List<ExportDataRow> getRows() {
 		return m_Rows;
 	}
 
-	public void setRows(List<ExportDataRow> rows) {
-		m_Rows = rows;
-	}	
+	public void addColumnByName(String title, int timeDateFmt, int counter) {
+		ExportColumn col = ExportColumn.buildWithName(title, timeDateFmt, counter);
+		m_Columns.add(col);
+	}
+
+	public void addRow(ExportDataRow dataRow) {
+		m_Rows.add(dataRow);
+		
+	}
 
 }

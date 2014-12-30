@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.0'
+ replicaid='C1257BEF003F8C4E'>
+<noteinfo noteid='32e' unid='F9D7929EFE7925F4C1257DB700353067' sequence='2'>
+<created><datetime>20141223T104057,99+01</datetime></created>
+<modified><datetime>20141223T104304,88+01</datetime></modified>
+<revised><datetime>20141223T104304,87+01</datetime></revised>
+<lastaccessed><datetime>20141223T104304,88+01</datetime></lastaccessed>
+<addedtofile><datetime>20141223T104058,22+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
+<item name='$HTMLCode' sign='true'>
+<rawitemdata type='1'>
+X/8QAAIADwAHAAAAAAAAAA==
+</rawitemdata></item>
+<item name='$TITLE'><text>Notes EDIT</text></item>
+<item name='$Comment' sign='true'><text/></item>
+<item name='$Info' sign='true'>
+<rawitemdata type='1'>
+hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
+</rawitemdata></item>
+<item name='$Flags'><text>C34WQ</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$$ScriptName' summary='false' sign='true'><text>Notes EDIT</text></item>
+<item name='$Body' sign='true'>
+<rawitemdata type='1'>
+gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8TAAEAAApOb3RlcyBWaWV3
+cwCBAoMEAQCF/wgAAQAACoECgwQBAIX/CAABAAAK3QYAAK3/cf8uAAAAAAADABYADAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAE5vdGVzIFZpZXdzAK3/GAAbAAgAAAAMAE5vdGVzIFZpZXdzAOr/PgAbAAmE
+AABkAPAPAQAACgAAAAAAAAAAAQAACgEAAAoAAAUA////AAEAAAAAAAAAAAAAAAAAAAAAAAAA7P8O
+ASACAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAEAAAAAAAABAAAKAQAACgEA
+AAoBAAAKAQAACgEAAAoAAAAAAAAAACABIAEAAAAAAAAFAP///wAFAP///wAFAP///wAFAP///wAF
+AP///wAFAP///wAFAP///wAFAP///wAFAP///wAFAP///wABAAAAAAABAAAAAAABAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAQAAAAAAAQAAAAAAAQAA
+AAAAAQAAAAAAAQAAAAAAAAANAAAAAAAAAAAAAAAAAAAAAAAAAAAArgLeBgAArgCF/wgAAQAACg==
+</rawitemdata></item></note>
+

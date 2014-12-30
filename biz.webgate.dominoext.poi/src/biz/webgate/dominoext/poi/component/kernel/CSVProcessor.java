@@ -15,10 +15,16 @@
  */
 package biz.webgate.dominoext.poi.component.kernel;
 
+<<<<<<< HEAD
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+=======
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+>>>>>>> feature/BUGFIX_1.2.6
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,11 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.component.containers.UICSV;
 import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
 import biz.webgate.dominoext.poi.component.kernel.csv.EmbeddedDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.csv.XPagesDataSourceExportProcessor;
+import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 public class CSVProcessor {
@@ -51,35 +57,28 @@ public class CSVProcessor {
 		return m_Processor;
 	}
 
-	public void generateNewFile(UICSV csvDef, HttpServletResponse httpResponse,
-			FacesContext context) {
-
+	public void generateNewFile(UICSV csvDef, HttpServletResponse httpResponse, FacesContext context) {
 		try {
 			// First getting the File
 
-			ByteArrayOutputStream csvBAOS = generateCSV(csvDef, context);
+			StringWriter sw = generateCSV(csvDef, context);
 
-			httpResponse.setContentType("text/csv");
+			httpResponse.setContentType("text/csv; charset=UTF-8");
 			httpResponse.setHeader("Cache-Control", "no-cache");
 			httpResponse.setDateHeader("Expires", -1);
-			httpResponse.setContentLength(csvBAOS.size());
-			httpResponse.addHeader("Content-disposition", "inline; filename=\""
-					+ csvDef.getDownloadFileName() + "\"");
-			OutputStream os = httpResponse.getOutputStream();
-			csvBAOS.writeTo(os);
-			os.close();
+			httpResponse.addHeader("Content-disposition", "inline; filename=\"" + csvDef.getDownloadFileName() + "\"");
+			PrintWriter pw = httpResponse.getWriter();
+			pw.write(sw.toString());
+			pw.close();
 		} catch (Exception e) {
-			ErrorPageBuilder.getInstance().processError(httpResponse,
-					"Error during CSV-Generation", e);
+			ErrorPageBuilder.getInstance().processError(httpResponse, "Error during CSV-Generation", e);
 		}
 
 	}
 
-	public ByteArrayOutputStream generateCSV(UICSV csvDef, FacesContext context)
-			throws IOException, POIException {
-		ByteArrayOutputStream csvBAOS = new ByteArrayOutputStream();
-		OutputStreamWriter csvWriter = new OutputStreamWriter(csvBAOS);
-		CSVPrinter csvPrinter = new CSVPrinter(csvWriter, CSVFormat.DEFAULT);
+	public StringWriter generateCSV(UICSV csvDef, FacesContext context) throws IOException, POIException {
+		StringWriter sw = new StringWriter();
+		CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.DEFAULT);
 
 		List<CSVColumn> lstColumns = csvDef.getColumns();
 		Collections.sort(lstColumns, new Comparator<CSVColumn>() {
@@ -100,15 +99,13 @@ public class CSVProcessor {
 
 		// DATASOURCE holen und verarbeiten.
 		if (csvDef.getDataSource() != null) {
-			EmbeddedDataSourceExportProcessor.getInstance().process(lstColumns,
-					csvDef, csvPrinter, context);
+			EmbeddedDataSourceExportProcessor.getInstance().process(lstColumns, csvDef, csvPrinter, context);
 		} else {
-			XPagesDataSourceExportProcessor.getInstance().process(lstColumns,
-					csvDef, csvPrinter, context);
+			XPagesDataSourceExportProcessor.getInstance().process(lstColumns, csvDef, csvPrinter, context);
 		}
 
-		csvPrinter.flush();
-		return csvBAOS;
+		csvPrinter.close();
+		return sw;
 	}
 
 }

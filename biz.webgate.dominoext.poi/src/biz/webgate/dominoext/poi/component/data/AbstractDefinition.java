@@ -48,16 +48,6 @@ public class AbstractDefinition extends ValueBindingObjectImpl {
 
 		try {
 			logCurrent.info("ExecuteComputeValue started.");
-			String[] arrVars = new String[2];
-			/*
-			 * ArrayList<String> lstVars = new ArrayList<String>();
-			 * lstVars.add(varObject); logCurrent.info("Var Name: " +
-			 * varObject); lstVars.add(varIndex); logCurrent.info("Index Name:"
-			 * + varIndex); ArrayList<Object> lstObject = new
-			 * ArrayList<Object>(); lstObject.add(objAction); lstObject.add(new
-			 * Integer(count));
-			 */
-
 			Object[] arrObject = new Object[0];
 			if (m_ComputeValue != null) {
 				if (m_ComputeValue instanceof MethodBindingEx) {

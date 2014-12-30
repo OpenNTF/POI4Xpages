@@ -226,7 +226,10 @@ public class UISimpleViewExport extends UIComponentBase implements FacesAjaxComp
 		}
 
 		try {
-			SimpleViewExportProcessor.getInstance().generateNewFile(this, httpResponse, context);
+			SimpleViewExportProcessor processor = SimpleViewExportProcessor.getInstance(this, httpResponse);
+			if (processor != null) {
+				processor.generateNewFile(this, httpResponse, context);
+			}
 		} catch (Exception e) {
 			try {
 				e.printStackTrace();

@@ -180,18 +180,13 @@ public enum WorkbookProcessor {
 	}
 
 	public void setCellValue(Sheet shProcess, int nRow, int nCol, Object objValue, boolean isFormula, PoiCellStyle pCellStyle) {
-		// Logger logCurrent =
-		// LoggerFactory.getLogger(WorkbookProcessor.class.getCanonicalName());
-
 		try {
 			Row rw = shProcess.getRow(nRow);
 			if (rw == null) {
-				// logCurrent.finest("Create Row");
 				rw = shProcess.createRow(nRow);
 			}
 			Cell c = rw.getCell(nCol);
 			if (c == null) {
-				// logCurrent.finest("Create Cell");
 				c = rw.createCell(nCol);
 			}
 			if (isFormula) {
@@ -209,13 +204,9 @@ public enum WorkbookProcessor {
 					}
 				}
 			}
-			// *** STYLE CONFIG Since V 1.1.7 ***
-
 			if (pCellStyle != null) {
 				CellStyle style = POICellStyleProcessor.INSTANCE.buildStyle(shProcess, pCellStyle);
 				c.setCellStyle(style);
-				pCellStyle.setCellStyle(style);
-
 			}
 
 		} catch (Exception e) {

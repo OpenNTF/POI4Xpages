@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	<xp:this.data>
+		<xp:dominoDocument var="docTE" formName="frmAdditionalText"></xp:dominoDocument>
+	</xp:this.data>
+
+	<xe:restService id="restService1" pathInfo="/dxl">
+		<xe:this.service>
+			<xe:customRestService contentType="text/xml"
+				serviceBean="dxlBean">
+			</xe:customRestService>
+		</xe:this.service>
+	</xe:restService>
+	<xc:ccApplication navigationPath="/docx/addtext">
+		<xc:this.pageTitle><![CDATA[#{javascript:if (docTE.isNewNote()) {
+ 	return "New Textelement"; 
+} else {
+  	return docTE.subject
+}}]]></xc:this.pageTitle>
+		<xp:this.facets>
+			<xp:panel xp:key="facetMiddle">
+				<xp:button value="Save" id="btsave">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:save></xp:save>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Save and close" id="button1">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action>
+							<xp:save
+								name="/additionaltext_overview.xsp">
+							</xp:save>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Cancel" id="button2">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete" immediate="true">
+						<xp:this.action>
+							<xp:openPage
+								name="/additionaltext_overview.xsp">
+							</xp:openPage>
+						</xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button id="button3" value="Export document as DXL">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action><![CDATA[#{javascript:var currentURL = @FullUrl(view.getPageName()+"/dxl/?action=DOCUMENT&id=" +docTE.getDocument().getUniversalID());
+facesContext.getExternalContext().getResponse().sendRedirect(currentURL)}]]></xp:this.action>
+					</xp:eventHandler></xp:button>
+				<xp:button id="button4" value="Export database as DXL">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action><![CDATA[#{javascript:var currentURL = @FullUrl(view.getPageName()+"/dxl/?action=DB&id=" +docTE.getDocument().getUniversalID());
+facesContext.getExternalContext().getResponse().sendRedirect(currentURL)}]]></xp:this.action>
+					</xp:eventHandler></xp:button>
+				<xp:table style="width:100.0%">
+					<xp:tr>
+						<xp:td>Subject</xp:td>
+						<xp:td>
+							<xp:inputText id="inputText1"
+								value="#{docTE.Subject}" required="true">
+							</xp:inputText>
+						</xp:td>
+					</xp:tr>
+				</xp:table>
+
+				<xp:inputRichText id="inputRichText1"
+					value="#{docTE.bodyXPages}">
+				</xp:inputRichText>
+			</xp:panel>
+			<xc:ccNavDocX xp:key="facetLeft"></xc:ccNavDocX>
+		</xp:this.facets>
+	</xc:ccApplication>
+</xp:view>
