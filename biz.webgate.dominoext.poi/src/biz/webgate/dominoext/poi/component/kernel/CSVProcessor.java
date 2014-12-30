@@ -15,16 +15,9 @@
  */
 package biz.webgate.dominoext.poi.component.kernel;
 
-<<<<<<< HEAD
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-=======
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
->>>>>>> feature/BUGFIX_1.2.6
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
