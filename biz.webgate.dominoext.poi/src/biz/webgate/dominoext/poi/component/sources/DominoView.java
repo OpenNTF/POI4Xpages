@@ -127,7 +127,6 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 					String strCLNAME = (String) itNames.next();
 					m_tempDataStore.m_ColTitle.add(strCLNAME);
 				}
-				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return -10;
