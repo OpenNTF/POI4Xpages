@@ -36,10 +36,12 @@ import biz.webgate.dominoext.poi.component.sources.IExportSource;
 import biz.webgate.dominoext.poi.component.sources.ListObjectDataSource;
 import biz.webgate.dominoext.poi.util.POILibUtil;
 import biz.webgate.dominoext.poi.util.action.DocX2HTMLAction;
+import biz.webgate.dominoext.poi.util.action.DocX2PDFAction;
 
 public class PoiBean {
 
 	private static final DocX2HTMLAction DOC_X2HTML_ACTION = new DocX2HTMLAction();
+	private static final DocX2PDFAction DOC_X2PDF_ACTION = new DocX2PDFAction();
 	public static final String BEAN_NAME = "poiBean"; //$NON-NLS-1$
 
 	public static PoiBean get(FacesContext context) {
@@ -239,4 +241,15 @@ public class PoiBean {
 	public OutputStream buildHTMLFromDocX(InputStream is) {
 		return DOC_X2HTML_ACTION.run(is, null, null);
 	}
+	public OutputStream buildHTMLFromDocX(InputStream is, OutputStream out) {
+		return DOC_X2HTML_ACTION.run(is, out, null);
+	}
+
+	public OutputStream buildPDFFromDocX(InputStream is) {
+		return DOC_X2PDF_ACTION.run(is, null, null);
+	}
+	public OutputStream buildPDFFromDocX(InputStream is, OutputStream out) {
+		return DOC_X2PDF_ACTION.run(is, out, null);
+	}
+
 }

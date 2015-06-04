@@ -14,12 +14,15 @@ import biz.webgate.dominoext.poi.util.AbstractPOIPowerActionExtended;
 public class DocX2HTMLAction extends AbstractPOIPowerActionExtended<OutputStream, InputStream> {
 
 	@Override
-	protected OutputStream doItPriv(InputStream inputObj, OutputStream objPoi, HashMap<String, String> hsCurrent) throws Exception {
+	protected OutputStream doItPriv(InputStream inputObj, OutputStream outputStream, HashMap<String, String> hsCurrent) throws Exception {
 		XWPFDocument document = new XWPFDocument(inputObj); // createDocument(is);
 
 		XHTMLOptions options = XHTMLOptions.create(); // createOptions();
 
 		OutputStream out = new ByteArrayOutputStream();// new
+		if (outputStream != null) {
+			out = outputStream;
+		}
 
 		XHTMLConverter.getInstance().convert(document, out, options);
 
