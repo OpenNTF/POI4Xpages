@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFFooter;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
@@ -124,15 +125,24 @@ public enum DocumentProcessor {
 	public int processBookmarks2Run(XWPFRun runCurrent, List<IDocumentBookmark> arrBookmarks) {
 		String strText = runCurrent.getText(0);
 		if (strText != null) {
+			boolean found = false;
 			for (IDocumentBookmark bmCurrent : arrBookmarks) {
 				String strValue = bmCurrent.getValue();
 				strValue = strValue == null ? "" : strValue;
-				if (bmCurrent.getName() != null) {
+				if (bmCurrent.getName() != null && strText.contains("<<" + bmCurrent.getName() + ">>")) {
+					found = true;
 					strText = strText.replace("<<" + bmCurrent.getName() + ">>", strValue);
 				}
 			}
+			if (found) {
+				String lines[] = strText.split("\\r?\\n");
+				runCurrent.setText("", 0);
+				for (String line : lines) {
+					runCurrent.setText(line);
+					runCurrent.addBreak(BreakType.TEXT_WRAPPING);
+				}
+			}
 		}
-		runCurrent.setText(strText, 0);
 		return 1;
 	}
 
