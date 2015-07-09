@@ -136,10 +136,16 @@ public enum DocumentProcessor {
 			}
 			if (found) {
 				String lines[] = strText.split("\\r?\\n");
-				runCurrent.setText("", 0);
-				for (String line : lines) {
-					runCurrent.setText(line);
-					runCurrent.addBreak(BreakType.TEXT_WRAPPING);
+				for (int i=0; i< lines.length; i++) {
+					String line = lines[i];
+					if (i == 0) {
+						runCurrent.setText(line, 0);
+					} else {
+						runCurrent.setText(line);
+					}
+					if (i+1 < lines.length) {
+						runCurrent.addBreak(BreakType.TEXT_WRAPPING);
+					}
 				}
 			}
 		}
