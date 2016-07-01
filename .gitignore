@@ -41,3 +41,4 @@ Desktop.ini
 # Mac crap
 .DS_Store
 biz.webgate.dominoext.poi.library/lib-maven/
+snapshots/

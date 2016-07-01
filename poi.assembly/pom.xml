@@ -10,6 +10,9 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<kit.parentDir>${project.basedir}/../</kit.parentDir>
+		<kit.workingDir>${project.build.directory}</kit.workingDir>
+		<kit.finalAssemblyFolder>${kit.workingDir}/kit</kit.finalAssemblyFolder>
 		<workingDir>${project.build.directory}</workingDir>
 		<finalAssemblyFolder>
 			${workingDir}/kit
@@ -31,7 +34,7 @@
 						</goals>
 						<configuration>
 							<url>${kit.sourceCodeUrl}${kit.sourceBranch}</url>
-							<unpack>true</unpack>
+							<unpack>false</unpack>
 							<skipCache>true</skipCache>
 							<outputFileName>biz.webgate.dominoext.poi.sources.zip</outputFileName>
 							<outputDirectory>${project.build.directory}/sources/POI</outputDirectory>
@@ -52,46 +55,46 @@
 				<version>1.7</version>
 				<executions>
 					<execution>
-						<id>removedownloads</id>
-						<phase>generate-sources</phase>
+						<id>removedownloadsAndResults</id>
+						<phase>clean</phase>
 						<configuration>
 							<target>
-								<delete includeemptydirs="true">
-									<fileset dir="${project.build.directory}/sources"
-										includes="**/*" />
-								</delete>
+								<delete dir="${kit.workingDir}/sources" />
+								<delete dir="${kit.parentDir}/${kit.result}"/>
 							</target>
 						</configuration>
+						<goals><goal>run</goal></goals>
 					</execution>
 					<execution>
-						<id>sources</id>
+						<id>p2repo</id>
 						<phase>package</phase>
 						<configuration>
 							<target>
-
-								<path id="source_folder_name">
-									<dirset dir="${project.build.directory}/sources/POI">
-										<include name="POI4X*" />
-									</dirset>
-								</path>
-								<property name="psource_folder_name" refid="source_folder_name" />
-								<move todir="${project.build.directory}/sources/POI">
-									<fileset dir="${psource_folder_name}">
-										<include name="**/*" />
-									</fileset>
-								</move>
-								<delete dir="${psource_folder_name}" />
-
-
-								<zip basedir="${project.build.directory}/sources/POI"
-									destfile="${project.build.directory}/sources/biz.webgate.dominoext.poi.sources.zip"
-									compress="true" />
+								<unzip
+									src="../biz.webgate.dominoext.poi.p2/target/biz.webgate.dominoext.poi.p2-${project.version}.zip"
+									dest="${kit.finalAssemblyFolder}/p2-${p2.buildVersion}" />
 							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>toDistribution</id>
+						<phase>install</phase>
+						<configuration>
+							<target>
+								<copy todir="${kit.parentDir}/${kit.result}">
+    								<fileset dir="${kit.finalAssemblyFolder}">
+    								</fileset>
+								</copy>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>					
+					
 				</executions>
 			</plugin>
 			<plugin>
@@ -106,7 +109,7 @@
 						</goals>
 						<configuration>
 							<descriptor>assembly.xml</descriptor>
-							<finalName>biz.webgate.dominoext.poi-${project.version}</finalName>
+							<finalName>biz.webgate.dominoext.poi-${kit.buildVersion}</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<outputDirectory>${finalAssemblyFolder}</outputDirectory>
 						</configuration>
@@ -116,4 +119,5 @@
 
 		</plugins>
 	</build>
+	<name>POI4XPages Assembly</name>
 </project>

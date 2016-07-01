@@ -14,7 +14,7 @@
 
 	<fileSets>
 		<fileSet>
-			<directory>${project.build.directory}/sources</directory>
+			<directory>${project.build.directory}/sources/POI/</directory>
 			<includes>
 				<include>biz.webgate.dominoext.poi*</include>
 			</includes>
@@ -37,4 +37,18 @@
 			</includes>
 		</fileSet>
 	</fileSets>
+	<moduleSets>
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>biz.webgate.dominoext.poi</include>
+			</includes>
+			<binaries>
+				<attachmentClassifier>javadoc</attachmentClassifier>
+				<includeDependencies>false</includeDependencies>
+				<outputDirectory>/apidocs/${module.artifactId}</outputDirectory>
+				<unpack>true</unpack>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
 </assembly>
