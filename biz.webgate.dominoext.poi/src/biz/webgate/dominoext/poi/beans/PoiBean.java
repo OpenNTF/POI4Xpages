@@ -66,6 +66,7 @@ public class PoiBean {
 		final List<DocumentTable> tablesFin = tables;
 		if (itsCurrent.accessTemplate() == 1) {
 			return AccessController.doPrivileged(new PrivilegedAction<XWPFDocument>() {
+				@Override
 				public XWPFDocument run() {
 					try {
 						return DocumentProcessor.INSTANCE.processDocument(itsCurrentFin, bookmarksFin, tablesFin, FacesContext.getCurrentInstance(), null);
@@ -88,7 +89,7 @@ public class PoiBean {
 			throw new NullPointerException("The result of processDocument is null");
 		}
 		return AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
-
+			@Override
 			public ByteArrayOutputStream run() {
 				try {
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -130,7 +131,7 @@ public class PoiBean {
 			final ITemplateSource itsCurrentFIN = itsCurrent;
 			final List<Spreadsheet> lstSPFIN = lstSP;
 			return AccessController.doPrivileged(new PrivilegedAction<Workbook>() {
-
+				@Override
 				public Workbook run() {
 					try {
 						return WorkbookProcessor.INSTANCE.processWorkbook(itsCurrentFIN, lstSPFIN, FacesContext.getCurrentInstance(), null);
@@ -143,13 +144,18 @@ public class PoiBean {
 		return null;
 	}
 
+	@Deprecated
 	public ByteArrayOutputStream processWorkbook2Stream(ITemplateSource itsCurrent, List<Spreadsheet> lstSP, FacesContext context) {
+		return processWorkbook2Stream(itsCurrent, lstSP);
+	}
+	
+	public ByteArrayOutputStream processWorkbook2Stream(ITemplateSource itsCurrent, List<Spreadsheet> lstSP) {
 		final Workbook wb = processWorkbook(itsCurrent, lstSP);
 		if (wb == null) {
 			throw new NullPointerException("the result of processWorkbook is null");
 		}
 		return AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
-
+			@Override
 			public ByteArrayOutputStream run() {
 				try {
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();

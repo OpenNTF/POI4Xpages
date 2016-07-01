@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2013
+ * ï¿½ Copyright WebGate Consulting AG, 2013
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -59,7 +59,7 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 		try {
 			String strFileName = uis.getDownloadFileName();
 
-			Workbook wbCurrent = null;
+			Workbook wbCurrent;
 			if (strFileName.toLowerCase().endsWith(".xlsx")) {
 				wbCurrent = new XSSFWorkbook();
 			} else {
@@ -121,6 +121,7 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 			wbCurrent.write(bos);
 			bos.writeTo(os);
 			os.close();
+			wbCurrent.close();
 		} catch (Exception e) {
 			ErrorPageBuilder.getInstance().processError(hsr, "Error during SVE-Generation (Workbook Export)", e);
 		}

@@ -14,9 +14,7 @@
 		<finalAssemblyFolder>
 			${workingDir}/kit
 		</finalAssemblyFolder>
-		<git.revision>development</git.revision>
 		<lic.file>${project.parent.basedir}/LICENSE_HEADER/apacheV2.txt</lic.file>
-
 	</properties>
 	<build>
 		<plugins>
@@ -32,7 +30,7 @@
 							<goal>wget</goal>
 						</goals>
 						<configuration>
-							<url>https://codeload.github.com/OpenNTF/POI4XPAGES/zip/${git.revision}</url>
+							<url>${kit.sourceCodeUrl}${kit.sourceBranch}</url>
 							<unpack>true</unpack>
 							<skipCache>true</skipCache>
 							<outputFileName>biz.webgate.dominoext.poi.sources.zip</outputFileName>

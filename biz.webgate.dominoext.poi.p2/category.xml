@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/biz.webgate.feature.poi_1.3.0.qualifier.jar" id="biz.webgate.feature.poi" version="1.3.0.qualifier">
+      <category name="POI4XPages"/>
+   </feature>
+   <feature url="features/biz.webgate.feature.poi.library_1.3.0.qualifier.jar" id="biz.webgate.feature.poi.library" version="1.3.0.qualifier">
+      <category name="POI4XPages"/>
+   </feature>
+   <category-def name="POI4XPages" label="POI4XPages"/>
+</site>
