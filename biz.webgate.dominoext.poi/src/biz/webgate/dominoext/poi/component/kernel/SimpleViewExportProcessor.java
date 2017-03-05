@@ -15,26 +15,17 @@
  */
 package biz.webgate.dominoext.poi.component.kernel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 import lotus.domino.Database;
 import lotus.domino.NotesException;
 import lotus.domino.View;
-import lotus.domino.ViewColumn;
-import lotus.domino.ViewEntry;
 import lotus.domino.ViewEntryCollection;
 import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.CSVExportProcessor;
-import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportColumn;
-import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportDataRow;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportModel;
+import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportModelBuilder;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.IExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.WorkbooklExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.util.DateTimeHelper;
@@ -43,68 +34,24 @@ import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
 
-public class SimpleViewExportProcessor {
+public enum SimpleViewExportProcessor {
+	CSV(CSVExportProcessor.getInstance()), XLSX(WorkbooklExportProcessor.getInstance());
 
-	private static SimpleViewExportProcessor m_Processor;
-
-	private SimpleViewExportProcessor() {
-
+	private SimpleViewExportProcessor(IExportProcessor exportProcessor) {
+		m_ExportProcessors = exportProcessor;
 	}
 
-	private HashMap<String, IExportProcessor> m_ExportProcessors;
+	private IExportProcessor m_ExportProcessors;
 
-	public static SimpleViewExportProcessor getInstance() {
-		if (m_Processor == null) {
-			m_Processor = new SimpleViewExportProcessor();
-		}
-		return m_Processor;
-	}
-
-	@SuppressWarnings("unchecked")
-	private List<ExportColumn> buildColumnDefinitions(View viewCurrent) {
-		List<ExportColumn> lstRC = new ArrayList<ExportColumn>();
-		try {
-			Vector<ViewColumn> vecColumnns = viewCurrent.getColumns();
-			int nCounter = 0;
-			for (Iterator<ViewColumn> itCol = vecColumnns.iterator(); itCol.hasNext();) {
-				ViewColumn vcCurrent = itCol.next();
-				if (!vcCurrent.isHidden()) {
-					ExportColumn expCurrent = new ExportColumn();
-					expCurrent.setPosition(nCounter);
-					expCurrent.setColumnName(vcCurrent.getTitle());
-					expCurrent.setTimeDateFormat(vcCurrent.getTimeDateFmt());
-					lstRC.add(expCurrent);
-				}
-				nCounter++;
-				vcCurrent.recycle();
+	public static SimpleViewExportProcessor getInstance(UISimpleViewExport uicontrol, HttpServletResponse httpResponse) {
+		String strExpFormat = uicontrol.getExportFormat();
+		for (SimpleViewExportProcessor proc : values()) {
+			if (proc.name().equalsIgnoreCase(strExpFormat)) {
+				return proc;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return lstRC;
-	}
-
-	private List<ExportDataRow> buildExportDatas(ViewEntryCollection nvcCurrent, List<ExportColumn> lstExportColumns) {
-		List<ExportDataRow> lstRC = new ArrayList<ExportDataRow>();
-		try {
-			ViewEntry nveNext = nvcCurrent.getFirstEntry();
-			while (nveNext != null) {
-				ViewEntry nveProcess = nveNext;
-				nveNext = nvcCurrent.getNextEntry();
-
-				ExportDataRow expDR = new ExportDataRow();
-				expDR.setUNID(nveProcess.getUniversalID());
-				for (ExportColumn expColumn : lstExportColumns) {
-					if (expColumn.getPosition() < nveProcess.getColumnValues().size()) {
-						expDR.addValue(expColumn.getPosition(), nveProcess.getColumnValues().get(expColumn.getPosition()));
-					}
-				}
-				lstRC.add(expDR);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return lstRC;
+		ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: No exportFormat defined or not valid (exportFormat = " + strExpFormat + ").", null);
+		return null;
 	}
 
 	public void generateNewFile(UISimpleViewExport uiSimpleViewExport, HttpServletResponse httpResponse, FacesContext context) {
@@ -121,7 +68,7 @@ public class SimpleViewExportProcessor {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: no view specified.", null);
 				return;
 			}
-			Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB);
+			Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB, false);
 			if (ndbAccess == null) {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: Database not accessable.", null);
 				return;
@@ -141,27 +88,10 @@ public class SimpleViewExportProcessor {
 					nvcCurrent.FTSearch(strSearch);
 				}
 			}
-			List<ExportColumn> expColumns = buildColumnDefinitions(viwLUP);
-			List<ExportDataRow> expResult = buildExportDatas(nvcCurrent, expColumns);
-			ExportModel expModel = new ExportModel();
-			expModel.setColumns(expColumns);
-			expModel.setRows(expResult);
-			if (m_ExportProcessors == null) {
-				m_ExportProcessors = new HashMap<String, IExportProcessor>();
-				m_ExportProcessors.put("xlsx", WorkbooklExportProcessor.getInstance());
-				m_ExportProcessors.put("csv", CSVExportProcessor.getInstance());
-			}
-			String strExpFormat = uiSimpleViewExport.getExportFormat();
-			IExportProcessor processor = null;
-			if (strExpFormat != null) {
-				processor = m_ExportProcessors.get(uiSimpleViewExport.getExportFormat().toLowerCase());
-			}
-			if (processor == null) {
-				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: No exportFormat defined or not valid (exportFormat = " + strExpFormat + ").", null);
+			ExportModel expModel = ExportModelBuilder.INSTANCE.buildFromView(viwLUP);
+			ExportModelBuilder.INSTANCE.applyRowData(expModel, nvcCurrent);
+			m_ExportProcessors.process2HTTP(expModel, uiSimpleViewExport, httpResponse, new DateTimeHelper());
 
-			} else {
-				processor.process2HTTP(expModel, uiSimpleViewExport, httpResponse, new DateTimeHelper());
-			}
 			DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 		} catch (NotesException e) {
 			ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: A general error.", e);

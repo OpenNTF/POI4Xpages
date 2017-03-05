@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFFooter;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
@@ -52,7 +53,7 @@ public enum DocumentProcessor {
 	INSTANCE;
 
 	/**
-	 * gets the Instance of the DocumentProcessor. 
+	 * gets the Instance of the DocumentProcessor.
 	 * 
 	 * @deprecated -> Use DocumentProcessor.INSTANCE instead
 	 * 
@@ -66,12 +67,14 @@ public enum DocumentProcessor {
 	public XWPFDocument getDocument(InputStream inDocument) {
 
 		try {
+			Logger log = LoggerFactory.getLogger(getClass().getCanonicalName());
+			log.info("inDocument -> " + inDocument);
 			XWPFDocument dxReturn = new XWPFDocument(inDocument);
 			return dxReturn;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 
 	public int processBookmarks2Document(XWPFDocument dxProcess, List<IDocumentBookmark> arrBookmarks) {
@@ -122,15 +125,30 @@ public enum DocumentProcessor {
 	public int processBookmarks2Run(XWPFRun runCurrent, List<IDocumentBookmark> arrBookmarks) {
 		String strText = runCurrent.getText(0);
 		if (strText != null) {
+			boolean found = false;
 			for (IDocumentBookmark bmCurrent : arrBookmarks) {
 				String strValue = bmCurrent.getValue();
 				strValue = strValue == null ? "" : strValue;
-				if (bmCurrent.getName() != null) {
-					strText = strText.replaceAll("<<" + bmCurrent.getName() + ">>", strValue);
+				if (bmCurrent.getName() != null && strText.contains("<<" + bmCurrent.getName() + ">>")) {
+					found = true;
+					strText = strText.replace("<<" + bmCurrent.getName() + ">>", strValue);
+				}
+			}
+			if (found) {
+				String lines[] = strText.split("\\r?\\n");
+				for (int i=0; i< lines.length; i++) {
+					String line = lines[i];
+					if (i == 0) {
+						runCurrent.setText(line, 0);
+					} else {
+						runCurrent.setText(line);
+					}
+					if (i+1 < lines.length) {
+						runCurrent.addBreak(BreakType.TEXT_WRAPPING);
+					}
 				}
 			}
 		}
-		runCurrent.setText(strText, 0);
 		return 1;
 	}
 
@@ -165,7 +183,7 @@ public enum DocumentProcessor {
 
 				} else {
 					logCurrent.info("Build docx");
-					httpResponse.setContentType("application/octet-stream");
+					httpResponse.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 					httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
 					OutputStream os = httpResponse.getOutputStream();
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -195,7 +213,7 @@ public enum DocumentProcessor {
 		logCurrent.finest("Start export Tables");
 		if (tables != null && tables.size() > 0) {
 			for (DocumentTable tblExport : tables) {
-				XWPFTable dxTable = EmbeddedDataSourceExportProcessor.getInstance().processExportTable(tblExport, dxDocument, context, tblExport.getVar(), tblExport.getIndex());
+				XWPFTable dxTable = EmbeddedDataSourceExportProcessor.INSTANCE.processExportTable(tblExport, dxDocument, context, tblExport.getVar(), tblExport.getIndex());
 				logCurrent.finest("exportTable created");
 				// logCurrent.finer("Start Processing Cells");
 				if (tblExport.getDocCellValues() != null && tblExport.getDocCellValues().size() > 0) {
@@ -203,7 +221,7 @@ public enum DocumentProcessor {
 						if (iCV instanceof DocCellValue) {
 							DocCellValue cv = (DocCellValue) iCV;
 							if (cv.getRowNumber() <= tblExport.getMaxRow()) {
-								DocumentProcessor.setDocCellValue(dxTable, cv.getRowNumber(), cv.getColumnNumber(), cv.getValue(), tblExport.getMaxRow(), false);
+								EmbeddedDataSourceExportProcessor.INSTANCE.setDocCellValue(dxTable, cv.getRowNumber(), cv.getColumnNumber(), cv.getValue(), tblExport.getMaxRow(), false);
 							} else {
 								logCurrent.finer("MaxValue < CellValue.getRowNumber()");
 							}
@@ -211,13 +229,14 @@ public enum DocumentProcessor {
 					}
 
 				}
-				if (dxTable != null) {
-					logCurrent.finest("Set Table Position");
-					if (tblExport.getTableNr() != 0) {
-						dxDocument.setTable(tblExport.getTableNr(), dxTable);
-						dxDocument.removeBodyElement(dxDocument.getPosOfTable(dxTable));
-					}
-				}
+				/*
+				 * if (dxTable != null) {
+				 * logCurrent.finest("Set Table Position"); if
+				 * (tblExport.getTableNr() != 0) {
+				 * dxDocument.setTable(tblExport.getTableNr(), dxTable);
+				 * dxDocument
+				 * .removeBodyElement(dxDocument.getPosOfTable(dxTable)); } }
+				 */
 				/*
 				 * if (dxTable != null) { System.out.println("Insert Table");
 				 * dxDocument.insertTable(2, dxTable); }
@@ -235,48 +254,4 @@ public enum DocumentProcessor {
 		return dxDocument;
 	}
 
-	public static void setDocCellValue(XWPFTable dxTable, int nRow, int nCol, Object objValue, int maxRow, boolean isHeader) {
-
-		try {
-			if (dxTable.getRow(nRow) == null) {
-				// DEFINIE MAX VALUE!
-				while (dxTable.getRow(nRow) == null && dxTable.getRows().size() < maxRow) {
-					dxTable.createRow();
-					// rowHasChanged = true;
-				}
-			}
-			if (dxTable.getRow(nRow) != null) {
-				if (dxTable.getRow(nRow).getCell(nCol) == null) {
-					// CHECK MAX COL
-					while (dxTable.getRow(nRow).getCell(nCol) == null && dxTable.getRow(nRow).getTableCells().size() < 50) {
-						dxTable.getRow(nRow).addNewTableCell();
-					}
-				}
-
-				// dxTable.getRow(nRow).getCell(nCol).setText("" +
-				// objValue.toString());
-
-				for (XWPFParagraph paraCurrent : dxTable.getRow(nRow).getCell(nCol).getParagraphs()) {
-					if (paraCurrent.getRuns().size() == 0) {
-						XWPFRun runCurrent = paraCurrent.createRun();
-						if (isHeader)
-							runCurrent.setBold(true);
-						runCurrent.setText("" + objValue.toString());
-					} else {
-						for (XWPFRun runCurrent : paraCurrent.getRuns()) {
-							if (isHeader)
-								runCurrent.setBold(true);
-							runCurrent.setText("" + objValue.toString());
-						}
-					}
-				}
-
-			} else {
-				System.out.println("Still null: " + nRow + " MaxRow = " + maxRow);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

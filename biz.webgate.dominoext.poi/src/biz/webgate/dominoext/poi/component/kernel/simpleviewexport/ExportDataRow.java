@@ -27,6 +27,10 @@ public class ExportDataRow implements Serializable {
 	private String m_UNID;
 	private HashMap<Integer, Object> m_Values;
 
+	private ExportDataRow(String universalID) {
+		m_UNID = universalID;
+	}
+
 	public String getUNID() {
 		return m_UNID;
 	}
@@ -55,5 +59,9 @@ public class ExportDataRow implements Serializable {
 			return null;
 		}
 		return m_Values.get(Integer.valueOf(nPosition));
+	}
+
+	public static ExportDataRow buildDataRow(String universalID) {
+		return new ExportDataRow(universalID);
 	}
 }

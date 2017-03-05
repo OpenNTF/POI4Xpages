@@ -2,11 +2,43 @@
 ## Eclipse
 #################
 
-*.pydevproject
+.metadata
 bin/
 tmp/
+classes/
+target/
 *.tmp
 *.bak
 *.swp
 *~.nib
 local.properties
+#.settings/
+#*.prefs
+.apt_generated
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+
+############
+## Windows
+############
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+############
+## Mac OS
+############
+
+# Mac crap
+.DS_Store
+biz.webgate.dominoext.poi.library/lib-maven/
+snapshots/

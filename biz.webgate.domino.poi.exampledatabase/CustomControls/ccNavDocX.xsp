@@ -21,5 +21,10 @@
 			<xe:pageTreeNode label="direct input and a table"
 				page="/docx_contractdocument_table.xsp">
 			</xe:pageTreeNode>
+			<xe:separatorTreeNode></xe:separatorTreeNode>
+			<xe:pageTreeNode label="Textelements"
+				page="/additionaltext_overview.xsp">
+			</xe:pageTreeNode>
+			<xe:pageTreeNode label="Memos" page="/memo_overview.xsp"></xe:pageTreeNode>
 		</xe:this.treeNodes>
 	</xe:navigator></xp:view>

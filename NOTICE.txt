@@ -1,15 +1,15 @@
 OpenNTF XSP Apache POI Integration
 http://poi4xpages.openntf.org
-© Copyright WebGate Consulting AG
+(C) WebGate Consulting AG
 
 This product includes software contributed to 
-OpenNTF Alliance – (http://www.OpenNTF.org/)
+OpenNTF Alliance ï¿½ (http://www.OpenNTF.org/)
 
 
 List of third party software used in this project:
 
 The example database uses:
-    - the sample data genertion from the ExtLib - example database ("http://exlib.openntf.org") under Apache V2.0 (http://www.apache.org/licenses/)
+    - the sample data generation from the ExtLib - example database ("http://exlib.openntf.org") under Apache V2.0 (http://www.apache.org/licenses/)
 
     - SampleDataUtil.java from Philippe Riand which is part of the ExtLib - example database ("http://exlib.openntf.org") under Apache V2.0 (http://www.apache.org/licenses/)
 
@@ -20,7 +20,7 @@ Commons CVS, Version 1.0.SNAPSHOT (http://commons.apache.org/csv/) under Apache 
 
 Docx4J, Version 2.8.1 (http://www.docx4java.org) under Apache V2.0 (http://www.apache.org/licenses/)
 
-
+XDocReport (Converter Engine), Version 1.0.4 (>http://code.google.com/p/xdocreport/) under MIT (http://www.opensource.org/licenses/mit-license.php)
 
 The Apache POI Project includes the following third party software:
 
@@ -96,7 +96,16 @@ The docx4j Project includes following third party software:
 
     - xmlgraphics-commons-1.4.jar (http://xml.apache.org) under Apache V2.0 (http://www.apache.org/licenses/)
 
+List of third party software used for Development & Test purpose
+	- EasyMock, Version 3.4 (http://easymock.org/) under Apache V2.0 (http://www.apache.org/licenses/)
 
+	- CGLib, Version 2.2.2 (https://github.com/cglib/cglib) under Apache V2.0 (http://www.apache.org/licenses/)
+	
+	- Javassist, Version 3.19-GA (https://github.com/jboss-javassist/javassist) under Mozilla Public Licence 1.1
+	
+	- Objenesis, Version 2.1 (http://objenesis.org/) under Apache V2.0 (http://www.apache.org/licenses/)
+	
+	- Powermock Version 1.6.2 (https://github.com/powermock/powermock)  under Apache V2.0 (http://www.apache.org/licenses/)
 
 
 Icons:

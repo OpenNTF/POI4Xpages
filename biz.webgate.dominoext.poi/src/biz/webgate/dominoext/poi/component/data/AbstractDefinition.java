@@ -15,6 +15,8 @@
  */
 package biz.webgate.dominoext.poi.component.data;
 
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
@@ -25,6 +27,9 @@ import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 import com.ibm.xsp.binding.MethodBindingEx;
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
+import com.ibm.xsp.context.FacesContextEx;
+import com.ibm.xsp.util.DataPublisher;
+import com.ibm.xsp.util.TypedUtil;
 
 public class AbstractDefinition extends ValueBindingObjectImpl {
 
@@ -38,48 +43,48 @@ public class AbstractDefinition extends ValueBindingObjectImpl {
 		m_ComputeValue = computeValue;
 	}
 
-	public Object executeComputeValue(FacesContext context, Object objAction,
-			int count, String varObject, String varIndex) throws POIException {
-		Logger logCurrent = LoggerFactory.getLogger(this.getClass()
-				.getCanonicalName());
+	public Object executeComputeValue(FacesContext context) throws POIException {
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
 		try {
 			logCurrent.info("ExecuteComputeValue started.");
-			String [] arrVars = new String[2];
-			/*
-			ArrayList<String> lstVars = new ArrayList<String>();
-			lstVars.add(varObject);
-			logCurrent.info("Var Name: " + varObject);
-			lstVars.add(varIndex);
-			logCurrent.info("Index Name:" + varIndex);
-			ArrayList<Object> lstObject = new ArrayList<Object>();
-			lstObject.add(objAction);
-			lstObject.add(new Integer(count));
-			*/
-			arrVars[0] = varObject;
-			arrVars[1] = varIndex;
-			
-			Object[] arrObject = new Object[2];
-			arrObject[0] = objAction;
-			arrObject[1] = Integer.valueOf(count);
-			logCurrent.info("Var Name: " + varObject);
-			logCurrent.info("Index Name:" + varIndex);
-			logCurrent.info("Var Object: " + varObject);
-			logCurrent.info("Index Object: " + count);
+			Object[] arrObject = new Object[0];
 			if (m_ComputeValue != null) {
 				if (m_ComputeValue instanceof MethodBindingEx) {
-					((MethodBindingEx) m_ComputeValue)
-							.setComponent(getComponent());
-					((MethodBindingEx) m_ComputeValue).setParamNames(arrVars);
+					((MethodBindingEx) m_ComputeValue).setComponent(getComponent());
 				}
-				Object objRC = m_ComputeValue.invoke(context,
-						arrObject);
+				Object objRC = m_ComputeValue.invoke(context, arrObject);
 				return objRC;
 			}
 		} catch (Exception e) {
-			throw new POIException("Error during computeValue:" +e.getMessage(), e);
+			throw new POIException("Error during computeValue:" + e.getMessage(), e);
 		}
 		return null;
+	}
+
+	public void pushVars(FacesContext context, String varobject, String varIndex, Object object, int index) {
+
+		Map<String, Object> localMap = TypedUtil.getRequestMap(context.getExternalContext());
+		localMap.put(varobject, object);
+		localMap.put(varIndex, Integer.valueOf(index));
+	}
+
+	public void removeVars(FacesContext context, String varobject, String varIndex) {
+		Map<String, Object> localMap = TypedUtil.getRequestMap(context.getExternalContext());
+		localMap.remove(varobject);
+		localMap.remove(varIndex);
+	}
+
+	protected List<DataPublisher.ShadowedObject> publishControlData(FacesContext paramFacesContext, String varobject, String varIndex) {
+		DataPublisher localDataPublisher = ((FacesContextEx) paramFacesContext).getDataPublisher();
+		List<DataPublisher.ShadowedObject> localList = null;
+		localList = localDataPublisher.pushShadowObjects(localList, new String[] { varobject, varIndex });
+		return localList;
+	}
+
+	protected void revokeControlData(List<DataPublisher.ShadowedObject> paramList, FacesContext paramFacesContext) {
+		DataPublisher localDataPublisher = ((FacesContextEx) paramFacesContext).getDataPublisher();
+		localDataPublisher.popObjects(paramList);
 	}
 
 }

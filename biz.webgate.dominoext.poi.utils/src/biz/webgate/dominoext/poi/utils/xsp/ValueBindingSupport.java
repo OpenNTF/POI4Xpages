@@ -22,8 +22,7 @@ import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
 public class ValueBindingSupport {
 
-	public static String getVBString(String strValueName,
-			ValueBindingObjectImpl vbobj, FacesContext context) {
+	public static String getVBString(String strValueName, ValueBindingObjectImpl vbobj, FacesContext context) {
 		ValueBinding vb = vbobj.getValueBinding(strValueName);
 		if (vb != null) {
 			return (String) vb.getValue(context);
@@ -31,8 +30,7 @@ public class ValueBindingSupport {
 		return null;
 	}
 
-	public static Integer getVBInt(String strValueName,
-			ValueBindingObjectImpl vbobj, FacesContext context) {
+	public static Integer getVBInt(String strValueName, ValueBindingObjectImpl vbobj, FacesContext context) {
 		ValueBinding vb = vbobj.getValueBinding(strValueName);
 		if (vb != null) {
 			return (Integer) vb.getValue(context);
@@ -40,4 +38,36 @@ public class ValueBindingSupport {
 		return null;
 	}
 
+	public static String getStringValue(String strValue, String strValueName, ValueBindingObjectImpl uic, String strDefault, FacesContext context) {
+		if (strValue != null) {
+			return strValue;
+		}
+		ValueBinding vb = uic.getValueBinding(strValueName);
+		if (vb != null) {
+			return (String) vb.getValue(context);
+		}
+		return strDefault;
+	}
+
+	public static Boolean getBooleanValue(Boolean value, String valueName, ValueBindingObjectImpl uic, Boolean defaultBoolean, FacesContext context) {
+		if (value != null) {
+			return value;
+		}
+		ValueBinding vb = uic.getValueBinding(valueName);
+		if (vb != null) {
+			return (Boolean) vb.getValue(context);
+		}
+		return defaultBoolean;
+	}
+
+	public static Short getShortValue(Short value, String valueName, ValueBindingObjectImpl uic, Short defaultShort, FacesContext context) {
+		if (value != null) {
+			return value;
+		}
+		ValueBinding vb = uic.getValueBinding(valueName);
+		if (vb != null) {
+			return (Short) vb.getValue(context);
+		}
+		return defaultShort;
+	}
 }

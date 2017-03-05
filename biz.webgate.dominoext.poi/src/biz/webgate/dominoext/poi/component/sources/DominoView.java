@@ -98,7 +98,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				return -1;
 			}
 			try {
-				Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB);
+				Database ndbAccess = DatabaseProvider.INSTANCE.getDatabase(strDB, false);
 				if (ndbAccess == null) {
 					return -2;
 				}
@@ -127,7 +127,6 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 					String strCLNAME = (String) itNames.next();
 					m_tempDataStore.m_ColTitle.add(strCLNAME);
 				}
-				DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return -10;
@@ -160,9 +159,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		return 1;
 	}
 
-	public Object getValue(IDefinition idCurrent, String strVarName, String strIndName, int nIndex, FacesContext context) {
-		String strVarNameUse = (strVarName == null || "".equals(strVarName)) ? "exportRow" : strVarName;
-		String strIndNameUse = (strIndName == null || "".equals(strIndName)) ? "indexRow" : strIndName;
+	public Object getValue(IDefinition idCurrent, FacesContext context) {
 		try {
 			String strTitle = idCurrent.getColumnTitle();
 			if (strTitle != null && !"".equals(strTitle)) {
@@ -172,7 +169,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				}
 			} else {
 
-				return idCurrent.executeComputeValue(context, m_tempDataStore.m_Entry, nIndex, strVarNameUse, strIndNameUse);
+				return idCurrent.executeComputeValue(context);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -249,6 +246,14 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		m_Key = (String) state[3];
 		m_Search = (String) state[4];
 		m_maxRow = (Integer) state[5];
+	}
+
+	@Override
+	public Object getDataRow() {
+		if (m_tempDataStore == null) {
+			return null;
+		}
+		return m_tempDataStore.m_Entry;
 	}
 
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	<xc:ccApplication navigationPath="/home/memo"><xp:this.facets>
+	<xp:panel xp:key="facetMiddle"><xe:dynamicViewPanel id="dynamicViewPanel1" pageName="/memo.xsp">
+				<xe:this.data>
+					<xp:dominoView var="viewAddText" viewName="Memos">
+					</xp:dominoView>
+				</xe:this.data>
+			</xe:dynamicViewPanel></xp:panel>
+	<xc:ccNavDocX xp:key="facetLeft"></xc:ccNavDocX></xp:this.facets>
+
+		<xc:this.pageTitle><![CDATA[Sample Memos (Copy & Paste in the Client)]]></xc:this.pageTitle>
+	</xc:ccApplication></xp:view>
