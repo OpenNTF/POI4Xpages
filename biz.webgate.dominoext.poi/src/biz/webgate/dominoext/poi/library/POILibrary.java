@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -51,7 +51,18 @@ public class POILibrary extends AbstractXspLibrary {
 	}
 
 	@Override
+	public String[] getDependencies() {
+		return new String[] { "com.ibm.xsp.core.library", // $NON-NLS-1$
+				"com.ibm.xsp.extsn.library", // $NON-NLS-1$
+				"com.ibm.xsp.domino.library", // $NON-NLS-1$
+				"com.ibm.xsp.designer.library", // $NON-NLS-1$
+				"com.ibm.xsp.extlib.library", // $NON-NLS-1$
+		};
+	}
+
+	
+	@Override
 	public String getTagVersion() {
-		return "1.2.6";
+		return "1.3.1";
 	}
 }
