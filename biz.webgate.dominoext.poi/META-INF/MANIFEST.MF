@@ -2,18 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI Integration
 Bundle-SymbolicName: biz.webgate.dominoext.poi;singleton:=true
-Bundle-Version: 1.3.0.qualifier
+Bundle-Version: 1.3.1.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.Activator
 Require-Bundle: org.eclipse.core.runtime,
  com.ibm.xsp.core,
  com.ibm.commons,
  com.ibm.xsp.domino,
  com.ibm.notes.java.api,
+ com.ibm.xsp.designer,
  biz.webgate.dominoext.poi.library;visibility:=reexport,
  biz.webgate.dominoext.poi.csvprocessor,
  biz.webgate.dominoext.poi.pdf,
- biz.webgate.dominoext.poi.utils,
- com.ibm.xsp.designer
+ biz.webgate.dominoext.poi.utils
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",
@@ -44,6 +44,5 @@ Export-Package: biz.webgate.dominoext.poi;uses:="org.osgi.framework",
  biz.webgate.dominoext.poi.util;uses:="org.apache.poi.ss.usermodel,org.apache.poi.xwpf.usermodel,lotus.domino",
  biz.webgate.dominoext.poi.util.action
 Bundle-ClassPath: .
-Import-Package: com.ibm.xsp.component
 Bundle-Vendor: WebGate Consulting AG
 
