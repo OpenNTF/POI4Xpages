@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2013
+ * ï¿½ Copyright WebGate Consulting AG, 2013
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -16,6 +16,7 @@
 package biz.webgate.dominoext.poi.component.kernel;
 
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.servlet.http.HttpServletResponse;
 
 import lotus.domino.Database;
@@ -33,6 +34,7 @@ import biz.webgate.dominoext.poi.util.DatabaseProvider;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
+import com.ibm.xsp.webapp.XspHttpServletResponse;
 
 public enum SimpleViewExportProcessor {
 	CSV(CSVExportProcessor.getInstance()), XLSX(WorkbooklExportProcessor.getInstance());
@@ -54,7 +56,7 @@ public enum SimpleViewExportProcessor {
 		return null;
 	}
 
-	public void generateNewFile(UISimpleViewExport uiSimpleViewExport, HttpServletResponse httpResponse, FacesContext context) {
+	public void generateNewFile(UISimpleViewExport uiSimpleViewExport, HttpServletResponse httpResponse, FacesContext context, boolean noDownload, MethodBinding preDownload) {
 		try {
 			if (StringUtil.isEmpty(uiSimpleViewExport.getDownloadFileName())) {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: no DownloaldFileName specified.", null);
@@ -90,12 +92,43 @@ public enum SimpleViewExportProcessor {
 			}
 			ExportModel expModel = ExportModelBuilder.INSTANCE.buildFromView(viwLUP);
 			ExportModelBuilder.INSTANCE.applyRowData(expModel, nvcCurrent);
-			m_ExportProcessors.process2HTTP(expModel, uiSimpleViewExport, httpResponse, new DateTimeHelper());
+			m_ExportProcessors.process2HTTP(expModel, uiSimpleViewExport, httpResponse, new DateTimeHelper(), noDownload, preDownload, context);
 
 			DatabaseProvider.INSTANCE.handleRecylce(ndbAccess);
 		} catch (NotesException e) {
 			ErrorPageBuilder.getInstance().processError(httpResponse, "SimpleViewExport failed: A general error.", e);
 			return;
+		}
+	}
+
+	public static void processCall(FacesContext context, UISimpleViewExport uiSimpleViewExport, boolean noDownload, MethodBinding preDownload) {
+		HttpServletResponse httpResponse = (HttpServletResponse) context.getExternalContext().getResponse();
+
+		// Disable the XPages response buffer as this will collide with the
+		// engine one
+		// We mark it as committed and use its delegate instead
+		if (httpResponse instanceof XspHttpServletResponse) {
+			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
+			r.setCommitted(true);
+			httpResponse = r.getDelegate();
+		}
+
+		try {
+			SimpleViewExportProcessor processor = SimpleViewExportProcessor.getInstance(uiSimpleViewExport, httpResponse);
+			if (processor != null) {
+				processor.generateNewFile(uiSimpleViewExport, httpResponse, context, noDownload, preDownload);
+			}
+		} catch (Exception e) {
+			try {
+				e.printStackTrace();
+				e.printStackTrace(httpResponse.getWriter());
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				e.printStackTrace();
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e2);
+
+			}
 		}
 	}
 }

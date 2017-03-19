@@ -24,6 +24,7 @@ import javax.faces.el.ValueBinding;
 import com.ibm.xsp.util.FacesUtil;
 
 import biz.webgate.dominoext.poi.component.containers.UIDocument;
+import biz.webgate.dominoext.poi.component.kernel.DocumentProcessor;
 
 public class DocumentGenerationServerAction extends AbstractServerAction {
 
@@ -43,11 +44,7 @@ public class DocumentGenerationServerAction extends AbstractServerAction {
 				strID);
 		if (uiC instanceof UIDocument) {
 			UIDocument uiD = (UIDocument) uiC;
-			try {
-				uiD.processAjaxRequest(context);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			DocumentProcessor.INSTANCE.processCall(context, uiD, isNoDownload(), getPreDownload());
 		}
 		return null;
 	}

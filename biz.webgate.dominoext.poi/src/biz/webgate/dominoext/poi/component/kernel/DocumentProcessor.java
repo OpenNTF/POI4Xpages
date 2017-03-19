@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -21,9 +21,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.xwpf.usermodel.BreakType;
@@ -36,6 +38,8 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
+import com.ibm.xsp.webapp.XspHttpServletResponse;
+
 import biz.webgate.dominoext.poi.component.containers.UIDocument;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
@@ -43,6 +47,7 @@ import biz.webgate.dominoext.poi.component.data.document.table.DocumentTable;
 import biz.webgate.dominoext.poi.component.data.document.table.cell.DocCellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
 import biz.webgate.dominoext.poi.component.kernel.document.EmbeddedDataSourceExportProcessor;
+import biz.webgate.dominoext.poi.component.kernel.util.MethodExecutor;
 import biz.webgate.dominoext.poi.pdf.IPDFService;
 import biz.webgate.dominoext.poi.pdf.PDFConversionService;
 import biz.webgate.dominoext.poi.utils.exceptions.POIException;
@@ -136,14 +141,14 @@ public enum DocumentProcessor {
 			}
 			if (found) {
 				String lines[] = strText.split("\\r?\\n");
-				for (int i=0; i< lines.length; i++) {
+				for (int i = 0; i < lines.length; i++) {
 					String line = lines[i];
 					if (i == 0) {
 						runCurrent.setText(line, 0);
 					} else {
 						runCurrent.setText(line);
 					}
-					if (i+1 < lines.length) {
+					if (i + 1 < lines.length) {
 						runCurrent.addBreak(BreakType.TEXT_WRAPPING);
 					}
 				}
@@ -152,9 +157,12 @@ public enum DocumentProcessor {
 		return 1;
 	}
 
-	public void generateNewFile(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, HttpServletResponse httpResponse, String strFileName, FacesContext context,
-			UIDocument uiDoc) throws IOException {
+	public void generateNewFile(ITemplateSource itsCurrent, HttpServletResponse httpResponse, FacesContext context, UIDocument uiDoc, boolean noDownload, MethodBinding preDownload)
+			throws IOException {
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+		List<IDocumentBookmark> bookmarks = uiDoc.getBookmarks();
+		List<DocumentTable> tables = uiDoc.getTables();
+		String strFileName = uiDoc.getDownloadFileName();
 		try {
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
@@ -173,24 +181,36 @@ public enum DocumentProcessor {
 					isCurrent.buildPDF(is, bos);
 					is.close();
 					bos.flush();
-					logCurrent.info("Size of pdf ByteArrayOutputStream: " + bos.size());
-					httpResponse.setContentType("application/octet-stream");
-					httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
-					OutputStream os = httpResponse.getOutputStream();
-					bos.writeTo(os);
-					bos.close();
-					os.close();
 
+					MethodExecutor.INSTANCE.execute(preDownload, uiDoc, context, bos);
+					if (!noDownload) {
+						logCurrent.info("Size of pdf ByteArrayOutputStream: " + bos.size());
+						httpResponse.setContentType("application/octet-stream");
+						httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
+						OutputStream os = httpResponse.getOutputStream();
+						bos.writeTo(os);
+						bos.close();
+						os.close();
+					} else {
+						OutputStream os = httpResponse.getOutputStream();
+						os.close();
+					}
 				} else {
 					logCurrent.info("Build docx");
-					httpResponse.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-					httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
-					OutputStream os = httpResponse.getOutputStream();
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
 					dxDocument.write(bos);
-					bos.writeTo(os);
-					bos.close();
-					os.close();
+					MethodExecutor.INSTANCE.execute(preDownload, uiDoc, context, bos);
+					if (!noDownload) {
+						httpResponse.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+						httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
+						OutputStream os = httpResponse.getOutputStream();
+						bos.writeTo(os);
+						bos.close();
+						os.close();
+					} else {
+						OutputStream os = httpResponse.getOutputStream();
+						os.close();
+					}
 				}
 			} else {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "TemplateAccess Problem NR: " + nTemplateAccess, null);
@@ -229,21 +249,6 @@ public enum DocumentProcessor {
 					}
 
 				}
-				/*
-				 * if (dxTable != null) {
-				 * logCurrent.finest("Set Table Position"); if
-				 * (tblExport.getTableNr() != 0) {
-				 * dxDocument.setTable(tblExport.getTableNr(), dxTable);
-				 * dxDocument
-				 * .removeBodyElement(dxDocument.getPosOfTable(dxTable)); } }
-				 */
-				/*
-				 * if (dxTable != null) { System.out.println("Insert Table");
-				 * dxDocument.insertTable(2, dxTable); }
-				 */
-				// System.out.println(dxDocument.getPosOfParagraph(p));
-
-				// logCurrent.finer("Proccess Export Cells - DONE");
 			}
 
 		}
@@ -252,6 +257,40 @@ public enum DocumentProcessor {
 			uiDocument.postGenerationProcess(context, dxDocument);
 		}
 		return dxDocument;
+	}
+
+	public void processCall(FacesContext context, UIDocument uiDocument, boolean noDownload, MethodBinding preDownload) {
+		HttpServletResponse httpResponse = (HttpServletResponse) context.getExternalContext().getResponse();
+		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+
+		if (httpResponse instanceof XspHttpServletResponse) {
+			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
+			r.setCommitted(true);
+			httpResponse = r.getDelegate();
+		}
+
+		ITemplateSource itsCurrent = uiDocument.getTemplateSource();
+		if (itsCurrent == null) {
+			ErrorPageBuilder.getInstance().processError(httpResponse, "No Templatesource found!", null);
+			logCurrent.severe("No Template found!");
+			return;
+		}
+		logCurrent.info("Start processing UIDocument generation");
+		try {
+			DocumentProcessor.INSTANCE.generateNewFile(itsCurrent, httpResponse, context, uiDocument, noDownload, preDownload);
+		} catch (Exception e) {
+			try {
+				logCurrent.log(Level.SEVERE, "Error in UIGeneration", e);
+				e.printStackTrace();
+				e.printStackTrace(httpResponse.getWriter());
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				e.printStackTrace();
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e2);
+
+			}
+		}
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -26,21 +26,18 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Workbook;
-
-import biz.webgate.dominoext.poi.component.data.ITemplateSource;
-import biz.webgate.dominoext.poi.component.data.ss.Spreadsheet;
-import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
-import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.binding.MethodBindingEx;
 import com.ibm.xsp.component.FacesAjaxComponent;
 import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
-import com.ibm.xsp.webapp.XspHttpServletResponse;
+
+import biz.webgate.dominoext.poi.component.data.ITemplateSource;
+import biz.webgate.dominoext.poi.component.data.ss.Spreadsheet;
+import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
 
 public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 
@@ -156,36 +153,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 	}
 
 	public void processAjaxRequest(FacesContext context) throws IOException {
-		HttpServletResponse httpResponse = (HttpServletResponse) context.getExternalContext().getResponse();
-
-		// Disable the XPages response buffer as this will collide with the
-		// engine one
-		// We mark it as committed and use its delegate instead
-
-		if (httpResponse instanceof XspHttpServletResponse) {
-			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
-			r.setCommitted(true);
-			httpResponse = r.getDelegate();
-		}
-
-		ITemplateSource itsCurrent = getTemplateSource();
-		if (itsCurrent == null) {
-			ErrorPageBuilder.getInstance().processError(httpResponse, "No Templatesource found!", null);
-			return;
-		}
-		try {
-			WorkbookProcessor.INSTANCE.generateNewFile(getTemplateSource(), getSpreadsheets(), getDownloadFileName(), httpResponse, context, this);
-		} catch (Exception e) {
-			try {
-				e.printStackTrace();
-				e.printStackTrace(httpResponse.getWriter());
-				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e);
-			} catch (Exception e2) {
-				e2.printStackTrace();
-				e.printStackTrace();
-				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e2);
-			}
-		}
+		WorkbookProcessor.INSTANCE.processCall(context, this, false, null);
 	}
 
 	public MethodBinding getPostGenerationProcess() {

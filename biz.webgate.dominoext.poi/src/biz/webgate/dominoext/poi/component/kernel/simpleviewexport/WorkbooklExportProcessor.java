@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.servlet.http.HttpServletResponse;
 
 import lotus.domino.DateTime;
@@ -38,6 +40,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
 import biz.webgate.dominoext.poi.component.kernel.util.DateTimeHelper;
+import biz.webgate.dominoext.poi.component.kernel.util.MethodExecutor;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 public class WorkbooklExportProcessor implements IExportProcessor {
@@ -55,7 +58,7 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 		return m_Processor;
 	}
 
-	public void process2HTTP(ExportModel expModel, UISimpleViewExport uis, HttpServletResponse hsr, DateTimeHelper dth) {
+	public void process2HTTP(ExportModel expModel, UISimpleViewExport uis, HttpServletResponse hsr, DateTimeHelper dth, boolean noDownload, MethodBinding preDownload, FacesContext context) {
 		try {
 			String strFileName = uis.getDownloadFileName();
 
@@ -107,21 +110,28 @@ public class WorkbooklExportProcessor implements IExportProcessor {
 			for (int nCol = 0; nCol < expModel.getColumns().size(); nCol++) {
 				sh.autoSizeColumn(nCol);
 			}
-			if (strFileName.toLowerCase().endsWith(".xlsx")) {
-				hsr.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-			} else if (strFileName.toLowerCase().endsWith("xls")) {
-				hsr.setContentType("application/vnd.ms-excel");
-
-			} else {
-				hsr.setContentType("application/octet-stream");
-			}
-			hsr.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
-			OutputStream os = hsr.getOutputStream();
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			wbCurrent.write(bos);
-			bos.writeTo(os);
-			os.close();
+			MethodExecutor.INSTANCE.execute(preDownload, uis, context, bos);
+			if (!noDownload) {
+				if (strFileName.toLowerCase().endsWith(".xlsx")) {
+					hsr.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				} else if (strFileName.toLowerCase().endsWith("xls")) {
+					hsr.setContentType("application/vnd.ms-excel");
+
+				} else {
+					hsr.setContentType("application/octet-stream");
+				}
+				hsr.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
+				OutputStream os = hsr.getOutputStream();
+				bos.writeTo(os);
+				os.close();
+			} else {
+				OutputStream os = hsr.getOutputStream();
+				os.close();
+			}
 			wbCurrent.close();
+
 		} catch (Exception e) {
 			ErrorPageBuilder.getInstance().processError(hsr, "Error during SVE-Generation (Workbook Export)", e);
 		}

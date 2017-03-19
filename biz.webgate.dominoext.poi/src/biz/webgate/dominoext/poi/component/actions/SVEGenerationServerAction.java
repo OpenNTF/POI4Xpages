@@ -24,6 +24,7 @@ import javax.faces.el.ValueBinding;
 import com.ibm.xsp.util.FacesUtil;
 
 import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
+import biz.webgate.dominoext.poi.component.kernel.SimpleViewExportProcessor;
 
 public class SVEGenerationServerAction extends AbstractServerAction {
 
@@ -36,18 +37,12 @@ public class SVEGenerationServerAction extends AbstractServerAction {
 	}
 
 	@Override
-	public Object invoke(FacesContext context, Object[] arg1)
-			throws EvaluationException, MethodNotFoundException {
+	public Object invoke(FacesContext context, Object[] arg1) throws EvaluationException, MethodNotFoundException {
 		String strID = getSveId();
-		UIComponent uiS = FacesUtil.getComponentFor(context.getViewRoot(),
-				strID);
+		UIComponent uiS = FacesUtil.getComponentFor(context.getViewRoot(), strID);
 		if (uiS instanceof UISimpleViewExport) {
 			UISimpleViewExport uiSVE = (UISimpleViewExport) uiS;
-			try {
-				uiSVE.processAjaxRequest(context);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			SimpleViewExportProcessor.processCall(context, uiSVE, isNoDownload(), getPreDownload());
 		}
 		return null;
 	}
@@ -58,8 +53,7 @@ public class SVEGenerationServerAction extends AbstractServerAction {
 		}
 		ValueBinding _vb = getValueBinding("sveId"); //$NON-NLS-1$
 		if (_vb != null) {
-			return (java.lang.String) _vb.getValue(FacesContext
-					.getCurrentInstance());
+			return (java.lang.String) _vb.getValue(FacesContext.getCurrentInstance());
 		} else {
 			return null;
 		}
@@ -91,6 +85,5 @@ public class SVEGenerationServerAction extends AbstractServerAction {
 		super.restoreState(context, values[0]);
 		m_sveId = (String) values[1];
 	}
-	
 
 }

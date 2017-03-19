@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -23,12 +23,6 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
-import javax.servlet.http.HttpServletResponse;
-
-import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
-import biz.webgate.dominoext.poi.component.kernel.CSVProcessor;
-import biz.webgate.dominoext.poi.component.sources.IExportSource;
-import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.component.FacesAjaxComponent;
@@ -36,7 +30,10 @@ import com.ibm.xsp.component.UIViewRootEx;
 import com.ibm.xsp.model.DataSource;
 import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
-import com.ibm.xsp.webapp.XspHttpServletResponse;
+
+import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
+import biz.webgate.dominoext.poi.component.kernel.CSVProcessor;
+import biz.webgate.dominoext.poi.component.sources.IExportSource;
 
 public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 
@@ -81,8 +78,7 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 		}
 		ValueBinding _vb = getValueBinding("pathInfo"); //$NON-NLS-1$
 		if (_vb != null) {
-			return (java.lang.String) _vb.getValue(FacesContext
-					.getCurrentInstance());
+			return (java.lang.String) _vb.getValue(FacesContext.getCurrentInstance());
 		} else {
 			return null;
 		}
@@ -98,8 +94,7 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 		}
 		ValueBinding _vb = getValueBinding("downloadFileName"); //$NON-NLS-1$
 		if (_vb != null) {
-			return (java.lang.String) _vb.getValue(FacesContext
-					.getCurrentInstance());
+			return (java.lang.String) _vb.getValue(FacesContext.getCurrentInstance());
 		} else {
 			return null;
 		}
@@ -140,36 +135,9 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 		return false;
 	}
 
+	@Override
 	public void processAjaxRequest(FacesContext context) throws IOException {
-		HttpServletResponse httpResponse = (HttpServletResponse) context
-				.getExternalContext().getResponse();
-
-		// Disable the XPages response buffer as this will collide with the
-		// engine one
-		// We mark it as committed and use its delegate instead
-		if (httpResponse instanceof XspHttpServletResponse) {
-			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
-			r.setCommitted(true);
-			httpResponse = r.getDelegate();
-		}
-
-		try {
-			CSVProcessor.getInstance().generateNewFile(this, httpResponse,
-					context);
-		} catch (Exception e) {
-			try {
-				e.printStackTrace();
-				e.printStackTrace(httpResponse.getWriter());
-				ErrorPageBuilder.getInstance().processError(httpResponse,
-						"General Error!", e);
-			} catch (Exception e2) {
-				e2.printStackTrace();
-				e.printStackTrace();
-				ErrorPageBuilder.getInstance().processError(httpResponse,
-						"General Error!", e2);
-
-			}
-		}
+		CSVProcessor.getInstance().processCall(context, this, false, null);
 	}
 
 	// SAVING AND RESTORING
@@ -200,8 +168,7 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 		super.restoreState(context, state[0]);
 		m_DownloadFileName = (String) state[1];
 		m_pathInfo = (String) state[2];
-		m_DataSource = (IExportSource) FacesUtil.objectFromSerializable(
-				context, this, state[3]);
+		m_DataSource = (IExportSource) FacesUtil.objectFromSerializable(context, this, state[3]);
 		m_Columns = StateHolderUtil.restoreList(context, this, state[4]);
 		m_DataSourceVar = (String) state[5];
 		m_Index = (String) state[6];
@@ -270,8 +237,7 @@ public class UICSV extends UIComponentBase implements FacesAjaxComponent {
 
 			UIViewRoot vrCurrent = getFacesContext().getViewRoot();
 			if (vrCurrent instanceof UIViewRootEx) {
-				for (DataSource dsCurrent : ((UIViewRootEx) vrCurrent)
-						.getData()) {
+				for (DataSource dsCurrent : ((UIViewRootEx) vrCurrent).getData()) {
 					if (strName.equals(dsCurrent.getVar())) {
 						return dsCurrent;
 					}

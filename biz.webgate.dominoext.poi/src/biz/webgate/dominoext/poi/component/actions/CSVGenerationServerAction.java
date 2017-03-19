@@ -22,6 +22,7 @@ import javax.faces.el.MethodNotFoundException;
 import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.component.containers.UICSV;
+import biz.webgate.dominoext.poi.component.kernel.CSVProcessor;
 
 import com.ibm.xsp.util.FacesUtil;
 
@@ -42,11 +43,7 @@ public class CSVGenerationServerAction extends AbstractServerAction {
 				strID);
 		if (uiC instanceof UICSV) {
 			UICSV uiCSV = (UICSV) uiC;
-			try {
-				uiCSV.processAjaxRequest(context);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			CSVProcessor.getInstance().processCall(context, uiCSV, isNoDownload(), getPreDownload());
 		}
 		return null;
 	}

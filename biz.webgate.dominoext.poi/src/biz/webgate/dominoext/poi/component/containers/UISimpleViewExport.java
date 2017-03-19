@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2013
+ * ï¿½ Copyright WebGate Consulting AG, 2013
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -20,14 +20,11 @@ import java.io.IOException;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
-import javax.servlet.http.HttpServletResponse;
-
-import biz.webgate.dominoext.poi.component.kernel.SimpleViewExportProcessor;
-import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.component.FacesAjaxComponent;
-import com.ibm.xsp.webapp.XspHttpServletResponse;
+
+import biz.webgate.dominoext.poi.component.kernel.SimpleViewExportProcessor;
 
 public class UISimpleViewExport extends UIComponentBase implements FacesAjaxComponent {
 
@@ -214,34 +211,7 @@ public class UISimpleViewExport extends UIComponentBase implements FacesAjaxComp
 	}
 
 	public void processAjaxRequest(FacesContext context) throws IOException {
-		HttpServletResponse httpResponse = (HttpServletResponse) context.getExternalContext().getResponse();
-
-		// Disable the XPages response buffer as this will collide with the
-		// engine one
-		// We mark it as committed and use its delegate instead
-		if (httpResponse instanceof XspHttpServletResponse) {
-			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
-			r.setCommitted(true);
-			httpResponse = r.getDelegate();
-		}
-
-		try {
-			SimpleViewExportProcessor processor = SimpleViewExportProcessor.getInstance(this, httpResponse);
-			if (processor != null) {
-				processor.generateNewFile(this, httpResponse, context);
-			}
-		} catch (Exception e) {
-			try {
-				e.printStackTrace();
-				e.printStackTrace(httpResponse.getWriter());
-				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e);
-			} catch (Exception e2) {
-				e2.printStackTrace();
-				e.printStackTrace();
-				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e2);
-
-			}
-		}
+		SimpleViewExportProcessor.processCall(context, this, false, null);
 	}
 
 	// SAVING AND RESTORING

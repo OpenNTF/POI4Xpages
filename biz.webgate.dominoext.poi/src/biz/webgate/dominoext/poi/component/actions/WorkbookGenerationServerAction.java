@@ -24,6 +24,7 @@ import javax.faces.el.ValueBinding;
 import com.ibm.xsp.util.FacesUtil;
 
 import biz.webgate.dominoext.poi.component.containers.UIWorkbook;
+import biz.webgate.dominoext.poi.component.kernel.WorkbookProcessor;
 
 public class WorkbookGenerationServerAction extends AbstractServerAction {
 
@@ -43,11 +44,7 @@ public class WorkbookGenerationServerAction extends AbstractServerAction {
 				strID);
 		if (uiC instanceof UIWorkbook) {
 			UIWorkbook uiWb = (UIWorkbook) uiC;
-			try {
-				uiWb.processAjaxRequest(context);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			WorkbookProcessor.INSTANCE.processCall(context, uiWb, isNoDownload(), getPreDownload());
 		}
 		return null;
 	}
