@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -21,12 +21,11 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodNotFoundException;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.containers.UIWorkbook;
-
-import com.ibm.xsp.binding.MethodBindingEx;
 import com.ibm.xsp.util.FacesUtil;
 
-public class WorkbookGenerationServerAction extends MethodBindingEx {
+import biz.webgate.dominoext.poi.component.containers.UIWorkbook;
+
+public class WorkbookGenerationServerAction extends AbstractServerAction {
 
 	private String m_WorkbookId;
 

@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -23,13 +23,11 @@ import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.component.containers.UICSV;
 
-import com.ibm.xsp.binding.MethodBindingEx;
 import com.ibm.xsp.util.FacesUtil;
 
-public class CSVGenerationServerAction extends MethodBindingEx {
+public class CSVGenerationServerAction extends AbstractServerAction {
 
 	private String m_csvId;
-
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Class getType(FacesContext arg0) throws MethodNotFoundException {

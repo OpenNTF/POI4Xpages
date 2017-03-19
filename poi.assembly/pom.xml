@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>biz.webgate.poi4xpages</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.3.1-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>poi.assembly</artifactId>
 	<packaging>pom</packaging>
