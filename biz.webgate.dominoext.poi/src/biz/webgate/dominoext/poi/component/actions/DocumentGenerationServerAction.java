@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -21,12 +21,12 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodNotFoundException;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.containers.UIDocument;
-
-import com.ibm.xsp.binding.MethodBindingEx;
 import com.ibm.xsp.util.FacesUtil;
 
-public class DocumentGenerationServerAction extends MethodBindingEx {
+import biz.webgate.dominoext.poi.component.containers.UIDocument;
+import biz.webgate.dominoext.poi.component.kernel.DocumentProcessor;
+
+public class DocumentGenerationServerAction extends AbstractServerAction {
 
 	private String m_DocumentId;
 
@@ -44,11 +44,7 @@ public class DocumentGenerationServerAction extends MethodBindingEx {
 				strID);
 		if (uiC instanceof UIDocument) {
 			UIDocument uiD = (UIDocument) uiC;
-			try {
-				uiD.processAjaxRequest(context);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			DocumentProcessor.INSTANCE.processCall(context, uiD, isNoDownload(), getPreDownload());
 		}
 		return null;
 	}

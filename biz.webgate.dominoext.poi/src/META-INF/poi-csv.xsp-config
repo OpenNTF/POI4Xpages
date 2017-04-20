@@ -23,7 +23,25 @@
                 </designer-extension>
 			</property-extension>
 		</property>		
-
+		<property>
+			<description>Yes is disabling the download</description>
+			<display-name>noDownload</display-name>
+			<property-name>noDownload</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.4.0</since>
+			</property-extension>
+		</property>
+		<property>
+			<description>Triggered short before the download and also if noDownload is set to yes</description>
+			<display-name>preDownload</display-name>
+			<property-name>preDownload</property-name>
+			<property-class>javax.faces.el.MethodBinding</property-class>
+			<property-extension>
+				<since>1.4.0</since>
+				<method-binding-property>true</method-binding-property>
+			</property-extension>
+		</property>
         <complex-extension>
    			<tag-name>generateCSV</tag-name>
    			<base-complex-id>simpleActionInterface</base-complex-id>

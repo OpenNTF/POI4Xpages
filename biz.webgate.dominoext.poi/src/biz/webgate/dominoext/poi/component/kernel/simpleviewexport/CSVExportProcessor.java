@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2013
+ * ï¿½ Copyright WebGate Consulting AG, 2013
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.servlet.http.HttpServletResponse;
 
 import lotus.domino.DateTime;
@@ -31,6 +33,7 @@ import org.apache.commons.csv.CSVPrinter;
 
 import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
 import biz.webgate.dominoext.poi.component.kernel.util.DateTimeHelper;
+import biz.webgate.dominoext.poi.component.kernel.util.MethodExecutor;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
 public class CSVExportProcessor implements IExportProcessor {
@@ -48,7 +51,7 @@ public class CSVExportProcessor implements IExportProcessor {
 		return m_Processor;
 	}
 
-	public void process2HTTP(ExportModel expModel, UISimpleViewExport uis, HttpServletResponse hsr, DateTimeHelper dth) {
+	public void process2HTTP(ExportModel expModel, UISimpleViewExport uis, HttpServletResponse hsr, DateTimeHelper dth, boolean noDownload, MethodBinding preDownload, FacesContext context) {
 		try {
 			StringWriter sw = new StringWriter();
 			CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.DEFAULT);
@@ -67,16 +70,22 @@ public class CSVExportProcessor implements IExportProcessor {
 				}
 				csvPrinter.println();
 			}
-			//csvPrinter.flush();
+			// csvPrinter.flush();
 			csvPrinter.close();
-			hsr.setContentType("text/csv; charset=UTF-8");
-			hsr.setHeader("Cache-Control", "no-cache");
-			hsr.setDateHeader("Expires", -1);
-//			hsr.setContentLength(csvBAOS.size());
-			hsr.addHeader("Content-disposition", "inline; filename=\"" + uis.getDownloadFileName() + "\"");
-			PrintWriter pw = hsr.getWriter();
-			pw.write(sw.toString());
-			pw.close();
+			MethodExecutor.INSTANCE.execute(preDownload, uis, context, sw);
+			if (!noDownload) {
+				hsr.setContentType("text/csv; charset=UTF-8");
+				hsr.setHeader("Cache-Control", "no-cache");
+				hsr.setDateHeader("Expires", -1);
+				// hsr.setContentLength(csvBAOS.size());
+				hsr.addHeader("Content-disposition", "inline; filename=\"" + uis.getDownloadFileName() + "\"");
+				PrintWriter pw = hsr.getWriter();
+				pw.write(sw.toString());
+				pw.close();
+			} else {
+				PrintWriter pw = hsr.getWriter();
+				pw.close();
+			}
 		} catch (Exception e) {
 			ErrorPageBuilder.getInstance().processError(hsr, "Error during SVE-Generation (CSV Export)", e);
 		}

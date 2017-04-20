@@ -34,16 +34,16 @@ public class ExportTest {
 		CSVPrinter printer = new CSVPrinter(sw, CSVFormat.DEFAULT);
 		printValues(printer);
 		String result = sw.toString();
-		assertTrue(result.contains("René"));
+		assertTrue(result.contains("Renï¿½"));
 	}
 
 	private void printValues(CSVPrinter printer) throws IOException {
 		printer.print("Hans");
 		printer.print("Meier");
 		printer.print("Peter");
-		printer.print("Müller");
-		printer.print("Gérald");
-		printer.print("René");
+		printer.print("Mï¿½ller");
+		printer.print("Gï¿½rald");
+		printer.print("Renï¿½");
 		printer.println();
 		printer.close();
 	}
@@ -64,8 +64,8 @@ public class ExportTest {
 		PrintWriter pw = new PrintWriter(sw);
 		EasyMock.expect(hsr.getWriter()).andReturn(pw);
 		EasyMock.replay(hsr);
-		CSVExportProcessor.getInstance().process2HTTP(model, uis, hsr, dth);
-		assertTrue(sw.toString().contains("René"));
+		CSVExportProcessor.getInstance().process2HTTP(model, uis, hsr, dth,false,null,null);
+		assertTrue(sw.toString().contains("Renï¿½"));
 	}
 
 	@Test
@@ -89,8 +89,8 @@ public class ExportTest {
 		model.addColumnByName("Vorname", 0, 0);
 		model.addColumnByName("Name", 0, 1);
 		ExportDataRow ed1 = ExportDataRow.buildDataRow("9911038101");
-		ed1.addValue(0, "René");
-		ed1.addValue(1, "Müller");
+		ed1.addValue(0, "Renï¿½");
+		ed1.addValue(1, "Mï¿½ller");
 		model.addRow(ed1);
 		return model;
 	}

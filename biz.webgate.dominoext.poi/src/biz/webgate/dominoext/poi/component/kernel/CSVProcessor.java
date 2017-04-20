@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -23,46 +23,46 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
+import com.ibm.xsp.webapp.XspHttpServletResponse;
+
 import biz.webgate.dominoext.poi.component.containers.UICSV;
 import biz.webgate.dominoext.poi.component.data.csv.CSVColumn;
 import biz.webgate.dominoext.poi.component.kernel.csv.EmbeddedDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.csv.XPagesDataSourceExportProcessor;
+import biz.webgate.dominoext.poi.component.kernel.util.MethodExecutor;
 import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 
-public class CSVProcessor {
-
-	private static CSVProcessor m_Processor;
-
-	private CSVProcessor() {
-
-	}
+public enum CSVProcessor {
+	INSTANCE;
 
 	public static CSVProcessor getInstance() {
-		if (m_Processor == null) {
-			m_Processor = new CSVProcessor();
-		}
-		return m_Processor;
+		return INSTANCE;
 	}
 
-	public void generateNewFile(UICSV csvDef, HttpServletResponse httpResponse, FacesContext context) {
+	public void generateNewFile(UICSV csvDef, HttpServletResponse httpResponse, FacesContext context, boolean noDownload, MethodBinding preDownload) {
 		try {
-			// First getting the File
-
 			StringWriter sw = generateCSV(csvDef, context);
-
-			httpResponse.setContentType("text/csv; charset=UTF-8");
-			httpResponse.setHeader("Cache-Control", "no-cache");
-			httpResponse.setDateHeader("Expires", -1);
-			httpResponse.addHeader("Content-disposition", "inline; filename=\"" + csvDef.getDownloadFileName() + "\"");
-			PrintWriter pw = httpResponse.getWriter();
-			pw.write(sw.toString());
-			pw.close();
+			MethodExecutor.INSTANCE.execute(preDownload, csvDef, context, sw);
+			if (!noDownload) {
+				httpResponse.setContentType("text/csv; charset=UTF-8");
+				httpResponse.setHeader("Cache-Control", "no-cache");
+				httpResponse.setDateHeader("Expires", -1);
+				httpResponse.addHeader("Content-disposition", "inline; filename=\"" + csvDef.getDownloadFileName() + "\"");
+				PrintWriter pw = httpResponse.getWriter();
+				pw.write(sw.toString());
+				pw.close();
+			} else {
+				PrintWriter pw = httpResponse.getWriter();
+				pw.write(sw.toString());
+				pw.close();
+			}
 		} catch (Exception e) {
 			ErrorPageBuilder.getInstance().processError(httpResponse, "Error during CSV-Generation", e);
 		}
@@ -99,6 +99,31 @@ public class CSVProcessor {
 
 		csvPrinter.close();
 		return sw;
+	}
+
+	public void processCall(FacesContext context, UICSV uicsv, boolean noDownload, MethodBinding preDownload) {
+		HttpServletResponse httpResponse = (HttpServletResponse) context.getExternalContext().getResponse();
+		if (httpResponse instanceof XspHttpServletResponse) {
+			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
+			r.setCommitted(true);
+			httpResponse = r.getDelegate();
+		}
+
+		try {
+			generateNewFile(uicsv, httpResponse, context, noDownload, preDownload);
+		} catch (Exception e) {
+			try {
+				e.printStackTrace();
+				e.printStackTrace(httpResponse.getWriter());
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				e.printStackTrace();
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e2);
+
+			}
+		}
+
 	}
 
 }

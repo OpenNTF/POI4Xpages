@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="biz.webgate.feature.poi"
+      id="biz.webgate.feature.poi.source"
       label="Apache POI Integration"
       version="1.4.0.qualifier"
       provider-name="WebGate Consulting AG">
@@ -224,34 +224,34 @@ END OF TERMS AND CONDITIONS
    </requires>
 
    <plugin
-         id="biz.webgate.dominoext.poi"
+         id="biz.webgate.dominoext.poi.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="biz.webgate.dominoext.poi.csvprocessor"
+         id="biz.webgate.dominoext.poi.csvprocessor.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="biz.webgate.dominoext.poi.pdf"
+         id="biz.webgate.dominoext.poi.pdf.source"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
 
    <plugin
-         id="biz.webgate.dominoext.poi.pdf.fopdocx4j"
+         id="biz.webgate.dominoext.poi.pdf.fopdocx4j.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="biz.webgate.dominoext.poi.utils"
+         id="biz.webgate.dominoext.poi.utils.source"
          download-size="0"
          install-size="0"
          version="0.0.0"

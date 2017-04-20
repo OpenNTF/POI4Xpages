@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -36,6 +37,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.ibm.commons.util.StringUtil;
+import com.ibm.xsp.webapp.XspHttpServletResponse;
+
 import biz.webgate.dominoext.poi.component.containers.UIWorkbook;
 import biz.webgate.dominoext.poi.component.data.ITemplateSource;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
@@ -46,14 +50,13 @@ import biz.webgate.dominoext.poi.component.data.ss.cell.CellBookmark;
 import biz.webgate.dominoext.poi.component.data.ss.cell.CellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
 import biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle;
+import biz.webgate.dominoext.poi.component.kernel.util.MethodExecutor;
 import biz.webgate.dominoext.poi.component.kernel.workbook.EmbeddedDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.workbook.POICellStyleProcessor;
 import biz.webgate.dominoext.poi.component.kernel.workbook.XPagesDataSourceExportProcessor;
 import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
-
-import com.ibm.commons.util.StringUtil;
 
 public enum WorkbookProcessor {
 	INSTANCE;
@@ -62,32 +65,40 @@ public enum WorkbookProcessor {
 		return WorkbookProcessor.INSTANCE;
 	}
 
-	public void generateNewFile(ITemplateSource itsCurrent, List<Spreadsheet> lstSP, String strFileName, HttpServletResponse httpResponse, FacesContext context, UIWorkbook uiWB) {
+	public void generateNewFile(ITemplateSource itsCurrent, HttpServletResponse httpResponse, FacesContext context, UIWorkbook uiWB, boolean noDownload, MethodBinding preDownload) {
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
-
+		List<Spreadsheet> lstSP = uiWB.getSpreadsheets();
+		String strFileName = uiWB.getDownloadFileName();
 		try {
 			logCurrent.finer("First getting the File");
 			// First getting the File
 			int nTemplateAccess = itsCurrent.accessTemplate();
 			if (nTemplateAccess == 1) {
 				Workbook wbCurrent = processWorkbook(itsCurrent, lstSP, context, uiWB);
-
-				logCurrent.finer("Push the Result to the HttpServlet");
-				// Push the Result to the HttpServlet
-				if (strFileName.toLowerCase().endsWith(".xlsx")) {
-					httpResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-				} else if (strFileName.toLowerCase().endsWith("xls")) {
-					httpResponse.setContentType("application/vnd.ms-excel");
-
-				} else {
-					httpResponse.setContentType("application/octet-stream");
-				}
-				httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
-				OutputStream os = httpResponse.getOutputStream();
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				wbCurrent.write(bos);
-				bos.writeTo(os);
-				os.close();
+
+				MethodExecutor.INSTANCE.execute(preDownload, uiWB, context, bos);
+				if (!noDownload) {
+					logCurrent.finer("Push the Result to the HttpServlet");
+					// Push the Result to the HttpServlet
+					if (strFileName.toLowerCase().endsWith(".xlsx")) {
+						httpResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+					} else if (strFileName.toLowerCase().endsWith("xls")) {
+						httpResponse.setContentType("application/vnd.ms-excel");
+
+					} else {
+						httpResponse.setContentType("application/octet-stream");
+					}
+					httpResponse.addHeader("Content-disposition", "inline; filename=\"" + strFileName + "\"");
+					OutputStream os = httpResponse.getOutputStream();
+					bos.writeTo(os);
+					os.close();
+				} else {
+					OutputStream os = httpResponse.getOutputStream();
+					os.close();
+				}
+				wbCurrent.close();
 			} else {
 				ErrorPageBuilder.getInstance().processError(httpResponse, "TemplateAccess Problem NR: " + nTemplateAccess, null);
 			}
@@ -233,5 +244,39 @@ public enum WorkbookProcessor {
 				}
 			}
 		}
+	}
+
+	public void processCall(FacesContext context, UIWorkbook uiWorkbook, boolean noDownload, MethodBinding preDownload) {
+		HttpServletResponse httpResponse = (HttpServletResponse) context.getExternalContext().getResponse();
+
+		// Disable the XPages response buffer as this will collide with the
+		// engine one
+		// We mark it as committed and use its delegate instead
+
+		if (httpResponse instanceof XspHttpServletResponse) {
+			XspHttpServletResponse r = (XspHttpServletResponse) httpResponse;
+			r.setCommitted(true);
+			httpResponse = r.getDelegate();
+		}
+
+		ITemplateSource itsCurrent = uiWorkbook.getTemplateSource();
+		if (itsCurrent == null) {
+			ErrorPageBuilder.getInstance().processError(httpResponse, "No Templatesource found!", null);
+			return;
+		}
+		try {
+			WorkbookProcessor.INSTANCE.generateNewFile(itsCurrent, httpResponse, context, uiWorkbook, noDownload, preDownload);
+		} catch (Exception e) {
+			try {
+				e.printStackTrace();
+				e.printStackTrace(httpResponse.getWriter());
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				e.printStackTrace();
+				ErrorPageBuilder.getInstance().processError(httpResponse, "General Error!", e2);
+			}
+		}
+
 	}
 }

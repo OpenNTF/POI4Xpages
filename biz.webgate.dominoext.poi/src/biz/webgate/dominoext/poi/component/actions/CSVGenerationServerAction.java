@@ -1,5 +1,5 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
+ * ï¿½ Copyright WebGate Consulting AG, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -22,14 +22,13 @@ import javax.faces.el.MethodNotFoundException;
 import javax.faces.el.ValueBinding;
 
 import biz.webgate.dominoext.poi.component.containers.UICSV;
+import biz.webgate.dominoext.poi.component.kernel.CSVProcessor;
 
-import com.ibm.xsp.binding.MethodBindingEx;
 import com.ibm.xsp.util.FacesUtil;
 
-public class CSVGenerationServerAction extends MethodBindingEx {
+public class CSVGenerationServerAction extends AbstractServerAction {
 
 	private String m_csvId;
-
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Class getType(FacesContext arg0) throws MethodNotFoundException {
@@ -44,11 +43,7 @@ public class CSVGenerationServerAction extends MethodBindingEx {
 				strID);
 		if (uiC instanceof UICSV) {
 			UICSV uiCSV = (UICSV) uiC;
-			try {
-				uiCSV.processAjaxRequest(context);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			CSVProcessor.getInstance().processCall(context, uiCSV, isNoDownload(), getPreDownload());
 		}
 		return null;
 	}
