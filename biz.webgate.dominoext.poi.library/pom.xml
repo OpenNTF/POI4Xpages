@@ -120,6 +120,16 @@
 									<artifactId>log4j</artifactId>
 									<version>1.2.17</version>
 								</artifactItem>
+								<artifactItem>
+									<groupId>fr.opensagres.xdocreport</groupId>
+									<artifactId>org.apache.poi.xwpf.converter.core</artifactId>
+									<version>1.0.6</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>fr.opensagres.xdocreport</groupId>
+									<artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
+									<version>1.0.6</version>
+								</artifactItem>
 
 							</artifactItems>
 							<includeScope>compile</includeScope>
@@ -202,6 +212,16 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>org.apache.poi.xwpf.converter.core</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
+			<version>1.0.6</version>
 		</dependency>
 	</dependencies>
 </project>

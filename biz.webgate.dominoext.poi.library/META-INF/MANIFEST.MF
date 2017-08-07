@@ -344,5 +344,5 @@ Bundle-ClassPath: .,
  lib-maven/poi-scratchpad.jar,
  lib-maven/poi.jar,
  lib-maven/xmlbeans.jar,
- lib/org.apache.poi.xwpf.converter.core-1.0.4.jar,
- lib/org.apache.poi.xwpf.converter.xhtml-1.0.4.jar
+ lib-maven/org.apache.poi.xwpf.converter.core.jar,
+ lib-maven/org.apache.poi.xwpf.converter.xhtml.jar
