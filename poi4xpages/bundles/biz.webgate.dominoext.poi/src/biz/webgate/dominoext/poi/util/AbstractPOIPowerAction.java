@@ -21,7 +21,6 @@ import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import biz.webgate.dominoext.poi.library.Activator;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 public abstract class AbstractPOIPowerAction<T> {
@@ -56,7 +55,7 @@ public abstract class AbstractPOIPowerAction<T> {
 		logCurrent.info("Save classloader -> " + currentCl);
 		T objRC = null;
 		try {
-			currentThread.setContextClassLoader(Activator.class.getClassLoader());
+			currentThread.setContextClassLoader(org.apache.poi.Version.class.getClassLoader());
 			logCurrent.info("Execute innerCode -> doItPriv");
 			objRC = doItPriv(objPoi, hsCurrent);
 			logCurrent.info("Exeute done!");

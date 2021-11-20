@@ -6,7 +6,6 @@ Automatic-Module-Name: biz.webgate.dominoext.poi.pdf.fopdocx4j
 Bundle-Version: 5.1.0.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.pdf.fopdocx4j.Activator
 Require-Bundle: org.eclipse.core.runtime,
- biz.webgate.dominoext.poi.library,
  biz.webgate.dominoext.poi.utils
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

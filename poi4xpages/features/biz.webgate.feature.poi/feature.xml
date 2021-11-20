@@ -235,7 +235,6 @@ END OF TERMS AND CONDITIONS
       <import plugin="com.ibm.commons"/>
       <import plugin="com.ibm.xsp.domino"/>
       <import plugin="com.ibm.notes.java.api"/>
-      <import plugin="biz.webgate.dominoext.poi.library"/>
       <import plugin="com.ibm.xsp.designer"/>
       <import plugin="com.ibm.designer.runtime"/>
    </requires>

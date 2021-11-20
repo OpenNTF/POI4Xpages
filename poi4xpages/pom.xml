@@ -59,7 +59,6 @@
 	</repositories>
 
 	<modules>
-		<module>bundles/biz.webgate.dominoext.poi.library</module>
 		<module>bundles/biz.webgate.dominoext.poi.utils</module>
 		<module>bundles/biz.webgate.dominoext.poi.pdf</module>
 		<module>bundles/biz.webgate.dominoext.poi.pdf.fopdox4j</module>
@@ -158,6 +157,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-plugin</artifactId>
+				<version>${tycho-version}</version>
 				<executions>
 					<execution>
 						<id>attached-p2-metadata</id>
@@ -401,11 +401,6 @@
 				<plugin>
 					<groupId>org.eclipse.tycho.extras</groupId>
 					<artifactId>tycho-p2-extras-plugin</artifactId>
-					<version>${tycho-version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.eclipse.tycho.extras</groupId>
-					<artifactId>tycho-p2-plugin</artifactId>
 					<version>${tycho-version}</version>
 				</plugin>
 				<plugin>
