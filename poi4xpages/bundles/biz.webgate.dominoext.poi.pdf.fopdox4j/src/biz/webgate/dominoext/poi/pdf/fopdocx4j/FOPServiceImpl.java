@@ -53,8 +53,7 @@ public class FOPServiceImpl {
 		ClassLoader clCurrent = currentThread.getContextClassLoader();
 		logCurrent.info("Current thread class loader is: " +clCurrent);
 		try {
-			currentThread.setContextClassLoader(Activator.class
-					.getClassLoader());
+			currentThread.setContextClassLoader(FOPServiceImpl.class.getClassLoader());
 			Log4jConfigurator.configure();
 			if (logCurrent.getLevel().equals(Level.ALL)) {
 				org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.ALL);
