@@ -2,7 +2,7 @@
 <feature
       id="biz.webgate.feature.poi.source"
       label="Apache POI Integration"
-      version="1.4.0.qualifier"
+      version="5.1.0.qualifier"
       provider-name="WebGate Consulting AG">
 
    <description url="http://my.webgate.biz/poi.documentation">

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>biz.webgate.poi4xpages</groupId>
 	<artifactId>poi4xpages-parent</artifactId>
-	<version>1.4.0-SNAPSHOT</version>
+	<version>5.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
 	<properties>
@@ -52,7 +52,7 @@
 		<repository>
 			<id>osgi-deps</id>
 			<layout>p2</layout>
-			<url>${project.baseUri}../../../osgi-deps/target/repository</url>
+			<url>${project.baseUri}../../../osgi-dependencies/target/repository</url>
 		</repository>
 	</repositories>
 
@@ -139,6 +139,11 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-versions-plugin</artifactId>
+				<version>${tycho-version}</version>
 			</plugin>
 			
 			<plugin>

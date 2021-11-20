@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/biz.webgate.feature.poi.library_1.4.0.qualifier.jar" id="biz.webgate.feature.poi.library" version="1.4.0.qualifier">
+   <feature url="features/biz.webgate.feature.poi.library_5.1.0.qualifier.jar" id="biz.webgate.feature.poi.library" version="5.1.0.qualifier">
       <category name="Apache POI Integration"/>
    </feature>
-   <feature url="features/biz.webgate.feature.poi.source_1.4.0.qualifier.jar" id="biz.webgate.feature.poi.source" version="1.4.0.qualifier">
+   <feature url="features/biz.webgate.feature.poi.source_5.1.0.qualifier.jar" id="biz.webgate.feature.poi.source" version="5.1.0.qualifier">
       <category name="Apache POI Integration"/>
    </feature>
-   <feature url="features/biz.webgate.feature.poi_1.4.0.qualifier.jar" id="biz.webgate.feature.poi" version="1.4.0.qualifier">
+   <feature url="features/biz.webgate.feature.poi_5.1.0.qualifier.jar" id="biz.webgate.feature.poi" version="5.1.0.qualifier">
       <category name="Apache POI Integration"/>
    </feature>
    <category-def name="Apache POI Integration" label="Apache POI Integration"/>
