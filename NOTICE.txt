@@ -1,9 +1,9 @@
 OpenNTF XSP Apache POI Integration
 http://poi4xpages.openntf.org
-(C) WebGate Consulting AG
+(C) WebGate Consulting AG and others
 
 This product includes software contributed to 
-OpenNTF Alliance � (http://www.OpenNTF.org/)
+OpenNTF Alliance (c) (http://www.OpenNTF.org/)
 
 
 List of third party software used in this project:

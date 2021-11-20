@@ -3,14 +3,14 @@
       id="biz.webgate.feature.poi"
       label="Apache POI Integration"
       version="5.1.0.qualifier"
-      provider-name="WebGate Consulting AG">
+      provider-name="WebGate Consulting AG and others">
 
    <description url="http://my.webgate.biz/poi.documentation">
       A Integration of the Apache POI Project in XPages
    </description>
 
    <copyright url="http://www.webgate.biz">
-      © Copyright WebGate Consulting AG, 2012
+      © Copyright WebGate Consulting AG and others, 2012-2021
    </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">
@@ -223,38 +223,10 @@ END OF TERMS AND CONDITIONS
       <import plugin="com.ibm.designer.runtime"/>
    </requires>
 
-   <plugin
-         id="biz.webgate.dominoext.poi"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="biz.webgate.dominoext.poi.csvprocessor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="biz.webgate.dominoext.poi.pdf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="biz.webgate.dominoext.poi.pdf.fopdocx4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="biz.webgate.dominoext.poi.utils"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   <plugin id="biz.webgate.dominoext.poi" version="0.0.0" />
+   <plugin id="biz.webgate.dominoext.poi.csvprocessor" version="0.0.0"/>
+   <plugin id="biz.webgate.dominoext.poi.pdf" version="0.0.0"/>
+   <plugin id="biz.webgate.dominoext.poi.pdf.fopdocx4j" version="0.0.0"/>
+   <plugin id="biz.webgate.dominoext.poi.utils" version="0.0.0"/>
 
 </feature>

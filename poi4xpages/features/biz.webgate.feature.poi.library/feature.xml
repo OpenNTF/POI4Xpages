@@ -3,14 +3,14 @@
       id="biz.webgate.feature.poi.library"
       label="Apache POI Library"
       version="5.1.0.qualifier"
-      provider-name="WebGate Consulting AG">
+      provider-name="WebGate Consulting AG and others">
 
    <description url="http://my.webgate.biz/poi.documentation">
       A Integration of the Apache POI Project in XPages
    </description>
 
    <copyright url="http://www.webgate.biz">
-      © Copyright WebGate Consulting AG, 2012
+      © Copyright WebGate Consulting AG and others, 2012-2021
    </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">
@@ -216,10 +216,6 @@ END OF TERMS AND CONDITIONS
       <import plugin="org.eclipse.core.runtime"/>
    </requires>
 
-   <plugin
-         id="biz.webgate.dominoext.poi.library"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
+   <plugin id="biz.webgate.dominoext.poi.library" version="0.0.0"/>
 
 </feature>
