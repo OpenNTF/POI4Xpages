@@ -17,13 +17,10 @@
 
 -->
 <site>
-   <feature id="biz.webgate.feature.poi.library">
-      <category name="Apache POI Integration"/>
-   </feature>
    <feature id="biz.webgate.feature.poi.source">
       <category name="Apache POI Integration"/>
    </feature>
-   <feature id="biz.webgate.feature.poi">
+   <feature id="biz.webgate.feature.poi.library.source">
       <category name="Apache POI Integration"/>
    </feature>
    <category-def name="Apache POI Integration" label="Apache POI Integration"/>

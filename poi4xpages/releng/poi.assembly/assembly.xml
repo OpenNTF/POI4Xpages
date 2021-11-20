@@ -41,11 +41,23 @@
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includes>
-				<include>biz.webgate.poi4xpages:biz.webgate.updatesite-designer.poi</include>
+				<include>biz.webgate.poi4xpages:biz.webgate.updatesite.poi</include>
 			</includes>
 			
 			<binaries>
 				<outputDirectory>UpdateSite</outputDirectory>
+				<unpack>true</unpack>
+				<includeDependencies>false</includeDependencies>
+			</binaries>
+		</moduleSet>
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>biz.webgate.poi4xpages:biz.webgate.updatesite.poi.source</include>
+			</includes>
+			
+			<binaries>
+				<outputDirectory>SourceUpdateSite</outputDirectory>
 				<unpack>true</unpack>
 				<includeDependencies>false</includeDependencies>
 			</binaries>

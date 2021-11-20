@@ -67,9 +67,8 @@
 		<module>bundles/biz.webgate.dominoext.poi</module>
 		<module>features/biz.webgate.feature.poi</module>
 		<module>features/biz.webgate.feature.poi.library</module>
-		<module>features/biz.webgate.feature.poi.source</module>
 		<module>releng/biz.webgate.updatesite.poi</module>
-		<module>releng/biz.webgate.updatesite-designer.poi</module>
+		<module>releng/biz.webgate.updatesite.poi.source</module>
 		<module>releng/biz.webgate.dominoext.poi.p2</module>
 		<module>releng/poi.assembly</module>
 		<module>bundles/biz.webgate.dominoext.poi.testsuite</module>
@@ -137,8 +136,38 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-source-feature-plugin</artifactId>
+		
+				<executions>
+					<execution>
+						<id>source-feature</id>
+						<phase>package</phase>
+						<goals>
+							<goal>source-feature</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includeBinaryFeature>false</includeBinaryFeature>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-versions-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attached-p2-metadata</id>
+						<phase>package</phase>
+						<goals>
+							<goal>p2-metadata</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			
 			<plugin>
@@ -298,7 +327,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 
 
@@ -384,6 +412,11 @@
 				<plugin>
 					<groupId>org.eclipse.tycho.extras</groupId>
 					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho.extras</groupId>
+					<artifactId>tycho-source-feature-plugin</artifactId>
 					<version>${tycho-version}</version>
 				</plugin>
 			
