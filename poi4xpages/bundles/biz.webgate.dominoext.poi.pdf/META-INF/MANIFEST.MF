@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI PDF Interface
 Bundle-SymbolicName: biz.webgate.dominoext.poi.pdf;singleton:=true
+Automatic-Module-Name: biz.webgate.dominoext.poi.pdf
 Bundle-Version: 1.4.0.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.pdf.Activator
 Bundle-Vendor: WebGate Consulting AG
@@ -13,6 +14,6 @@ Require-Bundle: org.eclipse.core.runtime,
  com.ibm.designer.runtime,
  biz.webgate.dominoext.poi.utils,
  biz.webgate.dominoext.poi.pdf.fopdocx4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .

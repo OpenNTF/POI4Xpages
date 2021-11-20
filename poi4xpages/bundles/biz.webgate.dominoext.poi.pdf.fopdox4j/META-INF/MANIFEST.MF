@@ -2,13 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: FOP DOCX4J Implementation
 Bundle-SymbolicName: biz.webgate.dominoext.poi.pdf.fopdocx4j;singleton:=true
+Automatic-Module-Name: biz.webgate.dominoext.poi.pdf.fopdocx4j
 Bundle-Version: 1.4.0.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.pdf.fopdocx4j.Activator
 Require-Bundle: org.eclipse.core.runtime,
  biz.webgate.dominoext.poi.library,
  biz.webgate.dominoext.poi.utils
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: biz.webgate.dominoext.poi.pdf.fopdocx4j
 Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/antlr-runtime-3.3.jar,

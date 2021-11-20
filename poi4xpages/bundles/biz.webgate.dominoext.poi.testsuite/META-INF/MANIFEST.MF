@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: biz.webgate.dominoext.poi.testsuite;singleton:=true
+Automatic-Module-Name: biz.webgate.dominoext.poi.testsuite
 Bundle-Version: 1.4.0.qualifier
 Bundle-Name: POI4XPages Testsuite Plugin
 Bundle-Vendor: WebGate Consulting AG
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Fragment-Host: biz.webgate.dominoext.poi
 Require-Bundle: org.junit;bundle-version="4.11.0"
 Bundle-ClassPath: lib/cglib-nodep-2.2.2.jar,
