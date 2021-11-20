@@ -212,10 +212,20 @@ of your accepting any such warranty or additional liability.
 END OF TERMS AND CONDITIONS
    </license>
 
-   <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-   </requires>
-
    <plugin id="biz.webgate.dominoext.poi.library" version="0.0.0"/>
+   <plugin id="com.github.virtuald.curvesapi" version="0.0.0"/>
+   <plugin id="com.zaxxer.SparseBitSet" version="0.0.0"/>
+   <plugin id="fr.opensagres.poi.xwpf.converter.core" version="0.0.0"/>
+   <plugin id="fr.opensagres.poi.xwpf.converter.xhtml" version="0.0.0"/>
+   <plugin id="fr.opensagres.xdocreport.core" version="0.0.0"/>
+   <plugin id="org.apache.commons.commons-codec" version="0.0.0"/>
+   <plugin id="org.apache.commons.commons-collections4" version="0.0.0"/>
+   <plugin id="org.apache.commons.commons-compress" version="0.0.0"/>
+   <plugin id="org.apache.commons.commons-io" version="0.0.0"/>
+   <plugin id="org.apache.commons.math3" version="0.0.0"/>
+   <plugin id="org.apache.xmlbeans" version="0.0.0"/>
+   <plugin id="org.openntf.org.apache.poi" version="0.0.0"/>
+   <plugin id="org.openntf.org.apache.poi.ooxml" version="0.0.0" fragment="true"/>
+   <plugin id="org.openntf.org.apache.poi.ooxml-full" version="0.0.0" fragment="true"/>
 
 </feature>

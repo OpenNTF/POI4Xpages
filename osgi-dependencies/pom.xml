@@ -91,8 +91,34 @@
 									<instructions>
 										<Bundle-SymbolicName>org.openntf.org.apache.poi.ooxml-lite</Bundle-SymbolicName>
 										<Bundle-Version>${poi.version}_${osgi.qualifier}</Bundle-Version>
-										<Fragment-Host>net.cmssite.org.apache.poi</Fragment-Host>
+										<Fragment-Host>org.openntf.org.apache.poi</Fragment-Host>
 									</instructions>
+								</artifact>
+								<artifact>
+									<id>org.apache.poi:poi-ooxml-full:${poi.version}</id>
+									<source>true</source>
+									<instructions>
+										<Bundle-SymbolicName>org.openntf.org.apache.poi.ooxml-full</Bundle-SymbolicName>
+										<Bundle-Version>${poi.version}_${osgi.qualifier}</Bundle-Version>
+										<Fragment-Host>org.openntf.org.apache.poi</Fragment-Host>
+									</instructions>
+								</artifact>
+								
+								<!-- Third-party extensions -->
+								<artifact>
+									<id>fr.opensagres.xdocreport:fr.opensagres.poi.xwpf.converter.core:2.0.2</id>
+									<source>true</source>
+									<transitive>false</transitive>
+								</artifact>
+								<artifact>
+									<id>fr.opensagres.xdocreport:fr.opensagres.poi.xwpf.converter.xhtml:2.0.2</id>
+									<source>true</source>
+									<transitive>false</transitive>
+								</artifact>
+								<artifact>
+									<id>fr.opensagres.xdocreport:fr.opensagres.xdocreport.core:2.0.2</id>
+									<source>true</source>
+									<transitive>false</transitive>
 								</artifact>
 							</artifacts>
 

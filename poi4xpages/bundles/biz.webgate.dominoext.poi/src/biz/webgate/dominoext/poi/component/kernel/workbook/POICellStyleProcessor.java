@@ -2,16 +2,22 @@ package biz.webgate.dominoext.poi.component.kernel.workbook;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -22,8 +28,12 @@ import biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle;
 public enum POICellStyleProcessor {
 	INSTANCE;
 
-	private HashMap<String, Short> m_StyleConstantValues;
-	private HashMap<String, Byte> m_StyleByteConstantValues;
+	private Map<String, Short> m_StyleConstantValues;
+	private Map<String, HorizontalAlignment> m_alignmentValues;
+	private Map<String, BorderStyle> m_borderValues;
+	private Map<String, FillPatternType> m_fillPatternValues;
+	private Map<String, VerticalAlignment> m_vertAlignmentValues;
+	private Map<String, Byte> m_StyleByteConstantValues;
 
 	public CellStyle buildStyle(Sheet sheet, PoiCellStyle pCellStyle) {
 		checkStyleConstantValues();
@@ -33,19 +43,19 @@ public enum POICellStyleProcessor {
 		Font font = sheet.getWorkbook().createFont();
 
 		if (pCellStyle.getAlignment() != null)
-			style.setAlignment(m_StyleConstantValues.get(pCellStyle.getAlignment()));
+			style.setAlignment(m_alignmentValues.get(pCellStyle.getAlignment()));
 
 		if (pCellStyle.getBorderBottom() != null)
-			style.setBorderBottom(m_StyleConstantValues.get(pCellStyle.getBorderBottom()));
+			style.setBorderBottom(m_borderValues.get(pCellStyle.getBorderBottom()));
 
 		if (pCellStyle.getBorderLeft() != null)
-			style.setBorderLeft(m_StyleConstantValues.get(pCellStyle.getBorderLeft()));
+			style.setBorderLeft(m_borderValues.get(pCellStyle.getBorderLeft()));
 
 		if (pCellStyle.getBorderRight() != null)
-			style.setBorderRight(m_StyleConstantValues.get(pCellStyle.getBorderRight()));
+			style.setBorderRight(m_borderValues.get(pCellStyle.getBorderRight()));
 
 		if (pCellStyle.getBorderTop() != null)
-			style.setBorderTop(m_StyleConstantValues.get(pCellStyle.getBorderTop()));
+			style.setBorderTop(m_borderValues.get(pCellStyle.getBorderTop()));
 
 		if (pCellStyle.getDataFormat() != null) {
 			DataFormat format = sheet.getWorkbook().createDataFormat();
@@ -53,10 +63,14 @@ public enum POICellStyleProcessor {
 		}
 
 		if (pCellStyle.getFillPattern() != null)
-			style.setFillPattern(m_StyleConstantValues.get(pCellStyle.getFillPattern()));
+			style.setFillPattern(m_fillPatternValues.get(pCellStyle.getFillPattern()));
 
 		if (pCellStyle.getFontBoldweight() != null)
-			font.setBoldweight(m_StyleConstantValues.get(pCellStyle.getFontBoldweight()));
+			if("BOLDWEIGHT_BOLD".equals(pCellStyle.getFontBoldweight())) { //$NON-NLS-1$
+				font.setBold(true);
+			} else {
+				font.setBold(false);
+			}
 
 		if (pCellStyle.getFontHeightInPoints() != 0)
 			font.setFontHeightInPoints(pCellStyle.getFontHeightInPoints());
@@ -92,7 +106,7 @@ public enum POICellStyleProcessor {
 			style.setRotation(pCellStyle.getRotation());
 
 		if (pCellStyle.getVerticalAlignment() != null)
-			style.setVerticalAlignment(m_StyleConstantValues.get(pCellStyle.getVerticalAlignment()));
+			style.setVerticalAlignment(m_vertAlignmentValues.get(pCellStyle.getVerticalAlignment()));
 
 		if (pCellStyle.isWrapText())
 			style.setWrapText(pCellStyle.isWrapText());
@@ -219,77 +233,86 @@ public enum POICellStyleProcessor {
 
 	private XSSFColor getXSSFColor(String color) {
 		Color clr = Color.decode(color);
-		XSSFColor myColor = new XSSFColor(clr);
+		XSSFColor myColor = new XSSFColor(clr, new DefaultIndexedColorMap());
 		return myColor;
 	}
 
 	private synchronized void checkStyleConstantValues() {
+		if(m_alignmentValues == null) {
+			this.m_alignmentValues = new HashMap<>();
+			m_alignmentValues.put("ALIGN_CENTER", HorizontalAlignment.CENTER); //$NON-NLS-1$
+			m_alignmentValues.put("ALIGN_CENTER_SELECTION", HorizontalAlignment.CENTER_SELECTION); //$NON-NLS-1$
+			m_alignmentValues.put("ALIGN_FILL", HorizontalAlignment.FILL); //$NON-NLS-1$
+			m_alignmentValues.put("ALIGN_GENERAL", HorizontalAlignment.GENERAL); //$NON-NLS-1$
+			m_alignmentValues.put("ALIGN_JUSTIFY", HorizontalAlignment.JUSTIFY); //$NON-NLS-1$
+			m_alignmentValues.put("ALIGN_LEFT", HorizontalAlignment.LEFT); //$NON-NLS-1$
+			m_alignmentValues.put("ALIGN_RIGHT", HorizontalAlignment.RIGHT); //$NON-NLS-1$
+		}
+		if(m_borderValues == null) {
+			this.m_borderValues = new HashMap<>();
+
+			m_borderValues.put("BORDER_DASH_DOT", BorderStyle.DASH_DOT); //$NON-NLS-1$
+			m_borderValues.put("BORDER_DASH_DOT_DOT", BorderStyle.DASH_DOT_DOT); //$NON-NLS-1$
+			m_borderValues.put("BORDER_DASHED", BorderStyle.DASHED); //$NON-NLS-1$
+			m_borderValues.put("BORDER_DOTTED", BorderStyle.DOTTED); //$NON-NLS-1$
+			m_borderValues.put("BORDER_DOUBLE", BorderStyle.DOUBLE); //$NON-NLS-1$
+			m_borderValues.put("BORDER_HAIR", BorderStyle.HAIR); //$NON-NLS-1$
+			m_borderValues.put("BORDER_MEDIUM", BorderStyle.MEDIUM); //$NON-NLS-1$
+			m_borderValues.put("BORDER_MEDIUM_DASH_DOT", BorderStyle.MEDIUM_DASH_DOT); //$NON-NLS-1$
+			m_borderValues.put("BORDER_MEDIUM_DASH_DOT_DOT", BorderStyle.MEDIUM_DASH_DOT_DOT); //$NON-NLS-1$
+			m_borderValues.put("BORDER_MEDIUM_DASHED", BorderStyle.MEDIUM_DASHED); //$NON-NLS-1$
+			m_borderValues.put("BORDER_NONE", BorderStyle.NONE); //$NON-NLS-1$
+			m_borderValues.put("BORDER_SLANTED_DASH_DOT", BorderStyle.SLANTED_DASH_DOT); //$NON-NLS-1$
+			m_borderValues.put("BORDER_THICK", BorderStyle.THICK); //$NON-NLS-1$
+			m_borderValues.put("BORDER_THIN", BorderStyle.THIN); //$NON-NLS-1$
+		}
+		if(m_fillPatternValues == null) {
+			this.m_fillPatternValues = new HashMap<>();
+			m_fillPatternValues.put("ALT_BARS", FillPatternType.ALT_BARS); //$NON-NLS-1$
+			m_fillPatternValues.put("BIG_SPOTS", FillPatternType.BIG_SPOTS); //$NON-NLS-1$
+			m_fillPatternValues.put("BRICKS", FillPatternType.BRICKS); //$NON-NLS-1$
+			m_fillPatternValues.put("DIAMONDS", FillPatternType.DIAMONDS); //$NON-NLS-1$
+			m_fillPatternValues.put("FINE_DOTS", FillPatternType.FINE_DOTS); //$NON-NLS-1$
+			m_fillPatternValues.put("LEAST_DOTS", FillPatternType.LEAST_DOTS); //$NON-NLS-1$
+			m_fillPatternValues.put("LESS_DOTS", FillPatternType.LESS_DOTS); //$NON-NLS-1$
+			m_fillPatternValues.put("NO_FILL", FillPatternType.NO_FILL); //$NON-NLS-1$
+			m_fillPatternValues.put("SOLID_FOREGROUND", FillPatternType.SOLID_FOREGROUND); //$NON-NLS-1$
+			m_fillPatternValues.put("SPARSE_DOTS", FillPatternType.SPARSE_DOTS); //$NON-NLS-1$
+			m_fillPatternValues.put("SQUARES", FillPatternType.SQUARES); //$NON-NLS-1$
+
+			m_fillPatternValues.put("THICK_BACKWARD_DIAG", FillPatternType.THICK_BACKWARD_DIAG); //$NON-NLS-1$
+			m_fillPatternValues.put("THICK_FORWARD_DIAG", FillPatternType.THICK_FORWARD_DIAG); //$NON-NLS-1$
+			m_fillPatternValues.put("THICK_HORZ_BANDS", FillPatternType.THICK_HORZ_BANDS); //$NON-NLS-1$
+			m_fillPatternValues.put("THICK_VERT_BANDS", FillPatternType.THICK_VERT_BANDS); //$NON-NLS-1$
+			m_fillPatternValues.put("THIN_BACKWARD_DIAG", FillPatternType.THIN_BACKWARD_DIAG); //$NON-NLS-1$
+			m_fillPatternValues.put("THIN_FORWARD_DIAG", FillPatternType.THIN_FORWARD_DIAG); //$NON-NLS-1$
+			m_fillPatternValues.put("THIN_HORZ_BANDS", FillPatternType.THIN_HORZ_BANDS); //$NON-NLS-1$
+			m_fillPatternValues.put("THIN_VERT_BANDS", FillPatternType.THIN_VERT_BANDS); //$NON-NLS-1$
+		}
+		if(m_vertAlignmentValues == null) {
+			m_vertAlignmentValues = new HashMap<>();
+
+			m_vertAlignmentValues.put("VERTICAL_BOTTOM", VerticalAlignment.BOTTOM); //$NON-NLS-1$
+			m_vertAlignmentValues.put("VERTICAL_CENTER", VerticalAlignment.CENTER); //$NON-NLS-1$
+			m_vertAlignmentValues.put("VERTICAL_JUSTIFY", VerticalAlignment.JUSTIFY); //$NON-NLS-1$
+			m_vertAlignmentValues.put("VERTICAL_TOP", VerticalAlignment.TOP); //$NON-NLS-1$
+		}
 		if (m_StyleConstantValues == null) {
-			m_StyleConstantValues = new HashMap<String, Short>();
-			m_StyleConstantValues.put("ALIGN_CENTER", CellStyle.ALIGN_CENTER);
-			m_StyleConstantValues.put("ALIGN_CENTER_SELECTION", CellStyle.ALIGN_CENTER_SELECTION);
-			m_StyleConstantValues.put("ALIGN_FILL", CellStyle.ALIGN_FILL);
-			m_StyleConstantValues.put("ALIGN_GENERAL", CellStyle.ALIGN_GENERAL);
-			m_StyleConstantValues.put("ALIGN_JUSTIFY", CellStyle.ALIGN_JUSTIFY);
-			m_StyleConstantValues.put("ALIGN_LEFT", CellStyle.ALIGN_LEFT);
-			m_StyleConstantValues.put("ALIGN_RIGHT", CellStyle.ALIGN_RIGHT);
+			m_StyleConstantValues = new HashMap<>();
 
-			m_StyleConstantValues.put("BORDER_DASH_DOT", CellStyle.BORDER_DASH_DOT);
-			m_StyleConstantValues.put("BORDER_DASH_DOT_DOT", CellStyle.BORDER_DASH_DOT_DOT);
-			m_StyleConstantValues.put("BORDER_DASHED", CellStyle.BORDER_DASHED);
-			m_StyleConstantValues.put("BORDER_DOTTED", CellStyle.BORDER_DOTTED);
-			m_StyleConstantValues.put("BORDER_DOUBLE", CellStyle.BORDER_DOUBLE);
-			m_StyleConstantValues.put("BORDER_HAIR", CellStyle.BORDER_HAIR);
-			m_StyleConstantValues.put("BORDER_MEDIUM", CellStyle.BORDER_MEDIUM);
-			m_StyleConstantValues.put("BORDER_MEDIUM_DASH_DOT", CellStyle.BORDER_MEDIUM_DASH_DOT);
-			m_StyleConstantValues.put("BORDER_MEDIUM_DASH_DOT_DOT", CellStyle.BORDER_MEDIUM_DASH_DOT_DOT);
-			m_StyleConstantValues.put("BORDER_MEDIUM_DASHED", CellStyle.BORDER_MEDIUM_DASHED);
-			m_StyleConstantValues.put("BORDER_NONE", CellStyle.BORDER_NONE);
-			m_StyleConstantValues.put("BORDER_SLANTED_DASH_DOT", CellStyle.BORDER_SLANTED_DASH_DOT);
-			m_StyleConstantValues.put("BORDER_THICK", CellStyle.BORDER_THICK);
-			m_StyleConstantValues.put("BORDER_THIN", CellStyle.BORDER_THIN);
-
-			m_StyleConstantValues.put("ALT_BARS", CellStyle.ALT_BARS);
-			m_StyleConstantValues.put("BIG_SPOTS", CellStyle.BIG_SPOTS);
-			m_StyleConstantValues.put("BRICKS", CellStyle.BRICKS);
-			m_StyleConstantValues.put("DIAMONDS", CellStyle.DIAMONDS);
-			m_StyleConstantValues.put("FINE_DOTS", CellStyle.FINE_DOTS);
-			m_StyleConstantValues.put("LEAST_DOTS", CellStyle.LEAST_DOTS);
-			m_StyleConstantValues.put("LESS_DOTS", CellStyle.LESS_DOTS);
-			m_StyleConstantValues.put("NO_FILL", CellStyle.NO_FILL);
-			m_StyleConstantValues.put("SOLID_FOREGROUND", CellStyle.SOLID_FOREGROUND);
-			m_StyleConstantValues.put("SPARSE_DOTS", CellStyle.SPARSE_DOTS);
-			m_StyleConstantValues.put("SQUARES", CellStyle.SQUARES);
-			m_StyleConstantValues.put("THICK_BACKWARD_DIAG", CellStyle.THICK_BACKWARD_DIAG);
-			m_StyleConstantValues.put("THICK_FORWARD_DIAG", CellStyle.THICK_FORWARD_DIAG);
-			m_StyleConstantValues.put("THICK_HORZ_BANDS", CellStyle.THICK_HORZ_BANDS);
-			m_StyleConstantValues.put("THICK_VERT_BANDS", CellStyle.THICK_VERT_BANDS);
-			m_StyleConstantValues.put("THIN_BACKWARD_DIAG", CellStyle.THIN_BACKWARD_DIAG);
-			m_StyleConstantValues.put("THIN_FORWARD_DIAG", CellStyle.THIN_FORWARD_DIAG);
-			m_StyleConstantValues.put("THIN_HORZ_BANDS", CellStyle.THIN_HORZ_BANDS);
-			m_StyleConstantValues.put("THIN_VERT_BANDS", CellStyle.THIN_VERT_BANDS);
-
-			m_StyleConstantValues.put("VERTICAL_BOTTOM", CellStyle.VERTICAL_BOTTOM);
-			m_StyleConstantValues.put("VERTICAL_CENTER", CellStyle.VERTICAL_CENTER);
-			m_StyleConstantValues.put("VERTICAL_JUSTIFY", CellStyle.VERTICAL_JUSTIFY);
-			m_StyleConstantValues.put("VERTICAL_TOP", CellStyle.VERTICAL_TOP);
-
-			m_StyleConstantValues.put("SS_NONE", Font.SS_NONE);
-			m_StyleConstantValues.put("SS_SUPER", Font.SS_SUPER);
-			m_StyleConstantValues.put("SS_SUB", Font.SS_SUB);
-
-			m_StyleConstantValues.put("BOLDWEIGHT_BOLD", Font.BOLDWEIGHT_BOLD);
-			m_StyleConstantValues.put("BOLDWEIGHT_NORMAL", Font.BOLDWEIGHT_NORMAL);
+			m_StyleConstantValues.put("SS_NONE", Font.SS_NONE); //$NON-NLS-1$
+			m_StyleConstantValues.put("SS_SUPER", Font.SS_SUPER); //$NON-NLS-1$
+			m_StyleConstantValues.put("SS_SUB", Font.SS_SUB); //$NON-NLS-1$
 
 		}
 
 		if (m_StyleByteConstantValues == null) {
-			m_StyleByteConstantValues = new HashMap<String, Byte>();
-			m_StyleByteConstantValues.put("U_NONE", Font.U_NONE);
-			m_StyleByteConstantValues.put("U_SINGLE", Font.U_SINGLE);
-			m_StyleByteConstantValues.put("U_DOUBLE", Font.U_DOUBLE);
-			m_StyleByteConstantValues.put("U_SINGLE_ACCOUNTING", Font.U_SINGLE_ACCOUNTING);
-			m_StyleByteConstantValues.put("U_DOUBLE_ACCOUNTING", Font.U_DOUBLE_ACCOUNTING);
+			m_StyleByteConstantValues = new HashMap<>();
+			m_StyleByteConstantValues.put("U_NONE", Font.U_NONE); //$NON-NLS-1$
+			m_StyleByteConstantValues.put("U_SINGLE", Font.U_SINGLE); //$NON-NLS-1$
+			m_StyleByteConstantValues.put("U_DOUBLE", Font.U_DOUBLE); //$NON-NLS-1$
+			m_StyleByteConstantValues.put("U_SINGLE_ACCOUNTING", Font.U_SINGLE_ACCOUNTING); //$NON-NLS-1$
+			m_StyleByteConstantValues.put("U_DOUBLE_ACCOUNTING", Font.U_DOUBLE_ACCOUNTING); //$NON-NLS-1$
 		}
 	}
 
