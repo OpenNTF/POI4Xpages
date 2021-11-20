@@ -123,6 +123,7 @@
 								
 								<!-- Related Tools -->
 								<artifact><id>org.apache.commons:commons-csv:1.9.0</id><source>true</source></artifact>
+								<artifact><id>org.docx4j:docx4j-JAXB-Internal:8.3.1</id><source>true</source></artifact>
 							</artifacts>
 
 							<compressSite>true</compressSite>
