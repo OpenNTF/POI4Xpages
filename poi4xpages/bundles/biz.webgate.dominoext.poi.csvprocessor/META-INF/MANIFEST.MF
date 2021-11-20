@@ -6,10 +6,8 @@ Automatic-Module-Name: biz.webgate.dominoext.poi.csvprocessor
 Bundle-Version: 5.1.0.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.csvprocessor.Activator
 Bundle-Vendor: WebGate Consulting AG
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ org.apache.commons.commons-csv;bundle-version="1.9.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: biz.webgate.dominoext.poi.csvprocessor;uses:="org.osgi.framework",
- org.apache.commons.csv;uses:="new org.apache.commons.csv"
-Bundle-ClassPath: .,
- lib/commons-csv-1.0-SNAPSHOT.jar
+Export-Package: biz.webgate.dominoext.poi.csvprocessor;uses:="org.osgi.framework"

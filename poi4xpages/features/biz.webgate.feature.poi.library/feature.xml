@@ -238,6 +238,7 @@ END OF TERMS AND CONDITIONS
    <plugin id="org.apache.commons.commons-codec" version="0.0.0"/>
    <plugin id="org.apache.commons.commons-collections4" version="0.0.0"/>
    <plugin id="org.apache.commons.commons-compress" version="0.0.0"/>
+   <plugin id="org.apache.commons.commons-csv" version="0.0.0"/>
    <plugin id="org.apache.commons.commons-io" version="0.0.0"/>
    <plugin id="org.apache.commons.math3" version="0.0.0"/>
    <plugin id="org.apache.xmlbeans" version="0.0.0"/>

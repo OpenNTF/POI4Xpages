@@ -120,6 +120,9 @@
 									<source>true</source>
 									<transitive>false</transitive>
 								</artifact>
+								
+								<!-- Related Tools -->
+								<artifact><id>org.apache.commons:commons-csv:1.9.0</id><source>true</source></artifact>
 							</artifacts>
 
 							<compressSite>true</compressSite>
