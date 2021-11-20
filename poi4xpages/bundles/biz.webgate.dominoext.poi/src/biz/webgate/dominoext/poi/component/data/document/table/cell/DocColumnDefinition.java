@@ -1,16 +1,16 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * ï¿½ Copyright WebGate Consulting AG, 2012
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.data.document.table.cell;
@@ -18,10 +18,10 @@ package biz.webgate.dominoext.poi.component.data.document.table.cell;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import com.ibm.xsp.util.StateHolderUtil;
+
 import biz.webgate.dominoext.poi.component.data.AbstractDefinition;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
-
-import com.ibm.xsp.util.StateHolderUtil;
 
 public class DocColumnDefinition extends AbstractDefinition implements IDefinition {
 	private Integer m_ColumnNumber;
@@ -30,7 +30,7 @@ public class DocColumnDefinition extends AbstractDefinition implements IDefiniti
 	private Integer m_RowShift = 0;
 
 	// private PoiCellStyle m_PoiCellStyle;
-	
+
 	public int getColumnNumber() {
 		if (m_ColumnNumber != null) {
 			return m_ColumnNumber;
@@ -68,8 +68,9 @@ public class DocColumnDefinition extends AbstractDefinition implements IDefiniti
 	public void setRowShift(int rowShift) {
 		m_RowShift = rowShift;
 	}
-		
-	
+
+
+	@Override
 	public String getColumnTitle() {
 		if (m_ColumnTitle != null) {
 			return m_ColumnTitle;
@@ -105,7 +106,7 @@ public class DocColumnDefinition extends AbstractDefinition implements IDefiniti
 	public void setColumnHeader(String columnHeader) {
 		m_ColumnHeader = columnHeader;
 	}
-	
+
 	@Override
 	public Object saveState(FacesContext context) {
 		Object[] state = new Object[6];

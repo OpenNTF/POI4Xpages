@@ -1,16 +1,16 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * ï¿½ Copyright WebGate Consulting AG, 2012
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.data.ss.cell;
@@ -18,11 +18,11 @@ package biz.webgate.dominoext.poi.component.data.ss.cell;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.data.AbstractDefinition;
-import biz.webgate.dominoext.poi.component.data.IDefinition;
-
 import com.ibm.xsp.util.FacesUtil;
 import com.ibm.xsp.util.StateHolderUtil;
+
+import biz.webgate.dominoext.poi.component.data.AbstractDefinition;
+import biz.webgate.dominoext.poi.component.data.IDefinition;
 
 public class ColumnDefinition extends AbstractDefinition implements IDefinition {
 	private Integer m_ColumnNumber;
@@ -30,7 +30,7 @@ public class ColumnDefinition extends AbstractDefinition implements IDefinition 
 	private Integer m_RowShift = 0;
 	private Boolean m_CellFormula = false;
 	private PoiCellStyle m_PoiCellStyle;
-	
+
 	public int getColumnNumber() {
 		if (m_ColumnNumber != null) {
 			return m_ColumnNumber;
@@ -68,7 +68,7 @@ public class ColumnDefinition extends AbstractDefinition implements IDefinition 
 	public void setRowShift(int rowShift) {
 		m_RowShift = rowShift;
 	}
-		
+
 	public boolean isCellFormula() {
 		return m_CellFormula;
 	}
@@ -76,7 +76,7 @@ public class ColumnDefinition extends AbstractDefinition implements IDefinition 
 	public void setCellFormula(boolean cellFormula) {
 		m_CellFormula = cellFormula;
 	}
-	
+
 	public PoiCellStyle getPoiCellStyle() {
 		return m_PoiCellStyle;
 	}
@@ -92,7 +92,7 @@ public class ColumnDefinition extends AbstractDefinition implements IDefinition 
 	public void setCellStyle(PoiCellStyle poiCellStyle) {
 		setPoiCellStyle(poiCellStyle);
 	}
-	
+
 	@Override
 	public Object saveState(FacesContext context) {
 		Object[] state = new Object[7];
@@ -120,6 +120,7 @@ public class ColumnDefinition extends AbstractDefinition implements IDefinition 
 		m_PoiCellStyle = (PoiCellStyle) FacesUtil.objectFromSerializable(context, state[6]);
 	}
 
+	@Override
 	public String getColumnTitle() {
 		if (m_ColumnTitle != null) {
 			return m_ColumnTitle;

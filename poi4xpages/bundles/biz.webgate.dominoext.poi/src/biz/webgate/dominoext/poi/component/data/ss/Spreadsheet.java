@@ -1,16 +1,16 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * ï¿½ Copyright WebGate Consulting AG, 2012
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.data.ss;
@@ -21,10 +21,10 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
-
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 import com.ibm.xsp.util.StateHolderUtil;
+
+import biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue;
 
 public class Spreadsheet extends ValueBindingObjectImpl {
 
@@ -76,7 +76,7 @@ public class Spreadsheet extends ValueBindingObjectImpl {
 
 	public void addExportDefinition(IListDataExporter ilCurrent) {
 		if (m_ExportDefinition == null) {
-			m_ExportDefinition = new ArrayList<IListDataExporter>();
+			m_ExportDefinition = new ArrayList<>();
 		}
 		m_ExportDefinition.add(ilCurrent);
 	}
@@ -91,7 +91,7 @@ public class Spreadsheet extends ValueBindingObjectImpl {
 
 	public void addCellValue(ICellValue icvCurrent) {
 		if (m_CellValues == null) {
-			m_CellValues = new ArrayList<ICellValue>();
+			m_CellValues = new ArrayList<>();
 		}
 		m_CellValues.add(icvCurrent);
 	}

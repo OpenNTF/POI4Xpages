@@ -10,6 +10,8 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 
+import com.ibm.xsp.util.DataPublisher.ShadowedObject;
+
 import biz.webgate.dominoext.poi.component.data.document.table.DocumentTable;
 import biz.webgate.dominoext.poi.component.data.document.table.cell.DocColumnDefinition;
 import biz.webgate.dominoext.poi.component.sources.IExportSource;
@@ -17,11 +19,10 @@ import biz.webgate.dominoext.poi.util.RequestVarsHandler;
 import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
-import com.ibm.xsp.util.DataPublisher.ShadowedObject;
-
 public enum EmbeddedDataSourceExportProcessor implements IDataSourceExportProcessor {
 	INSTANCE;
 
+	@Override
 	public XWPFTable processExportTable(DocumentTable lstExport, XWPFDocument dxDocument, FacesContext context, String strVar, String strIndex) throws POIException {
 
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());

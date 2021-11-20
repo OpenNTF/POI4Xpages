@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import biz.webgate.dominoext.poi.utils.LibUtil;
 
 public class LoggerFactory {
-	private static HashMap<String, Logger> m_RegistredLoggers = new HashMap<String, Logger>();
+	private static HashMap<String, Logger> m_RegistredLoggers = new HashMap<>();
 
 	private static int m_logLevel = -1;
 	private static int m_logLevelPDF = -1;

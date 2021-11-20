@@ -2,11 +2,11 @@ package biz.webgate.dominoext.poi.component.data.csv;
 
 import javax.faces.context.FacesContext;
 
+import com.ibm.xsp.util.StateHolderUtil;
+
 import biz.webgate.dominoext.poi.component.data.AbstractDefinition;
 import biz.webgate.dominoext.poi.component.data.IDefinition;
 import biz.webgate.dominoext.poi.utils.xsp.ValueBindingSupport;
-
-import com.ibm.xsp.util.StateHolderUtil;
 
 public class CSVColumn extends AbstractDefinition implements IDefinition {
 
@@ -27,6 +27,7 @@ public class CSVColumn extends AbstractDefinition implements IDefinition {
 		m_Title = title;
 	}
 
+	@Override
 	public String getColumnTitle() {
 		if (m_ColumnTitle != null) {
 			return m_ColumnTitle;

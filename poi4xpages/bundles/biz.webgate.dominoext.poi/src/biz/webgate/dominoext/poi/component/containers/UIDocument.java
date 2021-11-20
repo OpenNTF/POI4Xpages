@@ -1,16 +1,16 @@
 /*
  * � Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.containers;
@@ -70,7 +70,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 
 	public void addBookmark(IDocumentBookmark myBookmark) {
 		if (m_Bookmarks == null) {
-			m_Bookmarks = new ArrayList<IDocumentBookmark>();
+			m_Bookmarks = new ArrayList<>();
 		}
 		m_Bookmarks.add(myBookmark);
 	}
@@ -85,7 +85,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 
 	public void addTables(DocumentTable myTable) {
 		if (m_Tables == null) {
-			m_Tables = new ArrayList<DocumentTable>();
+			m_Tables = new ArrayList<>();
 		}
 		m_Tables.add(myTable);
 	}
@@ -151,6 +151,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		m_PdfOutput = pdfOutput;
 	}
 
+	@Override
 	public boolean handles(FacesContext context) {
 		String reqPathInfo = context.getExternalContext().getRequestPathInfo();
 		if (StringUtil.isNotEmpty(reqPathInfo)) {
@@ -177,6 +178,7 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 		return false;
 	}
 
+	@Override
 	public void processAjaxRequest(FacesContext context) throws IOException {
 		DocumentProcessor.INSTANCE.processCall(context, this, false, null);
 	}
@@ -243,11 +245,9 @@ public class UIDocument extends UIComponentBase implements FacesAjaxComponent {
 
 	public void doPostGenerationProcessPrivileged(final FacesContext context, final Object[] params) {
 		try {
-			AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-				public Void run() throws Exception {
-					m_PostGenerationProcess.invoke(context, params);
-					return null;
-				}
+			AccessController.doPrivileged((PrivilegedExceptionAction<Void>) () -> {
+				m_PostGenerationProcess.invoke(context, params);
+				return null;
 			});
 		} catch (PrivilegedActionException e) {
 			e.printStackTrace();

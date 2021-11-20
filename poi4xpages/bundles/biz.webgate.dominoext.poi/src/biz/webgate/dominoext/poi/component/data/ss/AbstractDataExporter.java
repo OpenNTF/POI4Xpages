@@ -4,13 +4,13 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.sources.IExportSource;
-
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.complex.ValueBindingObjectImpl;
 import com.ibm.xsp.component.UIViewRootEx;
 import com.ibm.xsp.model.DataSource;
 import com.ibm.xsp.util.FacesUtil;
+
+import biz.webgate.dominoext.poi.component.sources.IExportSource;
 
 public abstract class AbstractDataExporter extends ValueBindingObjectImpl {
 

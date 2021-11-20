@@ -1,16 +1,16 @@
 /*
  * � Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.kernel;
@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -74,14 +73,10 @@ public enum CSVProcessor {
 		CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.DEFAULT);
 
 		List<CSVColumn> lstColumns = csvDef.getColumns();
-		Collections.sort(lstColumns, new Comparator<CSVColumn>() {
-
-			public int compare(CSVColumn o1, CSVColumn o2) {
-				Integer p1 = Integer.valueOf(o1.getPosition());
-				Integer p2 = Integer.valueOf(o2.getPosition());
-				return p1.compareTo(p2);
-			}
-
+		Collections.sort(lstColumns, (o1, o2) -> {
+			int p1 = o1.getPosition();
+			Integer p2 = o2.getPosition();
+			return Integer.compare(p1, p2);
 		});
 		if (csvDef.isIncludeHeader()) {
 			for (CSVColumn cl : lstColumns) {

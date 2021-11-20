@@ -1,16 +1,16 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * ï¿½ Copyright WebGate Consulting AG, 2012
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.sources;
@@ -22,15 +22,15 @@ import java.util.Vector;
 
 import javax.faces.context.FacesContext;
 
+import com.ibm.xsp.complex.ValueBindingObjectImpl;
+
+import biz.webgate.dominoext.poi.component.data.IDefinition;
+import biz.webgate.dominoext.poi.util.DatabaseProvider;
+import biz.webgate.dominoext.poi.utils.xsp.ValueBindingSupport;
 import lotus.domino.Database;
 import lotus.domino.View;
 import lotus.domino.ViewEntry;
 import lotus.domino.ViewEntryCollection;
-import biz.webgate.dominoext.poi.component.data.IDefinition;
-import biz.webgate.dominoext.poi.util.DatabaseProvider;
-import biz.webgate.dominoext.poi.utils.xsp.ValueBindingSupport;
-
-import com.ibm.xsp.complex.ValueBindingObjectImpl;
 
 public class DominoView extends ValueBindingObjectImpl implements IExportSource {
 
@@ -60,6 +60,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		m_maxRow = maxRow;
 	}
 
+	@Override
 	public int accessNextRow() {
 		if (m_tempDataStore == null) {
 			return -1;
@@ -87,6 +88,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		return 1;
 	}
 
+	@Override
 	public int accessSource() {
 		if (m_tempDataStore == null) {
 			m_tempDataStore = new DataTempStore();
@@ -112,16 +114,14 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 				if (strKey != null) {
 					nvcCurrent = viwLUP.getAllEntriesByKey(strKey, true);
 					System.out.println("Build collection with Key: " + strKey + "(" + nvcCurrent.getCount() + ")");
-				} else {
-					if (strSearch != null) {
-						nvcCurrent.FTSearch(strSearch);
+				} else if (strSearch != null) {
+					nvcCurrent.FTSearch(strSearch);
 
-					}
 				}
 				m_tempDataStore.m_Database = ndbAccess;
 				m_tempDataStore.m_View = viwLUP;
 				m_tempDataStore.m_Col = nvcCurrent;
-				m_tempDataStore.m_ColTitle = new ArrayList<String>();
+				m_tempDataStore.m_ColTitle = new ArrayList<>();
 				m_tempDataStore.m_rowCount = 0;
 				for (Iterator<?> itNames = viwLUP.getColumnNames().iterator(); itNames.hasNext();) {
 					String strCLNAME = (String) itNames.next();
@@ -135,6 +135,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		return 1;
 	}
 
+	@Override
 	public int closeSource() {
 		try {
 			if (m_tempDataStore != null) {
@@ -159,6 +160,7 @@ public class DominoView extends ValueBindingObjectImpl implements IExportSource 
 		return 1;
 	}
 
+	@Override
 	public Object getValue(IDefinition idCurrent, FacesContext context) {
 		try {
 			String strTitle = idCurrent.getColumnTitle();

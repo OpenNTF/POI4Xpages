@@ -1,16 +1,16 @@
 /*
  * � Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.actions;
@@ -21,10 +21,10 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodNotFoundException;
 import javax.faces.el.ValueBinding;
 
+import com.ibm.xsp.util.FacesUtil;
+
 import biz.webgate.dominoext.poi.component.containers.UICSV;
 import biz.webgate.dominoext.poi.component.kernel.CSVProcessor;
-
-import com.ibm.xsp.util.FacesUtil;
 
 public class CSVGenerationServerAction extends AbstractServerAction {
 
@@ -76,7 +76,7 @@ public class CSVGenerationServerAction extends AbstractServerAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.ibm.xsp.binding.MethodBindingEx#restoreState(javax.faces.context.
 	 * FacesContext, java.lang.Object)
@@ -87,6 +87,6 @@ public class CSVGenerationServerAction extends AbstractServerAction {
 		super.restoreState(context, values[0]);
 		m_csvId = (String) values[1];
 	}
-	
+
 
 }

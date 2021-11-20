@@ -1,16 +1,16 @@
 /*
  * � Copyright WebGate Consulting AG, 2013
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.kernel;
@@ -19,10 +19,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.servlet.http.HttpServletResponse;
 
-import lotus.domino.Database;
-import lotus.domino.NotesException;
-import lotus.domino.View;
-import lotus.domino.ViewEntryCollection;
+import com.ibm.commons.util.StringUtil;
+import com.ibm.xsp.webapp.XspHttpServletResponse;
+
 import biz.webgate.dominoext.poi.component.containers.UISimpleViewExport;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.CSVExportProcessor;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportModel;
@@ -32,9 +31,10 @@ import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.WorkbooklExpo
 import biz.webgate.dominoext.poi.component.kernel.util.DateTimeHelper;
 import biz.webgate.dominoext.poi.util.DatabaseProvider;
 import biz.webgate.dominoext.poi.utils.logging.ErrorPageBuilder;
-
-import com.ibm.commons.util.StringUtil;
-import com.ibm.xsp.webapp.XspHttpServletResponse;
+import lotus.domino.Database;
+import lotus.domino.NotesException;
+import lotus.domino.View;
+import lotus.domino.ViewEntryCollection;
 
 public enum SimpleViewExportProcessor {
 	CSV(CSVExportProcessor.getInstance()), XLSX(WorkbooklExportProcessor.getInstance());
@@ -85,10 +85,8 @@ public enum SimpleViewExportProcessor {
 			ViewEntryCollection nvcCurrent = viwLUP.getAllEntries();
 			if (strKey != null) {
 				nvcCurrent = viwLUP.getAllEntriesByKey(strKey, true);
-			} else {
-				if (strSearch != null) {
-					nvcCurrent.FTSearch(strSearch);
-				}
+			} else if (strSearch != null) {
+				nvcCurrent.FTSearch(strSearch);
 			}
 			ExportModel expModel = ExportModelBuilder.INSTANCE.buildFromView(viwLUP);
 			ExportModelBuilder.INSTANCE.applyRowData(expModel, nvcCurrent);

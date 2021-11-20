@@ -42,7 +42,7 @@ public abstract class AbstractServerAction extends MethodBindingEx {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.ibm.xsp.binding.MethodBindingEx#restoreState(javax.faces.context.
 	 * FacesContext, java.lang.Object)

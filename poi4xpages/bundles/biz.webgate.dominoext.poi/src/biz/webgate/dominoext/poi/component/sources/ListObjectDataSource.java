@@ -1,16 +1,16 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * ï¿½ Copyright WebGate Consulting AG, 2012
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -26,12 +26,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
+import com.ibm.xsp.complex.ValueBindingObjectImpl;
+import com.ibm.xsp.util.StateHolderUtil;
+
 import biz.webgate.dominoext.poi.component.data.IDefinition;
 import biz.webgate.dominoext.poi.utils.exceptions.POIException;
 import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
-
-import com.ibm.xsp.complex.ValueBindingObjectImpl;
-import com.ibm.xsp.util.StateHolderUtil;
 
 public class ListObjectDataSource extends ValueBindingObjectImpl implements IExportSource {
 
@@ -76,6 +76,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements IExp
 		m_Values = values;
 	}
 
+	@Override
 	public Object getValue(IDefinition idCurrent, FacesContext context) {
 
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
@@ -102,6 +103,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements IExp
 		return null;
 	}
 
+	@Override
 	public int accessNextRow() {
 		int nResult = m_tempIt.hasNext() ? 1 : 0;
 		if (nResult == 1) {
@@ -110,6 +112,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements IExp
 		return nResult;
 	}
 
+	@Override
 	public int accessSource() throws POIException {
 		m_ValuesProcess = getValues();
 		if (m_ValuesProcess != null) {
@@ -118,6 +121,7 @@ public class ListObjectDataSource extends ValueBindingObjectImpl implements IExp
 		return m_ValuesProcess != null ? 1 : 0;
 	}
 
+	@Override
 	public int closeSource() {
 		m_tempIt = null;
 		m_tempObj = null;

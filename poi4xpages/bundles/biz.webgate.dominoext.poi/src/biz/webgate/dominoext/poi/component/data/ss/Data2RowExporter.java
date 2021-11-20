@@ -1,16 +1,16 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * ï¿½ Copyright WebGate Consulting AG, 2012
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.data.ss;
@@ -21,9 +21,9 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
-import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
-
 import com.ibm.xsp.util.StateHolderUtil;
+
+import biz.webgate.dominoext.poi.component.data.ss.cell.ColumnDefinition;
 
 public class Data2RowExporter extends AbstractDataExporter implements
 		IListDataExporter {
@@ -58,7 +58,7 @@ public class Data2RowExporter extends AbstractDataExporter implements
 
 	public void addColumn(ColumnDefinition cdCurrent) {
 		if (m_Columns == null) {
-			m_Columns = new ArrayList<ColumnDefinition>();
+			m_Columns = new ArrayList<>();
 		}
 		m_Columns.add(cdCurrent);
 	}

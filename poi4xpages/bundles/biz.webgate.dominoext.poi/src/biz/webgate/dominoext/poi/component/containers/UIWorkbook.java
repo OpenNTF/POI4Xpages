@@ -1,16 +1,16 @@
 /*
  * � Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.containers;
@@ -76,7 +76,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 
 	public void addSpreadsheet(Spreadsheet tbCurrent) {
 		if (m_Spreadsheets == null) {
-			m_Spreadsheets = new ArrayList<Spreadsheet>();
+			m_Spreadsheets = new ArrayList<>();
 		}
 		m_Spreadsheets.add(tbCurrent);
 	}
@@ -126,6 +126,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		return COMPONENT_FAMILY;
 	}
 
+	@Override
 	public boolean handles(FacesContext context) {
 		String reqPathInfo = context.getExternalContext().getRequestPathInfo();
 		if (StringUtil.isNotEmpty(reqPathInfo)) {
@@ -152,6 +153,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		return false;
 	}
 
+	@Override
 	public void processAjaxRequest(FacesContext context) throws IOException {
 		WorkbookProcessor.INSTANCE.processCall(context, this, false, null);
 	}
@@ -192,7 +194,7 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 		m_TemplateSource = (ITemplateSource) FacesUtil.objectFromSerializable(context, this, state[3]);
 		m_Spreadsheets = StateHolderUtil.restoreList(context, this, state[4]);
 		m_PostGenerationProcess = StateHolderUtil.restoreMethodBinding(context, this, state[5]);
-		m_UseStreamingModel = ((Boolean) state[6]).booleanValue();
+		m_UseStreamingModel = ((Boolean) state[6]);
 	}
 
 	public boolean postGenerationProcess(FacesContext context, Workbook wbCurrent) {
@@ -217,11 +219,9 @@ public class UIWorkbook extends UIComponentBase implements FacesAjaxComponent {
 
 	public void doPostGenerationProcessPrivileged(final FacesContext context, final Object[] params) {
 		try {
-			AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-				public Void run() throws Exception {
-					m_PostGenerationProcess.invoke(context, params);
-					return null;
-				}
+			AccessController.doPrivileged((PrivilegedExceptionAction<Void>) () -> {
+				m_PostGenerationProcess.invoke(context, params);
+				return null;
 			});
 		} catch (PrivilegedActionException e) {
 			e.printStackTrace();

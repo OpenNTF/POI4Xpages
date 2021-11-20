@@ -1,16 +1,16 @@
 /*
- * © Copyright WebGate Consulting AG, 2012
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * ï¿½ Copyright WebGate Consulting AG, 2012
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.data;
@@ -26,6 +26,13 @@ import javax.faces.el.ValueBinding;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import biz.webgate.dominoext.poi.util.DatabaseProvider;
+import biz.webgate.dominoext.poi.util.POILibUtil;
+import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 import lotus.domino.Database;
 import lotus.domino.Document;
 import lotus.domino.DxlExporter;
@@ -34,14 +41,6 @@ import lotus.domino.MIMEEntity;
 import lotus.domino.NoteCollection;
 import lotus.domino.Session;
 import lotus.domino.Stream;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import biz.webgate.dominoext.poi.util.DatabaseProvider;
-import biz.webgate.dominoext.poi.util.POILibUtil;
-import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 public class ResourceTemplateSource extends AbstractTemplateSource implements ITemplateSource {
 
@@ -68,6 +67,7 @@ public class ResourceTemplateSource extends AbstractTemplateSource implements IT
 		m_FileName = _fieldName;
 	}
 
+	@Override
 	public InputStream getFileStream() {
 		if (m_Data == null) {
 			return null;
@@ -94,6 +94,7 @@ public class ResourceTemplateSource extends AbstractTemplateSource implements IT
 		return null;
 	}
 
+	@Override
 	public int accessTemplate() {
 		Logger logCurrent = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 		String strFileName = getFileName();
@@ -156,6 +157,7 @@ public class ResourceTemplateSource extends AbstractTemplateSource implements IT
 		return -4;
 	}
 
+	@Override
 	public void cleanUP() {
 		m_Data = null;
 	}

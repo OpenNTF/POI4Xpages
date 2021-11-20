@@ -27,11 +27,9 @@ public enum MethodExecutor {
 	}
 
 	private void executePrivileged(final MethodBinding method, final FacesContext context, final Object[] params) throws PrivilegedActionException {
-		AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-			public Void run() throws Exception {
-				method.invoke(context, params);
-				return null;
-			}
+		AccessController.doPrivileged((PrivilegedExceptionAction<Void>) () -> {
+			method.invoke(context, params);
+			return null;
 		});
 	}
 }

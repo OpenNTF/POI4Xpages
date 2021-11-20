@@ -3,14 +3,14 @@ package biz.webgate.dominoext.poi.testsuite.csv;
 import java.util.Date;
 import java.util.Vector;
 
+import org.easymock.EasyMock;
+
 import lotus.domino.DateTime;
 import lotus.domino.NotesException;
 import lotus.domino.View;
 import lotus.domino.ViewColumn;
 import lotus.domino.ViewEntry;
 import lotus.domino.ViewEntryCollection;
-
-import org.easymock.EasyMock;
 
 public class MockHelper {
 
@@ -22,7 +22,7 @@ public class MockHelper {
 	}
 
 	public static Vector<ViewColumn> buildColumns() throws NotesException {
-		Vector<ViewColumn> columns = new Vector<ViewColumn>();
+		Vector<ViewColumn> columns = new Vector<>();
 		columns.add(buildSingleColumn(false, "Lastname", 0));
 		columns.add(buildSingleColumn(false, "Firstname", 0));
 		columns.add(buildSingleColumn(true, "icon", 0));
@@ -43,9 +43,9 @@ public class MockHelper {
 	@SuppressWarnings("deprecation")
 	public static ViewEntryCollection buildViewEntryCollection() throws NotesException {
 		ViewEntryCollection collection = EasyMock.createNiceMock(ViewEntryCollection.class);
-		EasyMock.expect(collection.getFirstEntry()).andReturn(buildViewEntry("René", "Müller", 80, new Date(1978, 3, 22)));
+		EasyMock.expect(collection.getFirstEntry()).andReturn(buildViewEntry("Renï¿½", "Mï¿½ller", 80, new Date(1978, 3, 22)));
 		EasyMock.expect(collection.getNextEntry()).andReturn(buildViewEntry("Peter", "Pan", 102, new Date(1974, 6, 11)));
-		EasyMock.expect(collection.getNextEntry()).andReturn(buildViewEntry("Gérald", "Rämisberger", 66, new Date(1982, 1, 12)));
+		EasyMock.expect(collection.getNextEntry()).andReturn(buildViewEntry("Gï¿½rald", "Rï¿½misberger", 66, new Date(1982, 1, 12)));
 		EasyMock.expect(collection.getNextEntry()).andReturn(null);
 		EasyMock.replay(collection);
 		return collection;
@@ -57,7 +57,7 @@ public class MockHelper {
 		EasyMock.expect(dt.toJavaDate()).andReturn(birthday);
 		dt.recycle();
 		EasyMock.replay(dt);
-		Vector<Object> values = new Vector<Object>();
+		Vector<Object> values = new Vector<>();
 		values.add(firstName);
 		values.add(lastName);
 		values.add(weight);

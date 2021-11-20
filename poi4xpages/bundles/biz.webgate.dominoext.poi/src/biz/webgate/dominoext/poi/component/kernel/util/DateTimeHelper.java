@@ -12,7 +12,7 @@ import com.ibm.xsp.designer.context.XSPContext;
 public class DateTimeHelper implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private SimpleDateFormat m_DFDate;

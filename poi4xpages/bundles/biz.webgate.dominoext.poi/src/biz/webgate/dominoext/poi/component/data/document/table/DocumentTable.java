@@ -1,16 +1,16 @@
 /*
- * © Copyright WebGate Consulting AG, 2013
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * ï¿½ Copyright WebGate Consulting AG, 2013
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the License is distributed on an "AS IS" BASIS, 
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package biz.webgate.dominoext.poi.component.data.document.table;
@@ -21,11 +21,11 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import com.ibm.xsp.util.StateHolderUtil;
+
 import biz.webgate.dominoext.poi.component.data.document.table.cell.DocCellValue;
 import biz.webgate.dominoext.poi.component.data.document.table.cell.DocColumnDefinition;
 import biz.webgate.dominoext.poi.component.data.ss.AbstractDataExporter;
-
-import com.ibm.xsp.util.StateHolderUtil;
 
 public class DocumentTable extends AbstractDataExporter {
 
@@ -50,7 +50,7 @@ public class DocumentTable extends AbstractDataExporter {
 
 	public void addDocCellValue(DocCellValue icvCurrent) {
 		if (m_DocCellValues == null) {
-			m_DocCellValues = new ArrayList<DocCellValue>();
+			m_DocCellValues = new ArrayList<>();
 		}
 		m_DocCellValues.add(icvCurrent);
 	}
@@ -84,7 +84,7 @@ public class DocumentTable extends AbstractDataExporter {
 
 	public void addDocColumn(DocColumnDefinition cdCurrent) {
 		if (m_DocColumns == null) {
-			m_DocColumns = new ArrayList<DocColumnDefinition>();
+			m_DocColumns = new ArrayList<>();
 		}
 		m_DocColumns.add(cdCurrent);
 	}
@@ -116,45 +116,45 @@ public class DocumentTable extends AbstractDataExporter {
 	}
 	/*
 	 * public IExportSource getDataSource() { return m_DataSource; }
-	 * 
+	 *
 	 * public void setDataSource(IExportSource dataSource) { m_DataSource =
 	 * dataSource; }
-	 * 
+	 *
 	 * public int getStepSize() { if (m_StepSize != null) { return m_StepSize; }
 	 * ValueBinding vb = getValueBinding("stepSize"); if (vb != null) { Integer
 	 * intValue = (Integer) vb.getValue(getFacesContext()); if (intValue !=
 	 * null) return intValue; } return 1; }
-	 * 
+	 *
 	 * public void setStepSize(int stepSize) { m_StepSize = stepSize; }
-	 * 
+	 *
 	 * public String getVar() { return m_Var; }
-	 * 
+	 *
 	 * public void setVar(String var) { m_Var = var; }
-	 * 
+	 *
 	 * public String getIndex() { return m_Index; }
-	 * 
+	 *
 	 * public void setIndex(String index) { m_Index = index; }
-	 * 
+	 *
 	 * public String getDataSourceVar() { if (m_DataSourceVar != null) { return
 	 * m_DataSourceVar; } ValueBinding vb = getValueBinding("dataSourceVar"); if
 	 * (vb != null) { String strValue = (String) vb.getValue(getFacesContext());
 	 * if (strValue != null) return strValue; } return null;
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * public void setDataSourceVar(String dataSourceVar) { m_DataSourceVar =
 	 * dataSourceVar; }
-	 * 
+	 *
 	 * public DataSource getPageDataSource() { String strName =
 	 * getDataSourceVar(); System.out.println(strName); if
 	 * (StringUtil.isNotEmpty(strName)) {
-	 * 
+	 *
 	 * UIViewRoot vrCurrent = getFacesContext().getViewRoot(); if (vrCurrent
 	 * instanceof UIViewRootEx) { for (DataSource dsCurrent : ((UIViewRootEx)
 	 * vrCurrent).getData()) { if (strName.equals(dsCurrent.getVar())) { return
 	 * dsCurrent; } } } } System.out.println("Datasource name:" +
 	 * m_DataSourceVar); return null;
-	 * 
+	 *
 	 * }
 	 */
 

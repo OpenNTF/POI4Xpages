@@ -1,17 +1,14 @@
 package biz.webgate.dominoext.poi.testsuite.csv;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletResponse;
-
-import lotus.domino.NotesException;
-import lotus.domino.ViewEntryCollection;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -24,6 +21,8 @@ import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportDataRow
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportModel;
 import biz.webgate.dominoext.poi.component.kernel.simpleviewexport.ExportModelBuilder;
 import biz.webgate.dominoext.poi.component.kernel.util.DateTimeHelper;
+import lotus.domino.NotesException;
+import lotus.domino.ViewEntryCollection;
 
 public class ExportTest {
 
