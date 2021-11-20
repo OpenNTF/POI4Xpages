@@ -32,6 +32,6 @@ public class FOPService implements IPDFService {
 
 	@Override
 	public String getName() {
-		return "FOP";
+		return "FOP"; //$NON-NLS-1$
 	}
 }

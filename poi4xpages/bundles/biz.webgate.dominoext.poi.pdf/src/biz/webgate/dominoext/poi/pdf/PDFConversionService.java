@@ -28,11 +28,11 @@ import biz.webgate.dominoext.poi.utils.logging.LoggerFactory;
 
 public class PDFConversionService {
 
-	private static final String PDF_SERVICE_KEY = "poi.pdfservice"; // $NON-NLS-1$
+	private static final String PDF_SERVICE_KEY = "poi.pdfservice"; //$NON-NLS-1$
 
-	private static final String PDF_DATAPROVIDER_SERVICE = "biz.webgate.poi.pdf.service"; // $NON-NLS-1$
+	private static final String PDF_DATAPROVIDER_SERVICE = "biz.webgate.poi.pdf.service"; //$NON-NLS-1$
 
-	private static final String PREF_PROVIDER = "poi.pdfservice.provider";
+	private static final String PREF_PROVIDER = "poi.pdfservice.provider"; //$NON-NLS-1$
 
 	private IPDFService m_PdfService;
 
