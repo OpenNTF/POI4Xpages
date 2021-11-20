@@ -9,5 +9,4 @@
 	</parent>
 	<artifactId>biz.webgate.dominoext.poi.utils</artifactId>
 	<packaging>eclipse-plugin</packaging>
-
 </project>

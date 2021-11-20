@@ -9,5 +9,4 @@
 	</parent>
 	<artifactId>biz.webgate.feature.poi.library</artifactId>
 	<packaging>eclipse-feature</packaging>
-
 </project>
