@@ -33,6 +33,8 @@
 			<distribution>manual</distribution>
 		</license>
 	</licenses>
+	
+	<inceptionYear>2012</inceptionYear>
 
 	<repositories>
 		<repository>
@@ -267,6 +269,26 @@
 				<artifactId>nsfodp-maven-plugin</artifactId>
 				<version>3.5.0</version>
 				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<aggregate>true</aggregate>
+					<header>license.txt</header>
+					<excludes>
+						<exclude>**/pom.xml</exclude>
+			            <exclude>**/README.md</exclude>
+			            <exclude>src/test/resources/**</exclude>
+			            <exclude>src/main/resources/**</exclude>
+						<exclude>**/build.properties</exclude>
+					</excludes>
+					<properties>
+						<owner>WebGate Consulting AG and others</owner>
+						<copyrightYear>2021</copyrightYear>
+					</properties>
+				</configuration>
 			</plugin>
 
 		</plugins>
