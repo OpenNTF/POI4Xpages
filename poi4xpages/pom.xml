@@ -7,10 +7,12 @@
 	<packaging>pom</packaging>
 	
 	<properties>
-		<tycho-version>1.7.0</tycho-version>
-		<compiler>1.6</compiler>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		
+		<tycho-version>1.7.0</tycho-version>
 		<sonar.language>java</sonar.language>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -46,6 +48,11 @@
 		<repository>
 			<id>openntf</id>
 			<url>https://artifactory.openntf.org/openntf/</url>
+		</repository>
+		<repository>
+			<id>osgi-deps</id>
+			<layout>p2</layout>
+			<url>${project.baseUri}../../../osgi-deps/target/repository</url>
 		</repository>
 	</repositories>
 
@@ -89,19 +96,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
-					<source>${compiler}</source>
-					<target>${compiler}</target>
-					<verbose>true</verbose>
-					<fork>true</fork>
-					<executable>${notes_jvm}</executable>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>1.8</version>
@@ -132,10 +126,6 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-compiler-plugin</artifactId>
 				<version>${tycho-version}</version>
-				<configuration>
-					<source>${compiler}</source>
-					<target>${compiler}</target>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
