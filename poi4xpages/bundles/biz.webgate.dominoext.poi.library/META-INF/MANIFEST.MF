@@ -9,7 +9,8 @@ Bundle-Vendor: WebGate Consulting AG
 Require-Bundle: org.eclipse.core.runtime,
  org.openntf.org.apache.poi;bundle-version="5.1.0";visibility:=reexport,
  fr.opensagres.poi.xwpf.converter.core;bundle-version="2.0.2";visibility:=reexport,
- fr.opensagres.poi.xwpf.converter.xhtml;bundle-version="2.0.2";visibility:=reexport
+ fr.opensagres.poi.xwpf.converter.xhtml;bundle-version="2.0.2";visibility:=reexport,
+ org.apache.commons.commons-csv;bundle-version="1.9.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: biz.webgate.dominoext.poi.library

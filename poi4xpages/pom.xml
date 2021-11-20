@@ -61,7 +61,6 @@
 	<modules>
 		<module>bundles/biz.webgate.dominoext.poi.library</module>
 		<module>bundles/biz.webgate.dominoext.poi.utils</module>
-		<module>bundles/biz.webgate.dominoext.poi.csvprocessor</module>
 		<module>bundles/biz.webgate.dominoext.poi.pdf</module>
 		<module>bundles/biz.webgate.dominoext.poi.pdf.fopdox4j</module>
 		<module>bundles/biz.webgate.dominoext.poi</module>

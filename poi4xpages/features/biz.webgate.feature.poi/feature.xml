@@ -241,7 +241,6 @@ END OF TERMS AND CONDITIONS
    </requires>
 
    <plugin id="biz.webgate.dominoext.poi" version="0.0.0" />
-   <plugin id="biz.webgate.dominoext.poi.csvprocessor" version="0.0.0"/>
    <plugin id="biz.webgate.dominoext.poi.pdf" version="0.0.0"/>
    <plugin id="biz.webgate.dominoext.poi.pdf.fopdocx4j" version="0.0.0"/>
    <plugin id="biz.webgate.dominoext.poi.utils" version="0.0.0"/>
