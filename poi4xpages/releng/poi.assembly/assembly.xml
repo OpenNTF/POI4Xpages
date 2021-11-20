@@ -6,38 +6,33 @@
 	<formats>
 		<format>zip</format>
 	</formats>
-	<baseDirectory>target</baseDirectory>
 	<includeBaseDirectory>false</includeBaseDirectory>
 
-
-
-
+	<!-- Local files -->
 	<fileSets>
 		<fileSet>
-			<directory>${project.build.directory}/sources/POI/</directory>
+			<directory>${project.basedir}/../../..</directory>
 			<includes>
-				<include>biz.webgate.dominoext.poi*</include>
-			</includes>
-			<outputDirectory>/</outputDirectory>
-		</fileSet>
-		<fileSet>
-			<directory>../</directory>
-			<includes>
-				<include>*.txt</include>
 				<include>LICENSE</include>
+				<include>NOTICE.txt</include>
+				<include>README.md</include>
 			</includes>
-			<outputDirectory></outputDirectory>
-		</fileSet>
-
-		<fileSet>
-			<directory>../biz.webgate.updatesite.poi/target</directory>
-			<outputDirectory>/</outputDirectory>
-			<includes>
-				<include>biz.webgate.updatesite.poi*</include>
-			</includes>
+			<outputDirectory>.</outputDirectory>
 		</fileSet>
 	</fileSets>
 	<moduleSets>
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>biz.webgate.poi4xpages:biz.webgate.updatesite-designer.poi</include>
+			</includes>
+			
+			<binaries>
+				<outputDirectory>UpdateSite</outputDirectory>
+				<unpack>true</unpack>
+				<includeDependencies>false</includeDependencies>
+			</binaries>
+		</moduleSet>
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includes>

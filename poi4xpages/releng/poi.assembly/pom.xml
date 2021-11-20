@@ -9,95 +9,10 @@
 	</parent>
 	<artifactId>poi.assembly</artifactId>
 	<packaging>pom</packaging>
+	<name>POI4XPages Assembly</name>
 
-	<properties>
-		<kit.parentDir>${project.basedir}/../</kit.parentDir>
-		<kit.workingDir>${project.build.directory}</kit.workingDir>
-		<kit.finalAssemblyFolder>${kit.workingDir}/kit</kit.finalAssemblyFolder>
-		<workingDir>${project.build.directory}</workingDir>
-		<finalAssemblyFolder>
-			${workingDir}/kit
-		</finalAssemblyFolder>
-		<lic.file>${project.parent.basedir}/LICENSE_HEADER/apacheV2.txt</lic.file>
-	</properties>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.googlecode.maven-download-plugin</groupId>
-				<artifactId>maven-download-plugin</artifactId>
-				<version>1.1.0</version>
-				<executions>
-					<execution>
-						<id>download-sources</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>wget</goal>
-						</goals>
-						<configuration>
-							<url>${kit.sourceCodeUrl}${kit.sourceBranch}</url>
-							<unpack>false</unpack>
-							<skipCache>true</skipCache>
-							<outputFileName>biz.webgate.dominoext.poi.sources.zip</outputFileName>
-							<outputDirectory>${project.build.directory}/sources/POI</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.codehaus.plexus</groupId>
-						<artifactId>plexus-archiver</artifactId>
-						<version>2.4.4</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>removedownloadsAndResults</id>
-						<phase>clean</phase>
-						<configuration>
-							<target>
-								<delete dir="${kit.workingDir}/sources" />
-								<delete dir="${kit.parentDir}/${kit.result}"/>
-							</target>
-						</configuration>
-						<goals><goal>run</goal></goals>
-					</execution>
-					<execution>
-						<id>p2repo</id>
-						<phase>package</phase>
-						<configuration>
-							<target>
-								<unzip
-									src="../biz.webgate.dominoext.poi.p2/target/biz.webgate.dominoext.poi.p2-${project.version}.zip"
-									dest="${kit.finalAssemblyFolder}/p2-${p2.buildVersion}" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>toDistribution</id>
-						<phase>install</phase>
-						<configuration>
-							<target>
-								<copy todir="${kit.parentDir}/${kit.result}">
-    								<fileset dir="${kit.finalAssemblyFolder}">
-    								</fileset>
-								</copy>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>					
-					
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -110,9 +25,8 @@
 						</goals>
 						<configuration>
 							<descriptor>assembly.xml</descriptor>
-							<finalName>biz.webgate.dominoext.poi-${kit.buildVersion}</finalName>
+							<finalName>biz.webgate.dominoext.poi-${project.version}</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
-							<outputDirectory>${finalAssemblyFolder}</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -120,5 +34,4 @@
 
 		</plugins>
 	</build>
-	<name>POI4XPages Assembly</name>
 </project>
