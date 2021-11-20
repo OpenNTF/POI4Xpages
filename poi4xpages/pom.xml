@@ -262,6 +262,12 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.openntf.maven</groupId>
+				<artifactId>nsfodp-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<extensions>true</extensions>
+			</plugin>
 
 		</plugins>
 
@@ -303,4 +309,14 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>odpcompiler</id>
+			
+			<modules>
+				<module>nsfs/nsf-example</module>
+			</modules>
+		</profile>
+	</profiles>
 </project>
