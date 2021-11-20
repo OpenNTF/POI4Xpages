@@ -4,7 +4,7 @@
 .gitignore text
 
 # Java
-*.java text
+*.java text diff=java
 *.MF text
 *.properties text
 *.jsp text
