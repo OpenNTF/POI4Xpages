@@ -244,5 +244,7 @@ END OF TERMS AND CONDITIONS
    <plugin id="org.openntf.org.apache.poi" version="0.0.0"/>
    <plugin id="org.openntf.org.apache.poi.ooxml" version="0.0.0" fragment="true"/>
    <plugin id="org.openntf.org.apache.poi.ooxml-full" version="0.0.0" fragment="true"/>
+   <plugin id="org.apache.logging.log4j.api" version="0.0.0"/>
+   <plugin id="org.openntf.org.apache.logging.log4j.core" version="0.0.0" fragment="true"/>
 
 </feature>
