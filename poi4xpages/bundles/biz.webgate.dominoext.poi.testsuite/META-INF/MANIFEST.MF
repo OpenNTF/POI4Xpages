@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: biz.webgate.dominoext.poi.testsuite;singleton:=true
 Automatic-Module-Name: biz.webgate.dominoext.poi.testsuite
-Bundle-Version: 5.1.0.qualifier
+Bundle-Version: 5.1.1.qualifier
 Bundle-Name: POI4XPages Testsuite Plugin
 Bundle-Vendor: WebGate Consulting AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
