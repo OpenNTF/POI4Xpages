@@ -1,0 +1,91 @@
+<faces-config>
+	<faces-config-extension>
+  		<namespace-uri>http://www.webgate.biz/xsp/poi</namespace-uri>
+  		<default-prefix>wgpoi</default-prefix>
+	</faces-config-extension>
+
+	
+	<complex-type>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue</complex-class>
+	</complex-type>
+
+
+	<complex-type>
+  		<description>Defines a bookmark in a table</description>
+  		<display-name>CellBookmark</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.ss.cell.cellbookmark</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.ss.cell.CellBookmark</complex-class>
+  		<property>
+    		<description>bookmark name</description>
+	 	 	<display-name>Name</display-name>
+		    <property-name>name</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>Value</description>
+	 	 	<display-name>Value</display-name>
+		    <property-name>value</property-name>
+    		<property-class>java.lang.Object</property-class>
+    	</property>
+  		<complex-extension>
+    		<tag-name>cellBookmark</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue</base-complex-id>
+  		</complex-extension>
+  		
+	</complex-type>
+
+	<complex-type>
+  		<description>Defines a value for a cell in a table</description>
+  		<display-name>CellValue</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.ss.cell.cellvalue</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.ss.cell.CellValue</complex-class>
+  		<property>
+    		<description>The row</description>
+	 	 	<display-name>RowNumber</display-name>
+		    <property-name>rowNumber</property-name>
+    		<property-class>int</property-class>
+  		</property>
+  		<property>
+    		<description>The column</description>
+	 	 	<display-name>ColumnNumber</display-name>
+		    <property-name>columnNumber</property-name>
+    		<property-class>int</property-class>
+  		</property>
+  		<property>
+    		<description>Value</description>
+	 	 	<display-name>Value</display-name>
+		    <property-name>value</property-name>
+    		<property-class>java.lang.Object</property-class>
+    	</property>
+    	<property>
+			<description>If this property is set to true the entered Value will be handled as a Formula (No = needed in the beginning, use , instead of ;) </description>
+			<display-name>Cell Formula</display-name>
+			<property-name>cellFormula</property-name>
+			<property-class>boolean</property-class>
+			<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+		<property>
+			<description>Cell Style</description>
+			<display-name>CellStyle</display-name>
+			<property-name>cellStyle</property-name>
+            <property-class>biz.webgate.dominoext.poi.component.data.ss.cell.PoiCellStyle</property-class>
+        	<property-extension>
+				<since>1.1.7</since>
+				<method-binding-property>false</method-binding-property>
+			</property-extension>
+		</property>
+		
+  		<complex-extension>
+    		<tag-name>cellValue</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.data.ss.cell.ICellValue</base-complex-id>
+  		</complex-extension>
+  		
+	</complex-type>
+
+</faces-config>
+

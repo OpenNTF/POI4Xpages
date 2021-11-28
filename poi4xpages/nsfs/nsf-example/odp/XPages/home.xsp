@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xc:ccApplication pageTitle="Welcome to POI 4 XPages"
+		navigationPath="/docx/home">
+		<xp:this.facets>
+			<xp:panel xp:key="facetMiddle">
+				<xp:panel>
+					<h1>POI 4 XPages</h1>
+					 Generating Word and Excel Files out of XPages was never easier.
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					The main goal of POI 4 XPages is to bring the capabilities of
+					Apache POI to the XPages community.
+					<xp:br></xp:br>
+					The following elements are available:
+				</xp:panel>
+				<xp:table>
+					<xp:tr>
+						<xp:td>
+							<xp:image url="Word_96.png" id="image2"></xp:image>
+						</xp:td>
+						<xp:td>
+							Generate word documents with dynamic content
+							by building a word file with placeholders
+							inside. The placeholders are text with the
+							following notation: &lt;&lt;name of the
+							placeholder&gt;&gt;
+							<xp:br></xp:br>
+							Pro Tip: Deactivate any spellchecker
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:image url="Excel_96.png" id="image3"></xp:image>
+						</xp:td>
+						<xp:td>
+							Export XPages or POI Datasources line by
+							line or column by column to a prepared Excel
+							Workbook. Use the same placeholder style
+							like the word documents and export defined
+							values to a specific cell and row.
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td>
+							<xp:image url="csv_96.png" id="image4"></xp:image>
+						</xp:td>
+						<xp:td>
+							Export XPages or POI Datasource line by line
+							to a CSV file.
+						</xp:td>
+					</xp:tr>
+					<xp:tr>
+						<xp:td><xp:image url="sve_96.png" id="image5"></xp:image></xp:td>
+						<xp:td>Export a View direct as Workbook or as CSV</xp:td>
+					</xp:tr>
+				</xp:table>
+				<xp:panel>
+				Generate some sample datas by klicking on the administration button and then explore the sample applications!<xp:br></xp:br>
+				<xp:br></xp:br>
+				Have fun!
+				<xp:br></xp:br>
+				Christian
+				</xp:panel>
+			</xp:panel>
+			<xp:panel xp:key="facetRight">
+				<xp:image id="image1">
+					<xp:this.url><![CDATA[#{javascript:"sidebar_img.png"}]]></xp:this.url>
+				</xp:image>
+			</xp:panel>
+			<xc:ccNavDocX xp:key="facetLeft"></xc:ccNavDocX>
+		</xp:this.facets>
+	</xc:ccApplication>
+</xp:view>

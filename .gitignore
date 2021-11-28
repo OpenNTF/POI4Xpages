@@ -12,10 +12,12 @@ target/
 *.swp
 *~.nib
 local.properties
-#.settings/
+.settings/
 #*.prefs
 .apt_generated
 .loadpath
+.project
+.classpath
 
 # External tool builders
 .externalToolBuilders/

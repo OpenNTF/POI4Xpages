@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<note class="form" maintenanceversion="3.0" replicaid="C1257A6A004D4D0A" version="8.5" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="232" sequence="3" unid="F7A3C3E2DAF63A6BC1257AD7003908B8">
+<created><datetime>20121217T112257,84+01</datetime></created>
+<modified><datetime>20121217T113827,98+01</datetime></modified>
+<revised><datetime>20121217T113827,97+01</datetime></revised>
+<lastaccessed><datetime>20121217T113827,98+01</datetime></lastaccessed>
+<addedtofile><datetime>20121217T112257,88+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
+<item name="$TITLE"><text>Word_Sample.png</text></item>
+<item name="$FlagsExt"><text>D</text></item>
+
+<item name="$FileModDT" sign="true"><datetime>20121217T112215,00+01</datetime></item>
+
+
+<item name="$FileNames" sign="true"><text>Word_Sample.png</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+<item name="$EditFilePath"><text>C:\DOCUME~1\CHRIST~1.GUE\LOCALS~1\Temp\notes87944B\~Word_Sample.png</text></item>
+<item name="$Flags"><text>345CgQ</text></item></note>

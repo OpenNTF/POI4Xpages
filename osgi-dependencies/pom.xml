@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>biz.webgate.poi4xpages</groupId>
+	<artifactId>poi-osgi-dependencies</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	
+	<description>
+		This project exists to generate a local p2 site for use as part of the OSGi
+		target platform during compilation. These plugins are not including in the
+		final installable distribution and this project is not part of the POI4XPages
+		project set for normal development.
+	</description>
+	
+	<packaging>pom</packaging>
+	
+	<properties>
+		<poi.version>5.1.0</poi.version>
+	
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
+	</properties>
+	
+	<repositories>
+		<repository>
+			<id>eclipse-platform</id>
+			<url>https://download.eclipse.org/releases/neon/201612211000</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>openntf</id>
+			<url>https://artifactory.openntf.org/openntf/</url>
+		</repository>
+	</repositories>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>reficio</id>
+			<url>http://repo.reficio.org/maven/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<build>
+		<plugins>
+			<plugin>
+			    <groupId>org.reficio</groupId>
+				<artifactId>p2-maven-plugin</artifactId>
+				<version>1.3.0</version>
+				<extensions>true</extensions>
+				
+				<executions>
+					<execution>
+						<id>generate-p2-site</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact><id>org.openntf.domino:org.openntf.domino.java.api.corba.patch:1.0.0</id></artifact>
+								
+								<!-- Poi -->
+								<artifact>
+									<id>org.apache.poi:poi:${poi.version}</id>
+									<source>true</source>
+									<override>true</override>
+									<instructions>
+										<Bundle-SymbolicName>org.openntf.org.apache.poi</Bundle-SymbolicName>
+										<Bundle-Version>${poi.version}_${osgi.qualifier}</Bundle-Version>
+										<Require-Bundle>
+											org.apache.xmlbeans
+										</Require-Bundle>
+										<Eclipse-ExtensibleAPI>true</Eclipse-ExtensibleAPI>
+									</instructions>
+								</artifact>
+								<artifact>
+									<id>org.apache.poi:poi-ooxml:${poi.version}</id>
+									<source>true</source>
+									<override>true</override>
+									<instructions>
+										<Bundle-SymbolicName>org.openntf.org.apache.poi.ooxml</Bundle-SymbolicName>
+										<Bundle-Version>${poi.version}_${osgi.qualifier}</Bundle-Version>
+										<Fragment-Host>org.openntf.org.apache.poi</Fragment-Host>
+									</instructions>
+								</artifact>
+								<artifact>
+									<id>org.apache.poi:poi-ooxml-lite:${poi.version}</id>
+									<source>true</source>
+									<instructions>
+										<Bundle-SymbolicName>org.openntf.org.apache.poi.ooxml-lite</Bundle-SymbolicName>
+										<Bundle-Version>${poi.version}_${osgi.qualifier}</Bundle-Version>
+										<Fragment-Host>org.openntf.org.apache.poi</Fragment-Host>
+									</instructions>
+								</artifact>
+								<artifact>
+									<id>org.apache.poi:poi-ooxml-full:${poi.version}</id>
+									<source>true</source>
+									<instructions>
+										<Bundle-SymbolicName>org.openntf.org.apache.poi.ooxml-full</Bundle-SymbolicName>
+										<Bundle-Version>${poi.version}_${osgi.qualifier}</Bundle-Version>
+										<Fragment-Host>org.openntf.org.apache.poi</Fragment-Host>
+									</instructions>
+								</artifact>
+								
+								<!-- Third-party extensions -->
+								<artifact>
+									<id>fr.opensagres.xdocreport:fr.opensagres.poi.xwpf.converter.core:2.0.2</id>
+									<source>true</source>
+									<transitive>false</transitive>
+								</artifact>
+								<artifact>
+									<id>fr.opensagres.xdocreport:fr.opensagres.poi.xwpf.converter.xhtml:2.0.2</id>
+									<source>true</source>
+									<transitive>false</transitive>
+								</artifact>
+								<artifact>
+									<id>fr.opensagres.xdocreport:fr.opensagres.xdocreport.core:2.0.2</id>
+									<source>true</source>
+									<transitive>false</transitive>
+								</artifact>
+								
+								<!-- Related Tools -->
+								<artifact><id>org.apache.commons:commons-csv:1.9.0</id><source>true</source></artifact>
+								<artifact><id>org.docx4j:docx4j-JAXB-Internal:8.3.1</id><source>true</source></artifact>
+								<artifact><id>org.apache.xmlgraphics:fop:2.6</id><source>true</source></artifact>
+								
+								<!-- Apache Logging -->
+								<artifact>
+									<id>org.apache.logging.log4j:log4j-core:2.14.1</id>
+									<source>true</source>
+									<override>true</override>
+									<instructions>
+										<Bundle-SymbolicName>org.openntf.org.apache.logging.log4j.core</Bundle-SymbolicName>
+										<Bundle-Version>2.14.1_${osgi.qualifier}</Bundle-Version>
+										<Fragment-Host>org.apache.logging.log4j.api</Fragment-Host>
+									</instructions>
+								</artifact>
+							</artifacts>
+
+							<compressSite>true</compressSite>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" replicaid="C1257BEF003F8C4E" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="29e" sequence="2" unid="DC402863CE406EC3C1257BF1002B8A67">
+<created><datetime dst="true">20130925T095534,79+02</datetime></created>
+<modified><datetime dst="true">20130925T095535,36+02</datetime></modified>
+<revised><datetime dst="true">20130925T095535,35+02</datetime></revised>
+<lastaccessed><datetime dst="true">20130925T095535,36+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20130925T095534,81+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></updatedby>
+<wassignedby><name>CN=Christian Guedemann/O=WGC/C=CH</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>biz/webgate/domino/poi/demodb/poweraction/WorkbookUpload.java</text></item>
+
+
+
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>biz/webgate/domino/poi/demodb/poweraction/WorkbookUpload.java</text></item></note>

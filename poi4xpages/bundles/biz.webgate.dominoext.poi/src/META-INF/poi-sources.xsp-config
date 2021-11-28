@@ -1,0 +1,75 @@
+<faces-config>
+	<faces-config-extension>
+  		<namespace-uri>http://www.webgate.biz/xsp/poi</namespace-uri>
+  		<default-prefix>wgpoi</default-prefix>
+	</faces-config-extension>
+
+
+	<complex-type>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.templatesource</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.ITemplateSource</complex-class>
+	</complex-type>
+
+
+	<complex-type>
+  		<description>Using a attachment in a document for the data source as document</description>
+  		<display-name>Attachment template</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.attachmenttemplate</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.AttachmentTemplateSource</complex-class>
+  		<property>
+    		<description>Path to the database</description>
+	 	 	<display-name>databaseName</display-name>
+		    <property-name>databaseName</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>Name of the view to search</description>
+	 	 	<display-name>viewName</display-name>
+		    <property-name>viewName</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>Key to access the document</description>
+	 	 	<display-name>keyName</display-name>
+		    <property-name>keyName</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>Name of the field where the attachment is</description>
+	 	 	<display-name>fieldName</display-name>
+		    <property-name>fieldName</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		
+  		<complex-extension>
+    		<tag-name>attachmenttemplate</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.data.templatesource</base-complex-id>
+  		</complex-extension>
+	</complex-type>
+
+	<complex-type>
+  		<description>Template as file resource in a specific database</description>
+  		<display-name>Resource template</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.resourcetemplate</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.ResourceTemplateSource</complex-class>
+  		<property>
+    		<description>Path to the database</description>
+	 	 	<display-name>databaseName</display-name>
+		    <property-name>databaseName</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>Name of the file in the resource view</description>
+	 	 	<display-name>fileName</display-name>
+		    <property-name>fileName</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		
+  		<complex-extension>
+    		<tag-name>resourcetemplate</tag-name>
+    		<base-complex-id>biz.webgate.dominoext.poi.component.data.templatesource</base-complex-id>
+  		</complex-extension>
+	</complex-type>
+
+</faces-config>
+
