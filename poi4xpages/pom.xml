@@ -58,6 +58,14 @@
 		</repository>
 	</repositories>
 
+	<distributionManagement>
+		<repository>
+			<id>artifactory.openntf.org</id>
+			<name>artifactory.openntf.org</name>
+			<url>https://artifactory.openntf.org/openntf</url>
+		</repository>
+	</distributionManagement>
+
 	<modules>
 		<module>bundles/biz.webgate.dominoext.poi.utils</module>
 		<module>bundles/biz.webgate.dominoext.poi.pdf</module>
