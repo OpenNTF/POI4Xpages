@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI PDF Interface
 Bundle-SymbolicName: biz.webgate.dominoext.poi.pdf;singleton:=true
 Automatic-Module-Name: biz.webgate.dominoext.poi.pdf
-Bundle-Version: 5.1.0.qualifier
+Bundle-Version: 5.1.1.qualifier
 Bundle-Vendor: WebGate Consulting AG
 Export-Package: biz.webgate.dominoext.poi.pdf;uses:="org.osgi.framework",
  biz.webgate.dominoext.poi.pdf.service;uses:="biz.webgate.dominoext.poi.pdf"
