@@ -44,3 +44,6 @@ Desktop.ini
 .DS_Store
 biz.webgate.dominoext.poi.library/lib-maven/
 snapshots/
+
+
+pom.xml.versionsBackup

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: POI Utils
 Bundle-SymbolicName: biz.webgate.dominoext.poi.utils;singleton:=true
 Automatic-Module-Name: biz.webgate.dominoext.poi.utils
-Bundle-Version: 5.1.1.qualifier
+Bundle-Version: 5.1.2.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.utils.Activator
 Bundle-Vendor: WebGate Consulting AG
 Require-Bundle: org.eclipse.core.runtime,

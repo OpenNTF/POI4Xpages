@@ -128,12 +128,12 @@
 								
 								<!-- Apache Logging -->
 								<artifact>
-									<id>org.apache.logging.log4j:log4j-core:2.15.0</id>
+									<id>org.apache.logging.log4j:log4j-core:2.16.0</id>
 									<source>true</source>
 									<override>true</override>
 									<instructions>
 										<Bundle-SymbolicName>org.openntf.org.apache.logging.log4j.core</Bundle-SymbolicName>
-										<Bundle-Version>2.15.0_${osgi.qualifier}</Bundle-Version>
+										<Bundle-Version>2.16.0_${osgi.qualifier}</Bundle-Version>
 										<Fragment-Host>org.apache.logging.log4j.api</Fragment-Host>
 									</instructions>
 								</artifact>
