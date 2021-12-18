@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: FOP DOCX4J Implementation
 Bundle-SymbolicName: biz.webgate.dominoext.poi.pdf.fopdocx4j;singleton:=true
 Automatic-Module-Name: biz.webgate.dominoext.poi.pdf.fopdocx4j
-Bundle-Version: 5.1.2.qualifier
+Bundle-Version: 5.1.3.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  biz.webgate.dominoext.poi.utils,
  org.apache.commons.commons-codec;bundle-version="1.15.0",
