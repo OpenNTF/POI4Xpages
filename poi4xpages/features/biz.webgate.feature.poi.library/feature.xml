@@ -19,7 +19,7 @@
 <feature
       id="biz.webgate.feature.poi.library"
       label="Apache POI Library"
-      version="5.1.3.qualifier"
+      version="5.1.4.qualifier"
       provider-name="WebGate Consulting AG and others">
 
    <description url="http://my.webgate.biz/poi.documentation">
