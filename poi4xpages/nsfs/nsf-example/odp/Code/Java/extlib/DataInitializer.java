@@ -392,14 +392,6 @@ public class DataInitializer {
 			mdt.add(createDateTime(session, 2011, 2, index, 6, 2, index));
 			mdt.add(createDateTime(session, 2011, 3, index, 6, 3, index));
 			doc.replaceItemValue("fldDateTime2",mdt);		
-
-			if(false) { // DateTime range do not work with multiple values?
-				Vector<Object> mrg = new Vector<Object>();
-				mrg.add(createDateTimeRange(session, 2012, 2, index, 4, 1, index));
-				mrg.add(createDateTimeRange(session, 2012, 3, index, 5, 1, index));
-				mrg.add(createDateTimeRange(session, 2012, 4, index, 6, 1, index));
-				doc.replaceItemValue("fldDateTimeRange2",mrg);
-			}
 			
 			Vector<Object> mdg = new Vector<Object>();
 			mdg.add("dlgx_"+sIndex+"_1");

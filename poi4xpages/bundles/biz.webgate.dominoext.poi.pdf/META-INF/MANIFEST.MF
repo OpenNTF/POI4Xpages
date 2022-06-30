@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.core.runtime,
  biz.webgate.dominoext.poi.pdf.fopdocx4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
+Import-Package: org.apache.poi.sl.usermodel

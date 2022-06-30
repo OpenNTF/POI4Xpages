@@ -17,7 +17,7 @@ local.properties
 .apt_generated
 .loadpath
 .project
-.classpath
+#.classpath
 
 # External tool builders
 .externalToolBuilders/

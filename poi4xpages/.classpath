@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/src"/>
+	<classpathentry kind="src" path="bundles/biz.webgate.dominoext.poi.pdf/src"/>
+	<classpathentry kind="src" path="bundles/biz.webgate.dominoext.poi.testsuite/src"/>
+	<classpathentry kind="src" path="bundles/biz.webgate.dominoext.poi.utils/src"/>
+	<classpathentry kind="src" path="bundles/biz.webgate.dominoext.poi/src"/>
+	<classpathentry kind="src" path="nsfs/nsf-example/odp/Code/Java"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/antlr-2.7.7.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/antlr-runtime-3.3.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/avalon-framework-api-4.3.1.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/avalon-framework-impl-4.3.1.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/batik-all-1.7.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/docx4j-clean-2.8.1.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/fop-1.0.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/jaxb-svg11-1.0.2.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/jaxb-xmldsig-core-1.0.0.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/jaxb-xslfo-1.0.1.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/serializer-2.7.1.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/stringtemplate-3.2.1.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/wmf2svg-0.9.0.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/xalan-2.7.1.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.pdf.fopdox4j/lib/xmlgraphics-commons-1.4.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.testsuite/lib/cglib-nodep-2.2.2.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.testsuite/lib/easymock-3.3.jar"/>
+	<classpathentry kind="lib" path="bundles/biz.webgate.dominoext.poi.testsuite/lib/objenesis-2.1.jar"/>
+	<classpathentry kind="lib" path="nsfs/nsf-example/odp/WebContent/WEB-INF/lib/data.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.xsp.core_12.0.1.20220329-1158/lwpd.xsp.core.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.designer.runtime_12.0.1.20220329-1158/lwpd.runtime.designer.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.designer.lib.jsf_12.0.1.20220329-1158/lib/jsf.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/rcp/eclipse/plugins/com.ibm.pvc.servlet_2.5.0.20220309-0931.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.commons_12.0.1.20220329-1158/lwpd.commons.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/rcp/eclipse/plugins/org.eclipse.osgi_3.11.3.20220309-0931.jar"/>
+	<classpathentry kind="lib" path="../osgi-dependencies/target/repository/plugins/org.apache.commons.commons-csv_1.9.0.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.xsp.extlib.core_12.0.1.v00_01_20220329-1158.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.xsp.extlib.controls_12.0.1.v00_01_20220329-1158.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.domino.services_12.0.1.v00_01_20220329-1158.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.xsp.designer_12.0.1.20220329-1158/lwpd.xsp.designer.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.xsp.domino_12.0.1.20220329-1158/lwpd.xsp.domino.jar"/>
+	<classpathentry kind="lib" path="C:/HCL/Domino/osgi/shared/eclipse/plugins/com.ibm.xsp.extsn_12.0.1.20220329-1158/lwpd.xsp.extsn.jar"/>
+	<classpathentry kind="lib" path="../osgi-dependencies/target/repository/plugins/org.openntf.org.apache.poi_5.2.2.20220630154315.jar" sourcepath="../osgi-dependencies/target/repository/plugins/org.openntf.org.apache.poi.source_5.2.2.20220630154315.jar"/>
+	<classpathentry kind="lib" path="../osgi-dependencies/target/repository/plugins/org.openntf.org.apache.poi.ooxml-full_5.2.2.20220630154315.jar" sourcepath="../osgi-dependencies/target/repository/plugins/org.openntf.org.apache.poi.ooxml-full.source_5.2.2.20220630154315.jar"/>
+	<classpathentry kind="lib" path="../osgi-dependencies/target/repository/plugins/org.openntf.org.apache.poi.ooxml_5.2.2.20220630154315.jar" sourcepath="../osgi-dependencies/target/repository/plugins/org.openntf.org.apache.poi.ooxml.source_5.2.2.20220630154315.jar"/>
+	<classpathentry kind="lib" path="../osgi-dependencies/target/repository/plugins/org.apache.xmlbeans_5.0.3.jar" sourcepath="../osgi-dependencies/target/repository/plugins/org.apache.xmlbeans.source_5.0.3.jar"/>
+	<classpathentry kind="lib" path="../osgi-dependencies/target/repository/plugins/fr.opensagres.poi.xwpf.converter.xhtml_2.0.2.jar" sourcepath="../osgi-dependencies/target/repository/plugins/fr.opensagres.poi.xwpf.converter.xhtml.source_2.0.2.jar"/>
+	<classpathentry kind="lib" path="../osgi-dependencies/target/repository/plugins/fr.opensagres.poi.xwpf.converter.core_2.0.2.jar" sourcepath="../osgi-dependencies/target/repository/plugins/fr.opensagres.poi.xwpf.converter.core.source_2.0.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
