@@ -78,6 +78,48 @@
     		<base-complex-id>biz.webgate.dominoext.poi.component.data.document.idocumentbookmark</base-complex-id>
   		</complex-extension>
 	</complex-type>
+	
+	<complex-type>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.image.ibookmarkimage</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.image.IBookmarkImage</complex-class>
+	</complex-type>
+
+	<complex-type>
+  		<description>Replace a value on the defined bookmark in the document by an image</description>
+  		<display-name>Document Bookmark Image</display-name>
+  		<complex-id>biz.webgate.dominoext.poi.component.data.image.bookmarkimage</complex-id>
+  		<complex-class>biz.webgate.dominoext.poi.component.data.image.BookmarkImage</complex-class>
+  		<property>
+    		<description>The name of the bookmark</description>
+	 	 	<display-name>bookmark</display-name>
+		    <property-name>name</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>The id of the image</description>
+	 	 	<display-name>id</display-name>
+		    <property-name>value</property-name>
+    		<property-class>java.lang.Integer</property-class>
+  		</property>
+		<property>
+    		<description>The file path of the image (url or server file)</description>
+	 	 	<display-name>filepath</display-name>
+		    <property-name>filepath</property-name>
+    		<property-class>java.lang.String</property-class>
+  		</property>
+  		<property>
+    		<description>The width of the image</description>
+	 	 	<display-name>width</display-name>
+		    <property-name>width</property-name>
+    		<property-class>java.lang.Integer</property-class>
+  		</property>
+  		<property>
+    		<description>The height of the image</description>
+	 	 	<display-name>height</display-name>
+		    <property-name>height</property-name>
+    		<property-class>java.lang.Integer</property-class>
+  		</property>
+	</complex-type>
 
 	<complex-type>
   		<description>A table in the Document</description>

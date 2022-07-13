@@ -35,6 +35,8 @@ import biz.webgate.dominoext.poi.component.data.ResourceTemplateSource;
 import biz.webgate.dominoext.poi.component.data.document.DocumentBookmark;
 import biz.webgate.dominoext.poi.component.data.document.IDocumentBookmark;
 import biz.webgate.dominoext.poi.component.data.document.table.DocumentTable;
+import biz.webgate.dominoext.poi.component.data.image.BookmarkImage;
+import biz.webgate.dominoext.poi.component.data.image.IBookmarkImage;
 import biz.webgate.dominoext.poi.component.data.ss.Data2ColumnExporter;
 import biz.webgate.dominoext.poi.component.data.ss.Data2RowExporter;
 import biz.webgate.dominoext.poi.component.data.ss.IListDataExporter;
@@ -58,6 +60,8 @@ public class PoiBean {
 	private static final DocX2HTMLAction DOC_X2HTML_ACTION = new DocX2HTMLAction();
 	private static final DocX2PDFAction DOC_X2PDF_ACTION = new DocX2PDFAction();
 	public static final String BEAN_NAME = "poiBean"; //$NON-NLS-1$
+	private static final int WIDTH_DEFAULT = 500;
+	private static final int HEIGHT_DEFAULT = 500;
 
 	public static PoiBean get(FacesContext context) {
 		return (PoiBean) context.getApplication().getVariableResolver().resolveVariable(context, BEAN_NAME);
@@ -76,15 +80,23 @@ public class PoiBean {
 	}
 
 	public XWPFDocument processDocument(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
+		return processDocument(itsCurrent, bookmarks, tables, null);
+	}
+	
+	public XWPFDocument processDocument(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, List<IBookmarkImage> bookmarksImages) {
 		final ITemplateSource itsCurrentFin = itsCurrent;
 		final List<IDocumentBookmark> bookmarksFin = bookmarks;
 		final List<DocumentTable> tablesFin = tables;
+		final List<IBookmarkImage> bookmarksImagesFin = bookmarksImages;
 		if (itsCurrent.accessTemplate() == 1) {
-			return AccessController.doPrivileged((PrivilegedAction<XWPFDocument>) () -> {
-				try {
-					return DocumentProcessor.INSTANCE.processDocument(itsCurrentFin, bookmarksFin, tablesFin, FacesContext.getCurrentInstance(), null);
-				} catch (Exception e) {
-					throw new FacesException("poiBean. processDocument", e);
+			return AccessController.doPrivileged(new PrivilegedAction<XWPFDocument>() {
+				@Override
+				public XWPFDocument run() {
+					try {
+						return DocumentProcessor.INSTANCE.processDocument(itsCurrentFin, bookmarksFin, tablesFin, bookmarksImagesFin, FacesContext.getCurrentInstance(), null);
+					} catch (Exception e) {
+						throw new FacesException("poiBean. processDocument", e);
+					}
 				}
 			});
 		}
@@ -96,18 +108,26 @@ public class PoiBean {
 	}
 
 	public ByteArrayOutputStream processDocument2Stream(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables) {
-		final XWPFDocument doc = processDocument(itsCurrent, bookmarks, tables);
+		return processDocument2Stream(itsCurrent, bookmarks, tables, null);
+	}
+	
+	public ByteArrayOutputStream processDocument2Stream(ITemplateSource itsCurrent, List<IDocumentBookmark> bookmarks, List<DocumentTable> tables, List<IBookmarkImage> bookmarksImages) {
+		final XWPFDocument doc = processDocument(itsCurrent, bookmarks, tables, bookmarksImages);
 		if (doc == null) {
 			throw new NullPointerException("The result of processDocument is null");
 		}
-		return AccessController.doPrivileged((PrivilegedAction<ByteArrayOutputStream>) () -> {
-			try {
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				doc.write(bos);
-				return bos;
-			} catch (Exception e) {
-				throw new FacesException("poiBean:processDocument2Stream", e);
+		return AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
+			@Override
+			public ByteArrayOutputStream run() {
+				try {
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					doc.write(bos);
+					return bos;
+				} catch (Exception e) {
+					throw new FacesException("poiBean:processDocument2Stream", e);
+				}
 			}
+
 		});
 	}
 
@@ -116,6 +136,20 @@ public class PoiBean {
 		bmRC.setName(strName);
 		bmRC.setValue(strValue);
 		return bmRC;
+	}
+	
+	public IBookmarkImage buildBookmarkImage(String strName, String filePath, int id) {
+		return buildBookmarkImage(strName, filePath, id, WIDTH_DEFAULT, HEIGHT_DEFAULT);
+	}
+	
+	public IBookmarkImage buildBookmarkImage(String strName, String filePath, int id, int width, int height) {
+		BookmarkImage bmIMG = new BookmarkImage();
+		bmIMG.setName(strName);
+		bmIMG.setFileName(filePath);
+		bmIMG.setId(id);
+		bmIMG.setWidth(width);
+		bmIMG.setHeight(height);		
+		return bmIMG;
 	}
 
 	public AbstractTemplateSource buildAttachmentTemplateSource(String strDB, String strView, String strKey, String strField) {
@@ -138,11 +172,14 @@ public class PoiBean {
 		if (itsCurrent.accessTemplate() == 1) {
 			final ITemplateSource itsCurrentFIN = itsCurrent;
 			final List<Spreadsheet> lstSPFIN = lstSP;
-			return AccessController.doPrivileged((PrivilegedAction<Workbook>) () -> {
-				try {
-					return WorkbookProcessor.INSTANCE.processWorkbook(itsCurrentFIN, lstSPFIN, FacesContext.getCurrentInstance(), null);
-				} catch (Exception e) {
-					throw new FacesException("poiBean:processWorkbook", e);
+			return AccessController.doPrivileged(new PrivilegedAction<Workbook>() {
+				@Override
+				public Workbook run() {
+					try {
+						return WorkbookProcessor.INSTANCE.processWorkbook(itsCurrentFIN, lstSPFIN, FacesContext.getCurrentInstance(), null);
+					} catch (Exception e) {
+						throw new FacesException("poiBean:processWorkbook", e);
+					}
 				}
 			});
 		}
@@ -153,20 +190,24 @@ public class PoiBean {
 	public ByteArrayOutputStream processWorkbook2Stream(ITemplateSource itsCurrent, List<Spreadsheet> lstSP, FacesContext context) {
 		return processWorkbook2Stream(itsCurrent, lstSP);
 	}
-
+	
 	public ByteArrayOutputStream processWorkbook2Stream(ITemplateSource itsCurrent, List<Spreadsheet> lstSP) {
 		final Workbook wb = processWorkbook(itsCurrent, lstSP);
 		if (wb == null) {
 			throw new NullPointerException("the result of processWorkbook is null");
 		}
-		return AccessController.doPrivileged((PrivilegedAction<ByteArrayOutputStream>) () -> {
-			try {
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				wb.write(bos);
-				return bos;
-			} catch (Exception e) {
-				throw new FacesException("poiBean:processWorkbook2Stream", e);
+		return AccessController.doPrivileged(new PrivilegedAction<ByteArrayOutputStream>() {
+			@Override
+			public ByteArrayOutputStream run() {
+				try {
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					wb.write(bos);
+					return bos;
+				} catch (Exception e) {
+					throw new FacesException("poiBean:processWorkbook2Stream", e);
+				}
 			}
+
 		});
 	}
 

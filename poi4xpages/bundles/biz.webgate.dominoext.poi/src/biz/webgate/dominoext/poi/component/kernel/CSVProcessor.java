@@ -70,7 +70,6 @@ public enum CSVProcessor {
 
 	public StringWriter generateCSV(UICSV csvDef, FacesContext context) throws IOException, POIException {
 		StringWriter sw = new StringWriter();
-		CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.DEFAULT);
 
 		List<CSVColumn> lstColumns = csvDef.getColumns();
 		Collections.sort(lstColumns, (o1, o2) -> {
@@ -78,6 +77,9 @@ public enum CSVProcessor {
 			Integer p2 = o2.getPosition();
 			return Integer.compare(p1, p2);
 		});
+
+		CSVPrinter csvPrinter = new CSVPrinter(sw, CSVFormat.DEFAULT);
+
 		if (csvDef.isIncludeHeader()) {
 			for (CSVColumn cl : lstColumns) {
 				csvPrinter.print(cl.getTitle());
