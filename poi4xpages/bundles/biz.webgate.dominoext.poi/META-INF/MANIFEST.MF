@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI Integration
 Bundle-SymbolicName: biz.webgate.dominoext.poi;singleton:=true
 Automatic-Module-Name: biz.webgate.dominoext.poi
-Bundle-Version: 5.1.5.qualifier
+Bundle-Version: 5.2.0.qualifier
 Bundle-Activator: biz.webgate.dominoext.poi.Activator
 Require-Bundle: org.eclipse.core.runtime,
  com.ibm.xsp.core,
@@ -20,8 +20,8 @@ Require-Bundle: org.eclipse.core.runtime,
  biz.webgate.dominoext.poi.utils;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: biz.webgate.dominoext.poi;version="5.1.5";uses:="org.osgi.framework",
- biz.webgate.dominoext.poi.beans;version="5.1.5";
+Export-Package: biz.webgate.dominoext.poi;version="5.2.0";uses:="org.osgi.framework",
+ biz.webgate.dominoext.poi.beans;version="5.2.0";
   uses:="biz.webgate.dominoext.poi.component.data.ss,
    javax.faces.context,
    biz.webgate.dominoext.poi.component.data.ss.cell,
@@ -31,8 +31,11 @@ Export-Package: biz.webgate.dominoext.poi;version="5.1.5";uses:="org.osgi.framew
    biz.webgate.dominoext.poi.component.data.document,
    biz.webgate.dominoext.poi.component.data,
    org.apache.poi.xwpf.usermodel",
- biz.webgate.dominoext.poi.component.actions;version="5.1.5";uses:="javax.faces.el,com.ibm.xsp.binding,javax.faces.context",
- biz.webgate.dominoext.poi.component.containers;version="5.1.5";
+ biz.webgate.dominoext.poi.component.actions;version="5.2.0";
+  uses:="javax.faces.el,
+   com.ibm.xsp.binding,
+   javax.faces.context",
+ biz.webgate.dominoext.poi.component.containers;version="5.2.0";
   uses:="biz.webgate.dominoext.poi.component.data.ss,
    com.ibm.xsp.model,
    javax.faces.context,
@@ -47,31 +50,34 @@ Export-Package: biz.webgate.dominoext.poi;version="5.1.5";uses:="org.osgi.framew
    biz.webgate.dominoext.poi.component.data,
    biz.webgate.dominoext.poi.component.data.document.table,
    org.apache.poi.xwpf.usermodel",
- biz.webgate.dominoext.poi.component.data;version="5.1.5";
+ biz.webgate.dominoext.poi.component.data;version="5.2.0";
   uses:="javax.faces.el,
    lotus.domino,
    com.ibm.xsp.complex,
    javax.faces.context",
- biz.webgate.dominoext.poi.component.data.csv;version="5.1.5";uses:="biz.webgate.dominoext.poi.component.data,javax.faces.context",
- biz.webgate.dominoext.poi.component.data.document;version="5.1.5";uses:="com.ibm.xsp.complex,javax.faces.context",
- biz.webgate.dominoext.poi.component.data.document.table;version="5.1.5";uses:="biz.webgate.dominoext.poi.component.data.document.table.cell,biz.webgate.dominoext.poi.component.data.ss,javax.faces.context",
- biz.webgate.dominoext.poi.component.data.document.table.cell;version="5.1.5";
+ biz.webgate.dominoext.poi.component.data.csv;version="5.2.0";uses:="biz.webgate.dominoext.poi.component.data,javax.faces.context",
+ biz.webgate.dominoext.poi.component.data.document;version="5.2.0";uses:="com.ibm.xsp.complex,javax.faces.context",
+ biz.webgate.dominoext.poi.component.data.document.table;version="5.2.0";
+  uses:="biz.webgate.dominoext.poi.component.data.document.table.cell,
+   biz.webgate.dominoext.poi.component.data.ss,
+   javax.faces.context",
+ biz.webgate.dominoext.poi.component.data.document.table.cell;version="5.2.0";
   uses:="com.ibm.xsp.complex,
    biz.webgate.dominoext.poi.component.data,
    javax.faces.context,
    biz.webgate.dominoext.poi.component.data.ss.cell",
- biz.webgate.dominoext.poi.component.data.ss;version="5.1.5";
+ biz.webgate.dominoext.poi.component.data.ss;version="5.2.0";
   uses:="com.ibm.xsp.model,
    com.ibm.xsp.complex,
    javax.faces.context,
    biz.webgate.dominoext.poi.component.sources,
    biz.webgate.dominoext.poi.component.data.ss.cell",
- biz.webgate.dominoext.poi.component.data.ss.cell;version="5.1.5";
+ biz.webgate.dominoext.poi.component.data.ss.cell;version="5.2.0";
   uses:="org.apache.poi.ss.usermodel,
    com.ibm.xsp.complex,
    biz.webgate.dominoext.poi.component.data,
    javax.faces.context",
- biz.webgate.dominoext.poi.component.kernel;version="5.1.5";
+ biz.webgate.dominoext.poi.component.kernel;version="5.2.0";
   uses:="org.apache.poi.ss.usermodel,
    javax.faces.el,
    javax.servlet.http,
@@ -80,35 +86,47 @@ Export-Package: biz.webgate.dominoext.poi;version="5.1.5";uses:="org.osgi.framew
    javax.faces.context,
    org.apache.poi.xwpf.usermodel,
    biz.webgate.dominoext.poi.component.data.ss.cell",
- biz.webgate.dominoext.poi.component.kernel.csv;version="5.1.5";uses:="biz.webgate.dominoext.poi.component.containers,org.apache.commons.csv,javax.faces.context",
- biz.webgate.dominoext.poi.component.kernel.document;version="5.1.5";uses:="javax.faces.context,biz.webgate.dominoext.poi.component.data.document.table,org.apache.poi.xwpf.usermodel",
- biz.webgate.dominoext.poi.component.kernel.simpleviewexport;version="5.1.5";
+ biz.webgate.dominoext.poi.component.kernel.csv;version="5.2.0";
+  uses:="biz.webgate.dominoext.poi.component.containers,
+   org.apache.commons.csv,
+   javax.faces.context",
+ biz.webgate.dominoext.poi.component.kernel.document;version="5.2.0";
+  uses:="javax.faces.context,
+   biz.webgate.dominoext.poi.component.data.document.table,
+   org.apache.poi.xwpf.usermodel",
+ biz.webgate.dominoext.poi.component.kernel.simpleviewexport;version="5.2.0";
   uses:="javax.faces.el,
    javax.servlet.http,
    lotus.domino,
    biz.webgate.dominoext.poi.component.containers,
    biz.webgate.dominoext.poi.component.kernel.util,
    javax.faces.context",
- biz.webgate.dominoext.poi.component.kernel.util;version="5.1.5";uses:="javax.faces.el,javax.faces.context,javax.faces.component",
- biz.webgate.dominoext.poi.component.kernel.workbook;version="5.1.5";
+ biz.webgate.dominoext.poi.component.kernel.util;version="5.2.0";
+  uses:="javax.faces.el,
+   javax.faces.context,
+   javax.faces.component",
+ biz.webgate.dominoext.poi.component.kernel.workbook;version="5.2.0";
   uses:="org.apache.poi.ss.usermodel,
    biz.webgate.dominoext.poi.component.data.ss,
    javax.faces.context,
    biz.webgate.dominoext.poi.component.data.ss.cell",
- biz.webgate.dominoext.poi.component.sources;version="5.1.5";
+ biz.webgate.dominoext.poi.component.sources;version="5.2.0";
   uses:="javax.faces.el,
    lotus.domino,
    com.ibm.xsp.complex,
    biz.webgate.dominoext.poi.component.data,
    javax.faces.context",
- biz.webgate.dominoext.poi.library;version="5.1.5";uses:="com.ibm.xsp.library",
- biz.webgate.dominoext.poi.renderkit.html_extended;version="5.1.5";uses:="javax.faces.context,com.ibm.xsp.renderkit,javax.faces.component",
- biz.webgate.dominoext.poi.util;version="5.1.5";
+ biz.webgate.dominoext.poi.library;version="5.2.0";uses:="com.ibm.xsp.library",
+ biz.webgate.dominoext.poi.renderkit.html_extended;version="5.2.0";
+  uses:="javax.faces.context,
+   com.ibm.xsp.renderkit,
+   javax.faces.component",
+ biz.webgate.dominoext.poi.util;version="5.2.0";
   uses:="org.apache.poi.ss.usermodel,
    lotus.domino,
    javax.faces.context,
    org.apache.poi.xwpf.usermodel",
- biz.webgate.dominoext.poi.util.action;version="5.1.5";uses:="biz.webgate.dominoext.poi.util"
+ biz.webgate.dominoext.poi.util.action;version="5.2.0";uses:="biz.webgate.dominoext.poi.util"
 Bundle-ClassPath: .
 Bundle-Vendor: WebGate Consulting AG
 
