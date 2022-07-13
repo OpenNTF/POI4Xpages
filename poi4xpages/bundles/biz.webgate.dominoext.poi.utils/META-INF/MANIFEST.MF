@@ -8,12 +8,12 @@ Bundle-Activator: biz.webgate.dominoext.poi.utils.Activator
 Bundle-Vendor: WebGate Consulting AG
 Require-Bundle: org.eclipse.core.runtime,
  com.ibm.xsp.core,
- com.ibm.xsp.domino,
- com.ibm.notes.java.api
+ com.ibm.xsp.domino
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: com.ibm.xsp.component
-Export-Package: biz.webgate.dominoext.poi.utils,
- biz.webgate.dominoext.poi.utils.exceptions,
- biz.webgate.dominoext.poi.utils.logging,
- biz.webgate.dominoext.poi.utils.xsp
+Import-Package: com.ibm.xsp.component,
+ lotus.domino
+Export-Package: biz.webgate.dominoext.poi.utils;version="5.1.5",
+ biz.webgate.dominoext.poi.utils.exceptions;version="5.1.5",
+ biz.webgate.dominoext.poi.utils.logging;version="5.1.5",
+ biz.webgate.dominoext.poi.utils.xsp;version="5.1.5"
