@@ -13,7 +13,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: com.ibm.xsp.component,
  lotus.domino
-Export-Package: biz.webgate.dominoext.poi.utils;version="5.1.5",
+Export-Package: biz.webgate.dominoext.poi.utils;version="5.1.5";uses:="org.osgi.framework,lotus.domino",
  biz.webgate.dominoext.poi.utils.exceptions;version="5.1.5",
- biz.webgate.dominoext.poi.utils.logging;version="5.1.5",
- biz.webgate.dominoext.poi.utils.xsp;version="5.1.5"
+ biz.webgate.dominoext.poi.utils.logging;version="5.1.5";uses:="javax.servlet.http",
+ biz.webgate.dominoext.poi.utils.xsp;version="5.1.5";uses:="com.ibm.xsp.complex,javax.faces.context"
