@@ -129,4 +129,4 @@ Export-Package: biz.webgate.dominoext.poi;version="5.2.0";uses:="org.osgi.framew
  biz.webgate.dominoext.poi.util.action;version="5.2.0";uses:="biz.webgate.dominoext.poi.util"
 Bundle-ClassPath: .
 Bundle-Vendor: WebGate Consulting AG
-
+DynamicImport-Package: org.openxmlformats.schemas.wordprocessingml.x2006.main
