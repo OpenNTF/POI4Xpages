@@ -37,15 +37,13 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		try {
 			String s = AccessController
-					.doPrivileged(new PrivilegedAction<String>() {
-						public String run() {
-							Object o = Activator.getContext().getBundle()
-									.getHeaders().get("Bundle-Version"); // $NON-NLS-1$
-							if (o != null) {
-								return o.toString();
-							}
-							return null;
+					.doPrivileged((PrivilegedAction<String>) () -> {
+						Object o = Activator.getContext().getBundle()
+								.getHeaders().get("Bundle-Version"); //$NON-NLS-1$
+						if (o != null) {
+							return o.toString();
 						}
+						return null;
 					});
 			if (s != null) {
 				biz.webgate.dominoext.poi.utils.Activator.setPoiVersion(s);
